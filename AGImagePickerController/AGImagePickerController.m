@@ -40,14 +40,7 @@
 
 - (id)init
 {
-    UIViewController *rootViewController = nil;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        rootViewController = [[AGIPCAlbumsController alloc] initWithNibName:@"AGIPCAlbumsController_iPhone" bundle:nil];
-    } else {
-        rootViewController = [[AGIPCAlbumsController alloc] initWithNibName:@"AGIPCAlbumsController_iPad" bundle:nil];
-    }
-    self = [super initWithRootViewController:rootViewController];
-    [rootViewController release];
+    self = [super init];
     if (self)
     {
         assetsLibrary = [[ALAssetsLibrary alloc] init];
@@ -69,6 +62,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UIViewController *rootViewController = nil;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        rootViewController = [[AGIPCAlbumsController alloc] initWithNibName:@"AGIPCAlbumsController_iPhone" bundle:nil];
+    } else {
+        rootViewController = [[AGIPCAlbumsController alloc] initWithNibName:@"AGIPCAlbumsController_iPad" bundle:nil];
+    }
+    self.viewControllers = [NSArray arrayWithObject:rootViewController];
+    [rootViewController release];
 }
 
 - (void)viewDidUnload

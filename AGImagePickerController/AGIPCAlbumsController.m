@@ -19,6 +19,8 @@
 
 #pragma mark - Properties
 
+@synthesize tableView, sourceSegmentedControl;
+
 - (NSMutableArray *)assetGroups
 {
     if (assetGroups == nil)
@@ -30,11 +32,23 @@
     return assetGroups;
 }
 
+#pragma mark - Object Lifecycle
+
+- (void)dealloc
+{
+    [tableView release];
+    [sourceSegmentedControl release];
+    
+    [assetGroups release];
+    
+    [super dealloc];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        
+
     }
     
     return self;
@@ -62,6 +76,9 @@
 {
     [super viewDidLoad];
     
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    self.navigationController.navigationBar.topItem.titleView = self.sourceSegmentedControl;
+    
     [self loadAssetGroups];
 }
 
@@ -88,7 +105,7 @@
 {
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
@@ -145,6 +162,11 @@
         }
         
     });
+}
+
+- (void)reloadData
+{
+    
 }
 
 @end

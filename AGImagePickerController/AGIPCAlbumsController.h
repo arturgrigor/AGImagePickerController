@@ -14,8 +14,13 @@
 @interface AGIPCAlbumsController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {
     NSMutableArray *assetGroups;
+    UITableView *tableView;
+    
+    UISegmentedControl *sourceSegmentedControl;
 }
 
 @property (nonatomic, readonly) NSMutableArray *assetGroups;
+@property (nonatomic, retain) IBOutlet UITableView *tableView;
+@property (nonatomic, retain) IBOutlet UISegmentedControl *sourceSegmentedControl;
 
 @end
