@@ -1,0 +1,294 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FE1E332914ED167800F6A6A2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE1E332814ED167800F6A6A2 /* UIKit.framework */; };
+		FE1E332B14ED167800F6A6A2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE1E332A14ED167800F6A6A2 /* Foundation.framework */; };
+		FE1E332D14ED167800F6A6A2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE1E332C14ED167800F6A6A2 /* CoreGraphics.framework */; };
+		FE1E333314ED167800F6A6A2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE1E333114ED167800F6A6A2 /* InfoPlist.strings */; };
+		FE1E333514ED167800F6A6A2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1E333414ED167800F6A6A2 /* main.m */; };
+		FE1E333914ED167800F6A6A2 /* AGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1E333814ED167800F6A6A2 /* AGAppDelegate.m */; };
+		FE1E333C14ED167800F6A6A2 /* AGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1E333B14ED167800F6A6A2 /* AGViewController.m */; };
+		FE1E333F14ED167800F6A6A2 /* AGViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE1E333D14ED167800F6A6A2 /* AGViewController_iPhone.xib */; };
+		FE1E334214ED167800F6A6A2 /* AGViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE1E334014ED167800F6A6A2 /* AGViewController_iPad.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		FE1E332414ED167800F6A6A2 /* AGImagePickerController Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AGImagePickerController Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE1E332814ED167800F6A6A2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		FE1E332A14ED167800F6A6A2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FE1E332C14ED167800F6A6A2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		FE1E333014ED167800F6A6A2 /* AGImagePickerController Demo-Info.plist */ = {isa = PBXFileReference; path = "AGImagePickerController Demo-Info.plist"; sourceTree = "<group>"; };
+		FE1E333214ED167800F6A6A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FE1E333414ED167800F6A6A2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FE1E333614ED167800F6A6A2 /* AGImagePickerController Demo-Prefix.pch */ = {isa = PBXFileReference; path = "AGImagePickerController Demo-Prefix.pch"; sourceTree = "<group>"; };
+		FE1E333714ED167800F6A6A2 /* AGAppDelegate.h */ = {isa = PBXFileReference; path = AGAppDelegate.h; sourceTree = "<group>"; };
+		FE1E333814ED167800F6A6A2 /* AGAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGAppDelegate.m; sourceTree = "<group>"; };
+		FE1E333A14ED167800F6A6A2 /* AGViewController.h */ = {isa = PBXFileReference; path = AGViewController.h; sourceTree = "<group>"; };
+		FE1E333B14ED167800F6A6A2 /* AGViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGViewController.m; sourceTree = "<group>"; };
+		FE1E333E14ED167800F6A6A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AGViewController_iPhone.xib; sourceTree = "<group>"; };
+		FE1E334114ED167800F6A6A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AGViewController_iPad.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FE1E332114ED167800F6A6A2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE1E332914ED167800F6A6A2 /* UIKit.framework in Frameworks */,
+				FE1E332B14ED167800F6A6A2 /* Foundation.framework in Frameworks */,
+				FE1E332D14ED167800F6A6A2 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FE1E331914ED167800F6A6A2 = {
+			isa = PBXGroup;
+			children = (
+				FE1E332E14ED167800F6A6A2 /* AGImagePickerController Demo */,
+				FE1E332714ED167800F6A6A2 /* Frameworks */,
+				FE1E332514ED167800F6A6A2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FE1E332514ED167800F6A6A2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FE1E332414ED167800F6A6A2 /* AGImagePickerController Demo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FE1E332714ED167800F6A6A2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FE1E332814ED167800F6A6A2 /* UIKit.framework */,
+				FE1E332A14ED167800F6A6A2 /* Foundation.framework */,
+				FE1E332C14ED167800F6A6A2 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FE1E332E14ED167800F6A6A2 /* AGImagePickerController Demo */ = {
+			isa = PBXGroup;
+			children = (
+				FE1E333714ED167800F6A6A2 /* AGAppDelegate.h */,
+				FE1E333814ED167800F6A6A2 /* AGAppDelegate.m */,
+				FE1E333A14ED167800F6A6A2 /* AGViewController.h */,
+				FE1E333B14ED167800F6A6A2 /* AGViewController.m */,
+				FE1E333D14ED167800F6A6A2 /* AGViewController_iPhone.xib */,
+				FE1E334014ED167800F6A6A2 /* AGViewController_iPad.xib */,
+				FE1E332F14ED167800F6A6A2 /* Supporting Files */,
+			);
+			path = "AGImagePickerController Demo";
+			sourceTree = "<group>";
+		};
+		FE1E332F14ED167800F6A6A2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FE1E333014ED167800F6A6A2 /* AGImagePickerController Demo-Info.plist */,
+				FE1E333114ED167800F6A6A2 /* InfoPlist.strings */,
+				FE1E333414ED167800F6A6A2 /* main.m */,
+				FE1E333614ED167800F6A6A2 /* AGImagePickerController Demo-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FE1E332314ED167800F6A6A2 /* AGImagePickerController Demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FE1E334514ED167800F6A6A2 /* Build configuration list for PBXNativeTarget "AGImagePickerController Demo" */;
+			buildPhases = (
+				FE1E332014ED167800F6A6A2 /* Sources */,
+				FE1E332114ED167800F6A6A2 /* Frameworks */,
+				FE1E332214ED167800F6A6A2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AGImagePickerController Demo";
+			productName = "AGImagePickerController Demo";
+			productReference = FE1E332414ED167800F6A6A2 /* AGImagePickerController Demo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FE1E331B14ED167800F6A6A2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = "Universitatea \"Babes-Bolyai\"";
+			};
+			buildConfigurationList = FE1E331E14ED167800F6A6A2 /* Build configuration list for PBXProject "AGImagePickerController Demo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FE1E331914ED167800F6A6A2;
+			productRefGroup = FE1E332514ED167800F6A6A2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FE1E332314ED167800F6A6A2 /* AGImagePickerController Demo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FE1E332214ED167800F6A6A2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE1E333314ED167800F6A6A2 /* InfoPlist.strings in Resources */,
+				FE1E333F14ED167800F6A6A2 /* AGViewController_iPhone.xib in Resources */,
+				FE1E334214ED167800F6A6A2 /* AGViewController_iPad.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FE1E332014ED167800F6A6A2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE1E333514ED167800F6A6A2 /* main.m in Sources */,
+				FE1E333914ED167800F6A6A2 /* AGAppDelegate.m in Sources */,
+				FE1E333C14ED167800F6A6A2 /* AGViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		FE1E333114ED167800F6A6A2 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FE1E333214ED167800F6A6A2 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		FE1E333D14ED167800F6A6A2 /* AGViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FE1E333E14ED167800F6A6A2 /* en */,
+			);
+			name = AGViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		FE1E334014ED167800F6A6A2 /* AGViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FE1E334114ED167800F6A6A2 /* en */,
+			);
+			name = AGViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FE1E334314ED167800F6A6A2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FE1E334414ED167800F6A6A2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FE1E334614ED167800F6A6A2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AGImagePickerController Demo/AGImagePickerController Demo-Prefix.pch";
+				INFOPLIST_FILE = "AGImagePickerController Demo/AGImagePickerController Demo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		FE1E334714ED167800F6A6A2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AGImagePickerController Demo/AGImagePickerController Demo-Prefix.pch";
+				INFOPLIST_FILE = "AGImagePickerController Demo/AGImagePickerController Demo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FE1E331E14ED167800F6A6A2 /* Build configuration list for PBXProject "AGImagePickerController Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FE1E334314ED167800F6A6A2 /* Debug */,
+				FE1E334414ED167800F6A6A2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FE1E334514ED167800F6A6A2 /* Build configuration list for PBXNativeTarget "AGImagePickerController Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FE1E334614ED167800F6A6A2 /* Debug */,
+				FE1E334714ED167800F6A6A2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FE1E331B14ED167800F6A6A2 /* Project object */;
+}
