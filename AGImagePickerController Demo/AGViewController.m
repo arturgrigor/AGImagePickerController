@@ -8,7 +8,52 @@
 
 #import "AGViewController.h"
 
+@interface AGViewController (Private)
+
+- (void)openAction:(id)sender;
+
+@end
+
 @implementation AGViewController
+
+#pragma mark - Properties
+
+@synthesize selectedPhotos;
+
+- (UIButton *)openButton
+{
+    if (openButton == nil)
+    {
+        openButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+        [openButton setFrame:CGRectMake((self.view.frame.size.width - 72.f) / 2, (self.view.frame.size.height - 37.f) / 2, 72.f, 37.f)];
+        [openButton setTitle:@"Open" forState:UIControlStateNormal];
+        
+        [openButton addTarget:self action:@selector(openAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    return openButton;
+}
+
+#pragma mark - Object Lifecycle
+
+- (void)dealloc
+{
+    [selectedPhotos release];
+    [openButton release];
+    
+    [super dealloc];
+}
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self)
+    {
+        [self.view addSubview:self.openButton];
+    }
+    
+    return self;
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -59,6 +104,15 @@
     } else {
         return YES;
     }
+}
+
+#pragma mark - Private
+
+- (void)openAction:(id)sender
+{
+    AGImagePickerController *imagePickerController = [[AGImagePickerController alloc] init];
+    [self presentModalViewController:imagePickerController animated:YES];
+    [imagePickerController release];
 }
 
 @end

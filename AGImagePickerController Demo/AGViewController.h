@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+#import "AGImagePickerController.h"
+
 @interface AGViewController : UIViewController
+{
+    UIButton *openButton;
+    NSMutableArray *selectedPhotos;
+}
+
+@property (nonatomic, readonly) UIButton *openButton;
+@property (nonatomic, readonly) NSMutableArray *selectedPhotos;
 
 @end
