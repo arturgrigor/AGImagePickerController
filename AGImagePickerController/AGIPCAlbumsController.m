@@ -1,14 +1,18 @@
 //
 //  AGIPCAlbumsController.m
-//  AGImagePickerController Demo
+//  AGImagePickerController
 //
 //  Created by Artur Grigor on 2/16/12.
 //  Copyright (c) 2012 Artur Grigor. All rights reserved.
 //
 
 #import "AGIPCAlbumsController.h"
+#import "AGIPCGridCell.h"
+#import "AGIPCAlbumItem.h"
 
 @interface AGIPCAlbumsController (Private)
+
+- (NSArray *)itemsForRowAtIndexPath:(NSIndexPath *)indexPath;
 
 - (void)loadAssetGroups;
 - (void)reloadData;
@@ -78,8 +82,6 @@
     
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     self.navigationController.navigationBar.topItem.titleView = self.sourceSegmentedControl;
-    
-    [self loadAssetGroups];
 }
 
 - (void)viewDidUnload
@@ -98,26 +100,64 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.assetGroups.count;
+    double albums = (double)self.assetGroups.count;
+    return ceil(albums / ITEMS_PER_ROW);
+}
+
+- (NSArray *)itemsForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSMutableArray *items = [NSMutableArray arrayWithCapacity:ITEMS_PER_ROW];
+    
+    NSUInteger startIndex = indexPath.row * ITEMS_PER_ROW, endIndex = startIndex + ITEMS_PER_ROW - 1;
+    if (startIndex < self.assetGroups.count)
+    {
+        if (endIndex > self.assetGroups.count - 1)
+            endIndex = self.assetGroups.count - 1;
+        
+        for (NSUInteger i = startIndex; i <= endIndex; i++)
+        {
+            ALAssetsGroup *group = (ALAssetsGroup *)[self.assetGroups objectAtIndex:i];
+            [group setAssetsFilter:[ALAssetsFilter allPhotos]];
+            NSInteger numberOfAssets = [group numberOfAssets];
+            
+            NSMutableArray *assets = [[NSMutableArray alloc] initWithCapacity:3];
+            [group enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, MIN(3, numberOfAssets))] options:0 usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
+                
+                if (result == nil)
+                    return;
+                
+                [assets addObject:result];
+            }];
+            
+            // Adding the album view
+            AGAlbumItem *albumItem = [[AGAlbumItem alloc] initWithAssets:assets andTitle:[group valueForProperty:ALAssetsGroupPropertyName]];
+            [items addObject:albumItem];
+            [albumItem release];
+            
+            [assets release];
+        }
+    }
+    
+    return items;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    NSArray *items = [self itemsForRowAtIndexPath:indexPath];
+    
+    AGGridCell *cell = (AGGridCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[AGGridCell alloc] initWithItems:items reuseIdentifier:CellIdentifier] autorelease];
+    } else {
+        cell.items = items;
     }
     
-    // Get count
-    ALAssetsGroup *group = (ALAssetsGroup *)[self.assetGroups objectAtIndex:indexPath.row];
-    [group setAssetsFilter:[ALAssetsFilter allPhotos]];
-    NSInteger gCount = [group numberOfAssets];
-    
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ (%d)",[group valueForProperty:ALAssetsGroupPropertyName], gCount];
-    [cell.imageView setImage:[UIImage imageWithCGImage:[(ALAssetsGroup*)[assetGroups objectAtIndex:indexPath.row] posterImage]]];
-	[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+//    cell.textLabel.text = [NSString stringWithFormat:@"%@ (%d)",[group valueForProperty:ALAssetsGroupPropertyName], numberOfAssets];
+//    [cell.imageView setImage:[UIImage imageWithCGImage:[(ALAssetsGroup*)[assetGroups objectAtIndex:indexPath.row] posterImage]]];
+//	[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+//    cell.textLabel.textColor = [UIColor whiteColor];
 	
     return cell;
 }
@@ -144,9 +184,7 @@
                 [self.assetGroups addObject:group];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    
                     [self reloadData];
-                    
                 });
             };
             
@@ -166,7 +204,7 @@
 
 - (void)reloadData
 {
-    
+    [self.tableView reloadData];
 }
 
 @end

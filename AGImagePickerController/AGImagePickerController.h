@@ -20,8 +20,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
 #import <AssetsLibrary/AssetsLibrary.h>
+
+#define IS_IPHONE (![[UIDevice currentDevice] respondsToSelector:@selector(userInterfaceIdiom)] || [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
 
 @interface AGImagePickerController : UINavigationController
 {

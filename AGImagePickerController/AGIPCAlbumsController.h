@@ -1,6 +1,6 @@
 //
 //  AGIPCAlbumsController.h
-//  AGImagePickerController Demo
+//  AGImagePickerController
 //
 //  Created by Artur Grigor on 2/16/12.
 //  Copyright (c) 2012 Artur Grigor. All rights reserved.
@@ -10,6 +10,8 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 
 #import "AGImagePickerController.h"
+
+#define ITEMS_PER_ROW       4
 
 @interface AGIPCAlbumsController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {
