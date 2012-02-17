@@ -7,6 +7,7 @@
 //
 
 #import "AGIPCAlbumItem.h"
+#import "AGImagePickerController.h"
 
 @implementation AGAlbumItem
 
@@ -54,11 +55,7 @@
         self.assets = theAssets;
         self.title = theTitle;
         
-#if IS_IPHONE
-    self.frame = CGRectMake(0, 0, 82.f, 82.f);  
-#else
-    self.frame = CGRectMake(0, 0, 140.f, 140.f);
-#endif
+    self.frame = CGRectMake(0, 0, ALBUM_WIDTH, ALBUM_HEIGHT);  
     }
     
     return self;
@@ -117,6 +114,15 @@
     
     UIFont *font = [UIFont fontWithName:@"Helvetica" size:14.f];
     [self.title drawInRect:rect withFont:font];
+}
+
+#pragma mark - Tap
+
+- (void)tap
+{
+    [super tap];
+    
+    NSLog(@"Selected album: %@", self.title);
 }
 
 @end

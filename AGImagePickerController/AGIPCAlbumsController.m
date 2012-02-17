@@ -162,6 +162,12 @@
     return cell;
 }
 
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return ALBUM_HEIGHT;
+}
+
 #pragma mark - UITableViewDelegate Methods
 
 #pragma mark - Private

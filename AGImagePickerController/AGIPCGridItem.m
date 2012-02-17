@@ -43,7 +43,7 @@
 
 #pragma mark - Others
 
-- (void)toggleSelection
+- (void)tap
 {
     self.selected = !self.selected;
 }

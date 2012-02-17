@@ -15,4 +15,6 @@
 
 @property (nonatomic, assign) BOOL selected;
 
+- (void)tap;
+
 @end

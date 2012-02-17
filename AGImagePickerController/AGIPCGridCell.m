@@ -8,6 +8,7 @@
 
 #import "AGIPCGridCell.h"
 #import "AGIPCGridItem.h"
+#import "AGImagePickerController.h"
 
 @implementation AGGridCell
 
@@ -44,6 +45,10 @@
     if(self)
     {    
 		self.items = theItems;
+        
+        UIView *emptyView = [[UIView alloc] initWithFrame:CGRectZero];
+        self.backgroundView = emptyView;
+        [emptyView release];
 	}
 	
 	return self;
@@ -53,18 +58,14 @@
 
 - (void)layoutSubviews
 {    
-#if IS_IPHONE
-    CGFloat leftMargin = 4.f;
-	CGRect frame = CGRectMake(leftMargin, 2.f, 75.f, 75.f);
-#else
-    CGFloat leftMargin = 58.f;
-    CGRect frame = CGRectMake(leftMargin, 10.f, 140.f + leftMargin, 140.f);
-#endif
+    CGFloat leftMargin = ALBUM_LEFT_MARGIN;
+	CGRect frame = CGRectMake(leftMargin, ALBUM_TOP_MARGIN, ALBUM_WIDTH, ALBUM_HEIGHT);
     
 	for (AGGridItem *gridItem in self.items)
     {	
 		[gridItem setFrame:frame];
-        UITapGestureRecognizer *selectionGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:gridItem action:@selector(toggleSelection)];
+        UITapGestureRecognizer *selectionGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:gridItem action:@selector(tap)];
+        selectionGestureRecognizer.numberOfTapsRequired = 1;
 		[gridItem addGestureRecognizer:selectionGestureRecognizer];
         [selectionGestureRecognizer release];
         

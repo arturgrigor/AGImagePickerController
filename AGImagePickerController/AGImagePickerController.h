@@ -22,7 +22,21 @@
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
-#define IS_IPHONE (![[UIDevice currentDevice] respondsToSelector:@selector(userInterfaceIdiom)] || [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+#define IS_IPHONE() (![[UIDevice currentDevice] respondsToSelector:@selector(userInterfaceIdiom)] || [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+
+#warning Fix this detection issue
+
+#if IS_IPHONE
+    #define ALBUM_WIDTH         75.f
+    #define ALBUM_HEIGHT        75.f
+    #define ALBUM_LEFT_MARGIN   2.f
+    #define ALBUM_TOP_MARGIN    4.f
+#else
+    #define ALBUM_WIDTH         140.f
+    #define ALBUM_HEIGHT        140.f
+    #define ALBUM_LEFT_MARGIN   58.f
+    #define ALBUM_TOP_MARGIN    58.f
+#endif
 
 @interface AGImagePickerController : UINavigationController
 {
