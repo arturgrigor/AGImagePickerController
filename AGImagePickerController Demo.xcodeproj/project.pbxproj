@@ -16,9 +16,12 @@
 		FE1E333C14ED167800F6A6A2 /* AGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1E333B14ED167800F6A6A2 /* AGViewController.m */; };
 		FE1E333F14ED167800F6A6A2 /* AGViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE1E333D14ED167800F6A6A2 /* AGViewController_iPhone.xib */; };
 		FE1E334214ED167800F6A6A2 /* AGViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE1E334014ED167800F6A6A2 /* AGViewController_iPad.xib */; };
+		FE3BAF8814EE80E7001BF3EC /* AGIPCAssetsController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3BAF8714EE80E7001BF3EC /* AGIPCAssetsController.m */; };
+		FE3BAF8B14EE816E001BF3EC /* AGIPCAssetsController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE3BAF8A14EE816D001BF3EC /* AGIPCAssetsController_iPhone.xib */; };
+		FE3BAF8D14EE817B001BF3EC /* AGIPCAssetsController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE3BAF8C14EE817B001BF3EC /* AGIPCAssetsController_iPad.xib */; };
+		FE3BAFA414EE8BBF001BF3EC /* AGIPCAlbumsController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE3BAFA314EE8BBF001BF3EC /* AGIPCAlbumsController_iPhone.xib */; };
 		FEA599CC14ED1C500057FF9C /* AGImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA599CA14ED1C500057FF9C /* AGImagePickerController.m */; };
 		FEA599D214ED1F510057FF9C /* AGIPCAlbumsController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FEA599D014ED1F510057FF9C /* AGIPCAlbumsController_iPad.xib */; };
-		FEA599D614ED24DF0057FF9C /* AGIPCAlbumsController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = FEA599D514ED24DF0057FF9C /* AGIPCAlbumsController_iPhone.xib */; };
 		FEA599E214ED30140057FF9C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA599E114ED30140057FF9C /* AssetsLibrary.framework */; };
 		FEA599E814ED38EE0057FF9C /* AGIPCAlbumsController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA599E714ED38ED0057FF9C /* AGIPCAlbumsController.m */; };
 		FECDC90114EDB9C30038006D /* AGIPCGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FECDC90014EDB9C30038006D /* AGIPCGridCell.m */; };
@@ -42,10 +45,14 @@
 		FE1E333B14ED167800F6A6A2 /* AGViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGViewController.m; sourceTree = "<group>"; };
 		FE1E333E14ED167800F6A6A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AGViewController_iPhone.xib; sourceTree = "<group>"; };
 		FE1E334114ED167800F6A6A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AGViewController_iPad.xib; sourceTree = "<group>"; };
+		FE3BAF8614EE80E7001BF3EC /* AGIPCAssetsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGIPCAssetsController.h; sourceTree = "<group>"; };
+		FE3BAF8714EE80E7001BF3EC /* AGIPCAssetsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGIPCAssetsController.m; sourceTree = "<group>"; };
+		FE3BAF8A14EE816D001BF3EC /* AGIPCAssetsController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AGIPCAssetsController_iPhone.xib; sourceTree = "<group>"; };
+		FE3BAF8C14EE817B001BF3EC /* AGIPCAssetsController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AGIPCAssetsController_iPad.xib; sourceTree = "<group>"; };
+		FE3BAFA314EE8BBF001BF3EC /* AGIPCAlbumsController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AGIPCAlbumsController_iPhone.xib; sourceTree = "<group>"; };
 		FEA599C914ED1C500057FF9C /* AGImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGImagePickerController.h; sourceTree = "<group>"; };
 		FEA599CA14ED1C500057FF9C /* AGImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGImagePickerController.m; sourceTree = "<group>"; };
 		FEA599D014ED1F510057FF9C /* AGIPCAlbumsController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AGIPCAlbumsController_iPad.xib; sourceTree = "<group>"; };
-		FEA599D514ED24DF0057FF9C /* AGIPCAlbumsController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AGIPCAlbumsController_iPhone.xib; sourceTree = "<group>"; };
 		FEA599E114ED30140057FF9C /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		FEA599E614ED38ED0057FF9C /* AGIPCAlbumsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGIPCAlbumsController.h; sourceTree = "<group>"; };
 		FEA599E714ED38ED0057FF9C /* AGIPCAlbumsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGIPCAlbumsController.m; sourceTree = "<group>"; };
@@ -130,19 +137,23 @@
 		FEA599C714ED1A8C0057FF9C /* AGImagePickerController */ = {
 			isa = PBXGroup;
 			children = (
-				FECDC90614EDC1BC0038006D /* Resources */,
 				FEA599C914ED1C500057FF9C /* AGImagePickerController.h */,
 				FEA599CA14ED1C500057FF9C /* AGImagePickerController.m */,
+				FECDC90914EDC2E50038006D /* AGIPCAlbumItem.h */,
+				FECDC90A14EDC2E50038006D /* AGIPCAlbumItem.m */,
 				FEA599E614ED38ED0057FF9C /* AGIPCAlbumsController.h */,
 				FEA599E714ED38ED0057FF9C /* AGIPCAlbumsController.m */,
 				FEA599D014ED1F510057FF9C /* AGIPCAlbumsController_iPad.xib */,
-				FEA599D514ED24DF0057FF9C /* AGIPCAlbumsController_iPhone.xib */,
+				FE3BAFA314EE8BBF001BF3EC /* AGIPCAlbumsController_iPhone.xib */,
+				FE3BAF8614EE80E7001BF3EC /* AGIPCAssetsController.h */,
+				FE3BAF8714EE80E7001BF3EC /* AGIPCAssetsController.m */,
+				FE3BAF8C14EE817B001BF3EC /* AGIPCAssetsController_iPad.xib */,
+				FE3BAF8A14EE816D001BF3EC /* AGIPCAssetsController_iPhone.xib */,
 				FECDC8FF14EDB9C30038006D /* AGIPCGridCell.h */,
 				FECDC90014EDB9C30038006D /* AGIPCGridCell.m */,
 				FECDC90314EDBB690038006D /* AGIPCGridItem.h */,
 				FECDC90414EDBB690038006D /* AGIPCGridItem.m */,
-				FECDC90914EDC2E50038006D /* AGIPCAlbumItem.h */,
-				FECDC90A14EDC2E50038006D /* AGIPCAlbumItem.m */,
+				FECDC90614EDC1BC0038006D /* Resources */,
 			);
 			path = AGImagePickerController;
 			sourceTree = "<group>";
@@ -210,8 +221,10 @@
 				FE1E333F14ED167800F6A6A2 /* AGViewController_iPhone.xib in Resources */,
 				FE1E334214ED167800F6A6A2 /* AGViewController_iPad.xib in Resources */,
 				FEA599D214ED1F510057FF9C /* AGIPCAlbumsController_iPad.xib in Resources */,
-				FEA599D614ED24DF0057FF9C /* AGIPCAlbumsController_iPhone.xib in Resources */,
 				FECDC90814EDC1C40038006D /* checkmark.png in Resources */,
+				FE3BAF8B14EE816E001BF3EC /* AGIPCAssetsController_iPhone.xib in Resources */,
+				FE3BAF8D14EE817B001BF3EC /* AGIPCAssetsController_iPad.xib in Resources */,
+				FE3BAFA414EE8BBF001BF3EC /* AGIPCAlbumsController_iPhone.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,6 +243,7 @@
 				FECDC90114EDB9C30038006D /* AGIPCGridCell.m in Sources */,
 				FECDC90514EDBB690038006D /* AGIPCGridItem.m in Sources */,
 				FECDC90B14EDC2E50038006D /* AGIPCAlbumItem.m in Sources */,
+				FE3BAF8814EE80E7001BF3EC /* AGIPCAssetsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,6 +328,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AGImagePickerController Demo/AGImagePickerController Demo-Prefix.pch";
 				INFOPLIST_FILE = "AGImagePickerController Demo/AGImagePickerController Demo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -325,6 +340,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AGImagePickerController Demo/AGImagePickerController Demo-Prefix.pch";
 				INFOPLIST_FILE = "AGImagePickerController Demo/AGImagePickerController Demo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

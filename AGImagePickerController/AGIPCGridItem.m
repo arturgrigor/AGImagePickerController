@@ -12,13 +12,25 @@
 
 #pragma mark - Properties
 
-@synthesize selected;
+@synthesize selected, asset;
 
 - (void)setSelected:(BOOL)isSelected
 {
     if (selected != isSelected)
     {
         selected = isSelected;
+        
+        [self setNeedsDisplay];
+    }
+}
+
+- (void)setAsset:(ALAsset *)theAsset
+{
+    if (asset != theAsset)
+    {
+        [asset release];
+        asset = [theAsset retain];
+        
         [self setNeedsDisplay];
     }
 }
@@ -27,18 +39,36 @@
 
 - (void)dealloc
 {
+    [asset release];
+    
     [super dealloc];
 }
 
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithAsset:(ALAsset *)theAsset
 {
-    self = [super initWithFrame:frame];
+    self = [super init];
     if (self)
     {
         self.selected = NO;
+        self.asset = theAsset;
     }
     
     return self;
+}
+
+#pragma mark - Draw
+
+- (void)drawRect:(CGRect)rect
+{
+    CGContextRef contextRef = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(contextRef);
+    
+    CGContextTranslateCTM(contextRef, 0, rect.size.height);
+    CGContextScaleCTM(contextRef, 1.0, -1.0);
+    
+    CGContextDrawImage(contextRef, rect, self.asset.thumbnail);
+        
+    CGContextRestoreGState(contextRef);
 }
 
 #pragma mark - Others

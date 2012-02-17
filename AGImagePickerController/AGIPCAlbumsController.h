@@ -9,20 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
-#import "AGImagePickerController.h"
-
-#define ITEMS_PER_ROW       4
-
 @interface AGIPCAlbumsController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {
-    NSMutableArray *assetGroups;
+    NSMutableArray *assetsGroups;
     UITableView *tableView;
-    
-    UISegmentedControl *sourceSegmentedControl;
 }
 
-@property (nonatomic, readonly) NSMutableArray *assetGroups;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
-@property (nonatomic, retain) IBOutlet UISegmentedControl *sourceSegmentedControl;
 
 @end

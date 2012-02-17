@@ -23,6 +23,13 @@
 
 #import "AGIPCAlbumsController.h"
 
+@interface AGImagePickerController (Private)
+
+- (void)didFinishPickingAssets:(NSArray *)selectedAssets;
+- (void)didCancelPickingAssets;
+
+@end
+
 @implementation AGImagePickerController
 
 #pragma mark - Properties
@@ -44,6 +51,12 @@
     if (self)
     {
         assetsLibrary = [[ALAssetsLibrary alloc] init];
+        
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
+        self.navigationBar.barStyle = UIBarStyleBlack;
+        self.navigationBar.translucent = YES;
+        self.toolbar.barStyle = UIBarStyleBlack;
+        self.toolbar.translucent = YES;
     }
     
     return self;
@@ -84,6 +97,36 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark - Private
+
+- (void)didFinishPickingAssets:(NSArray *)selectedAssets
+{
+//    NSMutableArray *returnArray = [[[NSMutableArray alloc] init] autorelease];
+//	
+//	for(ALAsset *asset in _assets) {
+//        
+//		NSMutableDictionary *workingDictionary = [[NSMutableDictionary alloc] init];
+//		[workingDictionary setObject:[asset valueForProperty:ALAssetPropertyType] forKey:@"UIImagePickerControllerMediaType"];
+//        [workingDictionary setObject:[UIImage imageWithCGImage:[[asset defaultRepresentation] fullScreenImage]] forKey:@"UIImagePickerControllerOriginalImage"];
+//		[workingDictionary setObject:[[asset valueForProperty:ALAssetPropertyURLs] valueForKey:[[[asset valueForProperty:ALAssetPropertyURLs] allKeys] objectAtIndex:0]] forKey:@"UIImagePickerControllerReferenceURL"];
+//		
+//		[returnArray addObject:workingDictionary];
+//		
+//		[workingDictionary release];	
+//	}
+	
+    [self popToRootViewControllerAnimated:NO];
+    
+//	if([delegate respondsToSelector:@selector(elcImagePickerController:didFinishPickingMediaWithInfo:)]) {
+//		[delegate performSelector:@selector(elcImagePickerController:didFinishPickingMediaWithInfo:) withObject:self withObject:[NSArray arrayWithArray:returnArray]];
+//	}
+}
+
+- (void)didCancelPickingAssets
+{
+    [self popToRootViewControllerAnimated:NO];
 }
 
 @end

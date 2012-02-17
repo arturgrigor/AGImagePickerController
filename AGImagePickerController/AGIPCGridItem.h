@@ -7,13 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AssetsLibrary/AssetsLibrary.h>
 
 @interface AGGridItem : UIView
 {
 	BOOL selected;
+    ALAsset *asset;
 }
 
 @property (nonatomic, assign) BOOL selected;
+@property (nonatomic, retain) ALAsset *asset;
+
+- (id)initWithAsset:(ALAsset *)theAsset;
 
 - (void)tap;
 

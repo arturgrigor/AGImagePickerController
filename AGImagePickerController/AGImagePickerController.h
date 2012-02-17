@@ -24,6 +24,8 @@
 
 #define IS_IPHONE() (![[UIDevice currentDevice] respondsToSelector:@selector(userInterfaceIdiom)] || [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
 
+#define ITEMS_PER_ROW           4
+
 #warning Fix this detection issue
 
 #if IS_IPHONE

@@ -7,15 +7,22 @@
 //
 
 #import "AGIPCAlbumsController.h"
-#import "AGIPCGridCell.h"
-#import "AGIPCAlbumItem.h"
+
+#import "AGImagePickerController.h"
+#import "AGIPCAssetsController.h"
+
+@interface AGIPCAlbumsController ()
+
+@property (nonatomic, readonly) NSMutableArray *assetsGroups;
+
+@end
 
 @interface AGIPCAlbumsController (Private)
 
-- (NSArray *)itemsForRowAtIndexPath:(NSIndexPath *)indexPath;
-
-- (void)loadAssetGroups;
+- (void)loadAssetsGroups;
 - (void)reloadData;
+
+- (void)cancelAction:(id)sender;
 
 @end
 
@@ -23,17 +30,17 @@
 
 #pragma mark - Properties
 
-@synthesize tableView, sourceSegmentedControl;
+@synthesize tableView;
 
-- (NSMutableArray *)assetGroups
+- (NSMutableArray *)assetsGroups
 {
-    if (assetGroups == nil)
+    if (assetsGroups == nil)
     {
-        assetGroups = [[NSMutableArray alloc] init];
-        [self loadAssetGroups];
+        assetsGroups = [[NSMutableArray alloc] init];
+        [self loadAssetsGroups];
     }
     
-    return assetGroups;
+    return assetsGroups;
 }
 
 #pragma mark - Object Lifecycle
@@ -41,9 +48,7 @@
 - (void)dealloc
 {
     [tableView release];
-    [sourceSegmentedControl release];
-    
-    [assetGroups release];
+    [assetsGroups release];
     
     [super dealloc];
 }
@@ -68,20 +73,21 @@
 
 #pragma mark - View lifecycle
 
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
+- (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
+    [self.navigationController setToolbarHidden:YES animated:YES];
 }
-*/
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    self.navigationController.navigationBar.topItem.titleView = self.sourceSegmentedControl;
+    // Navigation Bar Items
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction:)];
+	self.navigationItem.leftBarButtonItem = cancelButton;
+	[cancelButton release];
 }
 
 - (void)viewDidUnload
@@ -100,81 +106,46 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    double albums = (double)self.assetGroups.count;
-    return ceil(albums / ITEMS_PER_ROW);
-}
-
-- (NSArray *)itemsForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSMutableArray *items = [NSMutableArray arrayWithCapacity:ITEMS_PER_ROW];
-    
-    NSUInteger startIndex = indexPath.row * ITEMS_PER_ROW, endIndex = startIndex + ITEMS_PER_ROW - 1;
-    if (startIndex < self.assetGroups.count)
-    {
-        if (endIndex > self.assetGroups.count - 1)
-            endIndex = self.assetGroups.count - 1;
-        
-        for (NSUInteger i = startIndex; i <= endIndex; i++)
-        {
-            ALAssetsGroup *group = (ALAssetsGroup *)[self.assetGroups objectAtIndex:i];
-            [group setAssetsFilter:[ALAssetsFilter allPhotos]];
-            NSInteger numberOfAssets = [group numberOfAssets];
-            
-            NSMutableArray *assets = [[NSMutableArray alloc] initWithCapacity:3];
-            [group enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, MIN(3, numberOfAssets))] options:0 usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
-                
-                if (result == nil)
-                    return;
-                
-                [assets addObject:result];
-            }];
-            
-            // Adding the album view
-            AGAlbumItem *albumItem = [[AGAlbumItem alloc] initWithAssets:assets andTitle:[group valueForProperty:ALAssetsGroupPropertyName]];
-            [items addObject:albumItem];
-            [albumItem release];
-            
-            [assets release];
-        }
-    }
-    
-    return items;
+    return self.assetsGroups.count;
+    self.title = NSLocalizedStringWithDefaultValue(@"AGIPC.Loading", nil, [NSBundle mainBundle], @"Loading...", nil);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
     
-    NSArray *items = [self itemsForRowAtIndexPath:indexPath];
-    
-    AGGridCell *cell = (AGGridCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[AGGridCell alloc] initWithItems:items reuseIdentifier:CellIdentifier] autorelease];
-    } else {
-        cell.items = items;
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
-//    cell.textLabel.text = [NSString stringWithFormat:@"%@ (%d)",[group valueForProperty:ALAssetsGroupPropertyName], numberOfAssets];
-//    [cell.imageView setImage:[UIImage imageWithCGImage:[(ALAssetsGroup*)[assetGroups objectAtIndex:indexPath.row] posterImage]]];
-//	[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-//    cell.textLabel.textColor = [UIColor whiteColor];
+    ALAssetsGroup *group = [self.assetsGroups objectAtIndex:indexPath.row];
+    [group setAssetsFilter:[ALAssetsFilter allPhotos]];
+    NSUInteger numberOfAssets = group.numberOfAssets;
+    
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ (%d)",[group valueForProperty:ALAssetsGroupPropertyName], numberOfAssets];
+    [cell.imageView setImage:[UIImage imageWithCGImage:[(ALAssetsGroup*)[assetsGroups objectAtIndex:indexPath.row] posterImage]]];
+	[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 	
     return cell;
 }
 
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	return ALBUM_HEIGHT;
-}
-
 #pragma mark - UITableViewDelegate Methods
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+	AGIPCAssetsController *controller = [[AGIPCAssetsController alloc] initWithAssetsGroup:[self.assetsGroups objectAtIndex:indexPath.row]];
+	[self.navigationController pushViewController:controller animated:YES];
+	[controller release];
+}
 
 #pragma mark - Private
 
-- (void)loadAssetGroups
+- (void)loadAssetsGroups
 {
-    [self.assetGroups removeAllObjects];
+    [self.assetsGroups removeAllObjects];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         
@@ -187,9 +158,9 @@
                     return;
                 }
                 
-                [self.assetGroups addObject:group];
+                [self.assetsGroups addObject:group];
                 
-                dispatch_async(dispatch_get_main_queue(), ^{
+                dispatch_sync(dispatch_get_main_queue(), ^{
                     [self reloadData];
                 });
             };
@@ -211,6 +182,12 @@
 - (void)reloadData
 {
     [self.tableView reloadData];
+    self.title = NSLocalizedStringWithDefaultValue(@"AGIPC.SelectAlbum", nil, [NSBundle mainBundle], @"Select an Album", nil);
+}
+
+- (void)cancelAction:(id)sender
+{
+    [((AGImagePickerController *)self.navigationController) performSelector:@selector(didCancelPickingAssets)];
 }
 
 @end
