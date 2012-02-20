@@ -11,7 +11,17 @@
 
 #import "AGImagePickerController.h"
 
-@interface AGGridItem : UIView
+@class AGIPCGridItem;
+
+@protocol AGIPCGridItemDelegate <NSObject>
+
+@optional
+- (void)agGridItem:(AGIPCGridItem *)gridItem didChangeSelectionState:(NSNumber *)selected;
+- (void)agGridItem:(AGIPCGridItem *)gridItem didChangeNumberOfSelections:(NSNumber *)numberOfSelections;
+
+@end
+
+@interface AGIPCGridItem : UIView
 {
 	BOOL selected;
     ALAsset *asset;
@@ -19,13 +29,20 @@
     UIImageView *thumbnailImageView;
     UIView *selectionView;
     UIImageView *checkmarkImageView;
+    
+    id<AGIPCGridItemDelegate> delegate;
 }
 
 @property (nonatomic, assign) BOOL selected;
 @property (nonatomic, retain) ALAsset *asset;
 
+@property (nonatomic, assign) id<AGIPCGridItemDelegate> delegate;
+
 - (id)initWithAsset:(ALAsset *)theAsset;
+- (id)initWithAsset:(ALAsset *)theAsset andDelegate:(id<AGIPCGridItemDelegate>)theDelegate;
 
 - (void)tap;
+
++ (NSUInteger)numberOfSelections;
 
 @end

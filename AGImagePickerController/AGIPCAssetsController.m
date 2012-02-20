@@ -11,7 +11,6 @@
 #import "AGImagePickerController.h"
 
 #import "AGIPCGridCell.h"
-#import "AGIPCGridItem.h"
 
 @interface AGIPCAssetsController ()
 
@@ -55,7 +54,7 @@
 {
     NSMutableArray *selectedAssets = [NSMutableArray array];
     
-	for (AGGridItem *gridItem in self.assets) 
+	for (AGIPCGridItem *gridItem in self.assets) 
     {		
 		if (gridItem.selected)
         {	
@@ -125,10 +124,10 @@
 {
     static NSString *CellIdentifier = @"Cell";
     
-    AGGridCell *cell = (AGGridCell*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    AGIPCGridCell *cell = (AGIPCGridCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) 
     {		        
-        cell = [[[AGGridCell alloc] initWithItems:[self itemsForRowAtIndexPath:indexPath] reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[AGIPCGridCell alloc] initWithItems:[self itemsForRowAtIndexPath:indexPath] reuseIdentifier:CellIdentifier] autorelease];
     }	
 	else 
     {		
@@ -150,6 +149,9 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    // Reset the number of selections
+    [AGIPCGridItem performSelector:@selector(resetNumberOfSelections)];
+    
     [super viewWillAppear:animated];
     
     [self.navigationController setToolbarHidden:NO animated:YES];
@@ -163,6 +165,7 @@
     
     // Navigation Bar Items
     UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction:)];
+    doneButtonItem.enabled = NO;
 	self.navigationItem.rightBarButtonItem = doneButtonItem;
     [doneButtonItem release];
     
@@ -195,7 +198,7 @@
                 return;
             }
             
-            AGGridItem *gridItem = [[AGGridItem alloc] initWithAsset:result];
+            AGIPCGridItem *gridItem = [[AGIPCGridItem alloc] initWithAsset:result andDelegate:self];
             [self.assets addObject:gridItem];
             [gridItem release];
         }];
@@ -212,7 +215,7 @@
 - (void)reloadData
 {
     [self.tableView reloadData];
-    self.title = NSLocalizedStringWithDefaultValue(@"AGIPC.PickPhotos", nil, [NSBundle mainBundle], @"Pick Photos", nil);
+    self.title = [NSString stringWithFormat:@"%@ (%d/%d)", NSLocalizedStringWithDefaultValue(@"AGIPC.PickPhotos", nil, [NSBundle mainBundle], @"Pick Photos", nil), [AGIPCGridItem numberOfSelections], self.assets.count];
 }
 
 - (void)doneAction:(id)sender
@@ -222,16 +225,25 @@
 
 - (void)selectAllAction:(id)sender
 {
-    for (AGGridItem *gridItem in self.assets) {
+    for (AGIPCGridItem *gridItem in self.assets) {
         gridItem.selected = YES;
     }
 }
 
 - (void)deselectAllAction:(id)sender
 {
-    for (AGGridItem *gridItem in self.assets) {
+    for (AGIPCGridItem *gridItem in self.assets) {
         gridItem.selected = NO;
     }
+}
+
+#pragma mark - AGGridItemDelegate Methods
+
+- (void)agGridItem:(AGIPCGridItem *)gridItem didChangeNumberOfSelections:(NSNumber *)numberOfSelections
+{
+    self.navigationItem.rightBarButtonItem.enabled = (numberOfSelections.unsignedIntegerValue > 0);
+    
+    self.title = [NSString stringWithFormat:@"%@ (%d/%d)", NSLocalizedStringWithDefaultValue(@"AGIPC.PickPhotos", nil, [NSBundle mainBundle], @"Pick Photos", nil), [AGIPCGridItem numberOfSelections], self.assets.count];
 }
 
 @end

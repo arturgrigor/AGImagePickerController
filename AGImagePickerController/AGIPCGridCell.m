@@ -10,7 +10,7 @@
 #import "AGIPCGridItem.h"
 #import "AGImagePickerController.h"
 
-@implementation AGGridCell
+@implementation AGIPCGridCell
 
 #pragma mark - Properties
 
@@ -72,7 +72,7 @@
         frame = CGRectMake(leftMargin, AGIPC_ITEM_TOP_MARGIN_IPHONE, AGIPC_ITEM_WIDTH_IPHONE, AGIPC_ITEM_HEIGHT_IPHONE);
     }
     
-	for (AGGridItem *gridItem in self.items)
+	for (AGIPCGridItem *gridItem in self.items)
     {	
 		[gridItem setFrame:frame];
         UITapGestureRecognizer *selectionGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:gridItem action:@selector(tap)];

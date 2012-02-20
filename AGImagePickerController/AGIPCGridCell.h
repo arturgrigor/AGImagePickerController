@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AGGridCell : UITableViewCell
+@interface AGIPCGridCell : UITableViewCell
 {
 	NSArray *items;
 }

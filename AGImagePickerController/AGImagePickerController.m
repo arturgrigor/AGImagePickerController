@@ -23,10 +23,13 @@
 
 #import "AGIPCAlbumsController.h"
 
+#import "AGIPCGridItem.h"
+
 @interface AGImagePickerController (Private)
 
 - (void)didFinishPickingAssets:(NSArray *)selectedAssets;
 - (void)didCancelPickingAssets;
+- (void)didFail:(NSError *)error;
 
 @end
 
@@ -34,7 +37,9 @@
 
 #pragma mark - Properties
 
-@synthesize assetsLibrary;
+@synthesize assetsLibrary, delegate;
+
+@synthesize didFailBlock, didFinishBlock;
 
 #pragma mark - Object Lifecycle
 
@@ -57,17 +62,36 @@
         self.navigationBar.translucent = YES;
         self.toolbar.barStyle = UIBarStyleBlack;
         self.toolbar.translucent = YES;
+        
+        self.delegate = nil;
+        self.didFailBlock = nil;
+        self.didFinishBlock = nil;
     }
     
     return self;
 }
 
-- (void)didReceiveMemoryWarning
+- (id)initWithDelegate:(id)theDelegate
 {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
+    self = [self init];
+    if (self)
+    {
+        self.delegate = theDelegate;
+    }
     
-    // Release any cached data, images, etc that aren't in use.
+    return self;
+}
+
+- (id)initWithFailureBlock:(AGIPCDidFail)theFailureBlock andSuccessBlock:(AGIPCDidFinish)theSuccessBlock
+{
+    self = [self init];
+    if (self)
+    {
+        self.didFailBlock = theFailureBlock;
+        self.didFinishBlock = theSuccessBlock;
+    }
+    
+    return self;
 }
 
 #pragma mark - View lifecycle
@@ -86,47 +110,67 @@
     [rootViewController release];
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
 #pragma mark - Private
 
 - (void)didFinishPickingAssets:(NSArray *)selectedAssets
 {
-//    NSMutableArray *returnArray = [[[NSMutableArray alloc] init] autorelease];
-//	
-//	for(ALAsset *asset in _assets) {
-//        
-//		NSMutableDictionary *workingDictionary = [[NSMutableDictionary alloc] init];
-//		[workingDictionary setObject:[asset valueForProperty:ALAssetPropertyType] forKey:@"UIImagePickerControllerMediaType"];
-//        [workingDictionary setObject:[UIImage imageWithCGImage:[[asset defaultRepresentation] fullScreenImage]] forKey:@"UIImagePickerControllerOriginalImage"];
-//		[workingDictionary setObject:[[asset valueForProperty:ALAssetPropertyURLs] valueForKey:[[[asset valueForProperty:ALAssetPropertyURLs] allKeys] objectAtIndex:0]] forKey:@"UIImagePickerControllerReferenceURL"];
-//		
-//		[returnArray addObject:workingDictionary];
-//		
-//		[workingDictionary release];	
-//	}
+    // Reset the number of selections
+    [AGIPCGridItem performSelector:@selector(resetNumberOfSelections)];
+    
+    NSMutableArray *selectedImages = [NSMutableArray array];
+	
+	for(ALAsset *asset in selectedAssets)
+    {
+        NSMutableDictionary *workingDictionary = [[NSMutableDictionary alloc] init];
+        [workingDictionary setObject:[asset valueForProperty:ALAssetPropertyType] forKey:@"UIImagePickerControllerMediaType"];
+        [workingDictionary setObject:[UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage] forKey:@"UIImagePickerControllerOriginalImage"];
+		[workingDictionary setObject:[[asset valueForProperty:ALAssetPropertyURLs] valueForKey:[[[asset valueForProperty:ALAssetPropertyURLs] allKeys] objectAtIndex:0]] forKey:@"UIImagePickerControllerReferenceURL"];
+		
+		[selectedImages addObject:workingDictionary];
+		[workingDictionary release];	
+	}
 	
     [self popToRootViewControllerAnimated:NO];
     
-//	if([delegate respondsToSelector:@selector(elcImagePickerController:didFinishPickingMediaWithInfo:)]) {
-//		[delegate performSelector:@selector(elcImagePickerController:didFinishPickingMediaWithInfo:) withObject:self withObject:[NSArray arrayWithArray:returnArray]];
-//	}
+	if ([self.delegate respondsToSelector:@selector(agImagePickerController:didFinishPickingMediaWithInfo:)])
+    {
+		[delegate performSelector:@selector(agImagePickerController:didFinishPickingMediaWithInfo:) withObject:self withObject:selectedImages];
+	}
+    
+    if (self.didFinishBlock)
+        self.didFinishBlock(selectedImages);
 }
 
 - (void)didCancelPickingAssets
 {
+    // Reset the number of selections
+    [AGIPCGridItem performSelector:@selector(resetNumberOfSelections)];
+    
     [self popToRootViewControllerAnimated:NO];
+    
+    if ([delegate respondsToSelector:@selector(agImagePickerController:didFail:)])
+    {
+		[delegate performSelector:@selector(agImagePickerController:didFail:) withObject:self withObject:nil];
+	}
+    
+    if (self.didFailBlock)
+        self.didFailBlock(nil);
+}
+
+- (void)didFail:(NSError *)error
+{
+    // Reset the number of selections
+    [AGIPCGridItem performSelector:@selector(resetNumberOfSelections)];
+    
+    [self popToRootViewControllerAnimated:NO];
+    
+    if ([delegate respondsToSelector:@selector(agImagePickerController:didFail:)])
+    {
+		[delegate performSelector:@selector(agImagePickerController:didFail:) withObject:self withObject:error];
+	}
+    
+    if (self.didFailBlock)
+        self.didFailBlock(error);
 }
 
 @end

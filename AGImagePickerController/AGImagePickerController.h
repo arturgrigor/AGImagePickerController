@@ -45,11 +45,37 @@
 #define AGIPC_CHECKMARK_RIGHT_MARGIN_IPAD       8.f
 #define AGIPC_CHECKMARK_BOTTOM_MARGIN_IPAD      8.f
 
+@class AGImagePickerController;
+
+typedef void (^AGIPCDidFinish)(NSArray *info);
+typedef void (^AGIPCDidFail)(NSError *error);
+
+@protocol AGImagePickerControllerDelegate
+
+@optional
+- (void)agImagePickerController:(AGImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info;
+- (void)agImagePickerController:(AGImagePickerController *)picker didFail:(NSError *)error;
+
+@end
+
 @interface AGImagePickerController : UINavigationController
 {
     ALAssetsLibrary *assetsLibrary;
+    id delegate;
+    
+    AGIPCDidFinish didFinishBlock;
+    AGIPCDidFail didFailBlock;
 }
 
+@property (nonatomic, assign) id delegate;
 @property (nonatomic, readonly) ALAssetsLibrary *assetsLibrary;
 
+@property (nonatomic, copy) AGIPCDidFail didFailBlock;
+@property (nonatomic, copy) AGIPCDidFinish didFinishBlock;
+
+- (id)initWithDelegate:(id)theDelegate;
+- (id)initWithFailureBlock:(AGIPCDidFail)theFailureBlock andSuccessBlock:(AGIPCDidFinish)theSuccessBlock;
+
 @end
+
+

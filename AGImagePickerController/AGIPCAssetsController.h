@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
-@interface AGIPCAssetsController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+#import "AGIPCGridItem.h"
+
+@interface AGIPCAssetsController : UIViewController<UITableViewDataSource, UITableViewDelegate, AGIPCGridItemDelegate>
 {
     UITableView *tableView;
     ALAssetsGroup *assetsGroup;

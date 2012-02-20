@@ -167,7 +167,7 @@
             
             void (^assetGroupEnumberatorFailure)(NSError *) = ^(NSError *error) {
                 NSLog(@"A problem occured. Error: %@", error.localizedDescription);
-#warning Delegate this method.
+                [((AGImagePickerController *)self.navigationController) performSelector:@selector(didFail:) withObject:error];
             };	
             
             [((AGImagePickerController *)self.navigationController).assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAll

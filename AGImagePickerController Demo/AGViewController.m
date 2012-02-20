@@ -110,7 +110,17 @@
 
 - (void)openAction:(id)sender
 {
-    AGImagePickerController *imagePickerController = [[AGImagePickerController alloc] init];
+    AGImagePickerController *imagePickerController = [[AGImagePickerController alloc] initWithFailureBlock:^(NSError *error) {
+        NSLog(@"Fail. Error: %@", error);
+        
+        if (error == nil)
+            NSLog(@"User has cancelled.");
+        
+        [self dismissModalViewControllerAnimated:YES];
+    } andSuccessBlock:^(NSArray *info) {
+        NSLog(@"Info: %@", info);
+        [self dismissModalViewControllerAnimated:YES];
+    }];
     [self presentModalViewController:imagePickerController animated:YES];
     [imagePickerController release];
 }

@@ -8,26 +8,53 @@
 
 #import "AGIPCGridItem.h"
 
-@interface AGGridItem ()
+@interface AGIPCGridItem ()
 
 @property (nonatomic, retain) UIImageView *thumbnailImageView;
 @property (nonatomic, retain) UIView *selectionView;
 @property (nonatomic, retain) UIImageView *checkmarkImageView;
 
++ (void)resetNumberOfSelections;
+
 @end
 
-@implementation AGGridItem
+static NSUInteger numberOfSelectedGridItems = 0;
+
+@implementation AGIPCGridItem
 
 #pragma mark - Properties
 
-@synthesize selected, asset, thumbnailImageView, selectionView, checkmarkImageView;
+@synthesize delegate, selected, asset, thumbnailImageView, selectionView, checkmarkImageView;
 
 - (void)setSelected:(BOOL)isSelected
 {
-    selected = isSelected;
-    
-    self.selectionView.hidden = !selected;
-    self.checkmarkImageView.hidden = !selected;
+    if (selected != isSelected)
+    {
+        selected = isSelected;
+        
+        self.selectionView.hidden = !selected;
+        self.checkmarkImageView.hidden = !selected;
+        
+        if (selected)
+        {
+            numberOfSelectedGridItems++;
+        }
+        else
+        {
+            if (numberOfSelectedGridItems > 0)
+                numberOfSelectedGridItems--;
+        }
+        
+        if ([self.delegate respondsToSelector:@selector(agGridItem:didChangeSelectionState:)])
+        {
+            [self.delegate performSelector:@selector(agGridItem:didChangeSelectionState:) withObject:self withObject:[NSNumber numberWithBool:selected]];
+        }
+        
+        if ([self.delegate respondsToSelector:@selector(agGridItem:didChangeNumberOfSelections:)])
+        {
+            [self.delegate performSelector:@selector(agGridItem:didChangeNumberOfSelections:) withObject:self withObject:[NSNumber numberWithUnsignedInteger:numberOfSelectedGridItems]];
+        }
+    }
 }
 
 - (void)setAsset:(ALAsset *)theAsset
@@ -53,11 +80,26 @@
     [super dealloc];
 }
 
+- (id)init
+{
+    self = [self initWithAsset:nil andDelegate:nil];
+    return self;
+}
+
 - (id)initWithAsset:(ALAsset *)theAsset
+{
+    self = [self initWithAsset:theAsset andDelegate:nil];
+    return self;
+}
+
+- (id)initWithAsset:(ALAsset *)theAsset andDelegate:(id<AGIPCGridItemDelegate>)theDelegate
 {
     self = [super init];
     if (self)
     {
+        self.selected = NO;
+        self.delegate = theDelegate;
+        
         CGRect frame = CGRectZero, checkmarkFrame = CGRectZero;
         if (IS_IPAD())
         {
@@ -76,6 +118,7 @@
         self.selectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         self.selectionView.backgroundColor = [UIColor whiteColor];
         self.selectionView.alpha = .5f;
+        self.selectionView.hidden = !self.selected;
         [self addSubview:self.selectionView];
         
         // Position the checkmark image in the bottom right corner
@@ -84,9 +127,9 @@
             self.checkmarkImageView.image = [UIImage imageNamed:@"AGIPC-Checkmark-iPad"];
         else
             self.checkmarkImageView.image = [UIImage imageNamed:@"AGIPC-Checkmark-iPhone"];
+        self.checkmarkImageView.hidden = !self.selected;
 		[self addSubview:self.checkmarkImageView];
         
-        self.selected = NO;
         self.asset = theAsset;
     }
     
@@ -98,6 +141,18 @@
 - (void)tap
 {
     self.selected = !self.selected;
+}
+
+#pragma mark - Private
+
++ (void)resetNumberOfSelections
+{
+    numberOfSelectedGridItems = 0;
+}
+
++ (NSUInteger)numberOfSelections
+{
+    return numberOfSelectedGridItems;
 }
 
 @end
