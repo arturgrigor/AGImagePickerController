@@ -57,9 +57,20 @@
 #pragma mark - Layout
 
 - (void)layoutSubviews
-{    
-    CGFloat leftMargin = ALBUM_LEFT_MARGIN;
-	CGRect frame = CGRectMake(leftMargin, ALBUM_TOP_MARGIN, ALBUM_WIDTH, ALBUM_HEIGHT);
+{   
+    CGFloat leftMargin = 0;
+    CGRect frame = CGRectZero;
+    
+    if (IS_IPAD())
+    {
+        leftMargin = AGIPC_ITEM_LEFT_MARGIN_IPAD;
+        frame = CGRectMake(leftMargin, AGIPC_ITEM_TOP_MARGIN_IPAD, AGIPC_ITEM_WIDTH_IPAD, AGIPC_ITEM_HEIGHT_IPAD);
+    }
+    else
+    {
+        leftMargin = AGIPC_ITEM_LEFT_MARGIN_IPHONE;
+        frame = CGRectMake(leftMargin, AGIPC_ITEM_TOP_MARGIN_IPHONE, AGIPC_ITEM_WIDTH_IPHONE, AGIPC_ITEM_HEIGHT_IPHONE);
+    }
     
 	for (AGGridItem *gridItem in self.items)
     {	

@@ -22,23 +22,28 @@
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
-#define IS_IPHONE() (![[UIDevice currentDevice] respondsToSelector:@selector(userInterfaceIdiom)] || [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+#define IS_IPAD()               ([[UIDevice currentDevice] respondsToSelector:@selector(userInterfaceIdiom)] && \
+[[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 
-#define ITEMS_PER_ROW           4
+// Size in points
+#define AGIPC_CHECKMARK_WIDTH                   28.f
+#define AGIPC_CHECKMARK_HEIGHT                  28.f
 
-#warning Fix this detection issue
+#define AGIPC_ITEMS_PER_ROW                     4
 
-#if IS_IPHONE
-    #define ALBUM_WIDTH         75.f
-    #define ALBUM_HEIGHT        75.f
-    #define ALBUM_LEFT_MARGIN   2.f
-    #define ALBUM_TOP_MARGIN    4.f
-#else
-    #define ALBUM_WIDTH         140.f
-    #define ALBUM_HEIGHT        140.f
-    #define ALBUM_LEFT_MARGIN   58.f
-    #define ALBUM_TOP_MARGIN    58.f
-#endif
+#define AGIPC_ITEM_WIDTH_IPHONE                 75.f
+#define AGIPC_ITEM_HEIGHT_IPHONE                75.f
+#define AGIPC_ITEM_LEFT_MARGIN_IPHONE           4.f
+#define AGIPC_ITEM_TOP_MARGIN_IPHONE            4.f
+#define AGIPC_CHECKMARK_RIGHT_MARGIN_IPHONE     4.f
+#define AGIPC_CHECKMARK_BOTTOM_MARGIN_IPHONE    4.f
+
+#define AGIPC_ITEM_WIDTH_IPAD                   162.f
+#define AGIPC_ITEM_HEIGHT_IPAD                  162.f
+#define AGIPC_ITEM_LEFT_MARGIN_IPAD             24.f
+#define AGIPC_ITEM_TOP_MARGIN_IPAD              24.f
+#define AGIPC_CHECKMARK_RIGHT_MARGIN_IPAD       8.f
+#define AGIPC_CHECKMARK_BOTTOM_MARGIN_IPAD      8.f
 
 @interface AGImagePickerController : UINavigationController
 {

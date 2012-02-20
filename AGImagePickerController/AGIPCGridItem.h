@@ -9,10 +9,16 @@
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
+#import "AGImagePickerController.h"
+
 @interface AGGridItem : UIView
 {
 	BOOL selected;
     ALAsset *asset;
+    
+    UIImageView *thumbnailImageView;
+    UIView *selectionView;
+    UIImageView *checkmarkImageView;
 }
 
 @property (nonatomic, assign) BOOL selected;

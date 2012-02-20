@@ -20,14 +20,15 @@
 		FE3BAF8B14EE816E001BF3EC /* AGIPCAssetsController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE3BAF8A14EE816D001BF3EC /* AGIPCAssetsController_iPhone.xib */; };
 		FE3BAF8D14EE817B001BF3EC /* AGIPCAssetsController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE3BAF8C14EE817B001BF3EC /* AGIPCAssetsController_iPad.xib */; };
 		FE3BAFA414EE8BBF001BF3EC /* AGIPCAlbumsController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE3BAFA314EE8BBF001BF3EC /* AGIPCAlbumsController_iPhone.xib */; };
+		FE87075814F277A3001CF32C /* AGIPC-Checkmark-iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = FE87075514F277A3001CF32C /* AGIPC-Checkmark-iPad.png */; };
+		FE87075914F277A3001CF32C /* AGIPC-Checkmark-iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = FE87075614F277A3001CF32C /* AGIPC-Checkmark-iPhone.png */; };
+		FE87075A14F277A3001CF32C /* AGIPC-Checkmark-iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE87075714F277A3001CF32C /* AGIPC-Checkmark-iPhone@2x.png */; };
 		FEA599CC14ED1C500057FF9C /* AGImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA599CA14ED1C500057FF9C /* AGImagePickerController.m */; };
 		FEA599D214ED1F510057FF9C /* AGIPCAlbumsController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FEA599D014ED1F510057FF9C /* AGIPCAlbumsController_iPad.xib */; };
 		FEA599E214ED30140057FF9C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA599E114ED30140057FF9C /* AssetsLibrary.framework */; };
 		FEA599E814ED38EE0057FF9C /* AGIPCAlbumsController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA599E714ED38ED0057FF9C /* AGIPCAlbumsController.m */; };
 		FECDC90114EDB9C30038006D /* AGIPCGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FECDC90014EDB9C30038006D /* AGIPCGridCell.m */; };
 		FECDC90514EDBB690038006D /* AGIPCGridItem.m in Sources */ = {isa = PBXBuildFile; fileRef = FECDC90414EDBB690038006D /* AGIPCGridItem.m */; };
-		FECDC90814EDC1C40038006D /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = FECDC90714EDC1C40038006D /* checkmark.png */; };
-		FECDC90B14EDC2E50038006D /* AGIPCAlbumItem.m in Sources */ = {isa = PBXBuildFile; fileRef = FECDC90A14EDC2E50038006D /* AGIPCAlbumItem.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,9 @@
 		FE3BAF8A14EE816D001BF3EC /* AGIPCAssetsController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AGIPCAssetsController_iPhone.xib; sourceTree = "<group>"; };
 		FE3BAF8C14EE817B001BF3EC /* AGIPCAssetsController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AGIPCAssetsController_iPad.xib; sourceTree = "<group>"; };
 		FE3BAFA314EE8BBF001BF3EC /* AGIPCAlbumsController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AGIPCAlbumsController_iPhone.xib; sourceTree = "<group>"; };
+		FE87075514F277A3001CF32C /* AGIPC-Checkmark-iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AGIPC-Checkmark-iPad.png"; sourceTree = "<group>"; };
+		FE87075614F277A3001CF32C /* AGIPC-Checkmark-iPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AGIPC-Checkmark-iPhone.png"; sourceTree = "<group>"; };
+		FE87075714F277A3001CF32C /* AGIPC-Checkmark-iPhone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AGIPC-Checkmark-iPhone@2x.png"; sourceTree = "<group>"; };
 		FEA599C914ED1C500057FF9C /* AGImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGImagePickerController.h; sourceTree = "<group>"; };
 		FEA599CA14ED1C500057FF9C /* AGImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGImagePickerController.m; sourceTree = "<group>"; };
 		FEA599D014ED1F510057FF9C /* AGIPCAlbumsController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AGIPCAlbumsController_iPad.xib; sourceTree = "<group>"; };
@@ -60,9 +64,6 @@
 		FECDC90014EDB9C30038006D /* AGIPCGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGIPCGridCell.m; sourceTree = "<group>"; };
 		FECDC90314EDBB690038006D /* AGIPCGridItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGIPCGridItem.h; sourceTree = "<group>"; };
 		FECDC90414EDBB690038006D /* AGIPCGridItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGIPCGridItem.m; sourceTree = "<group>"; };
-		FECDC90714EDC1C40038006D /* checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmark.png; sourceTree = "<group>"; };
-		FECDC90914EDC2E50038006D /* AGIPCAlbumItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGIPCAlbumItem.h; sourceTree = "<group>"; };
-		FECDC90A14EDC2E50038006D /* AGIPCAlbumItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGIPCAlbumItem.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,8 +140,6 @@
 			children = (
 				FEA599C914ED1C500057FF9C /* AGImagePickerController.h */,
 				FEA599CA14ED1C500057FF9C /* AGImagePickerController.m */,
-				FECDC90914EDC2E50038006D /* AGIPCAlbumItem.h */,
-				FECDC90A14EDC2E50038006D /* AGIPCAlbumItem.m */,
 				FEA599E614ED38ED0057FF9C /* AGIPCAlbumsController.h */,
 				FEA599E714ED38ED0057FF9C /* AGIPCAlbumsController.m */,
 				FEA599D014ED1F510057FF9C /* AGIPCAlbumsController_iPad.xib */,
@@ -161,7 +160,9 @@
 		FECDC90614EDC1BC0038006D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				FECDC90714EDC1C40038006D /* checkmark.png */,
+				FE87075514F277A3001CF32C /* AGIPC-Checkmark-iPad.png */,
+				FE87075614F277A3001CF32C /* AGIPC-Checkmark-iPhone.png */,
+				FE87075714F277A3001CF32C /* AGIPC-Checkmark-iPhone@2x.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -221,10 +222,12 @@
 				FE1E333F14ED167800F6A6A2 /* AGViewController_iPhone.xib in Resources */,
 				FE1E334214ED167800F6A6A2 /* AGViewController_iPad.xib in Resources */,
 				FEA599D214ED1F510057FF9C /* AGIPCAlbumsController_iPad.xib in Resources */,
-				FECDC90814EDC1C40038006D /* checkmark.png in Resources */,
 				FE3BAF8B14EE816E001BF3EC /* AGIPCAssetsController_iPhone.xib in Resources */,
 				FE3BAF8D14EE817B001BF3EC /* AGIPCAssetsController_iPad.xib in Resources */,
 				FE3BAFA414EE8BBF001BF3EC /* AGIPCAlbumsController_iPhone.xib in Resources */,
+				FE87075814F277A3001CF32C /* AGIPC-Checkmark-iPad.png in Resources */,
+				FE87075914F277A3001CF32C /* AGIPC-Checkmark-iPhone.png in Resources */,
+				FE87075A14F277A3001CF32C /* AGIPC-Checkmark-iPhone@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,7 +245,6 @@
 				FEA599E814ED38EE0057FF9C /* AGIPCAlbumsController.m in Sources */,
 				FECDC90114EDB9C30038006D /* AGIPCGridCell.m in Sources */,
 				FECDC90514EDBB690038006D /* AGIPCGridItem.m in Sources */,
-				FECDC90B14EDC2E50038006D /* AGIPCAlbumItem.m in Sources */,
 				FE3BAF8814EE80E7001BF3EC /* AGIPCAssetsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

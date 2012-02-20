@@ -104,9 +104,9 @@
 
 - (NSArray *)itemsForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSMutableArray *items = [NSMutableArray arrayWithCapacity:ITEMS_PER_ROW];
+    NSMutableArray *items = [NSMutableArray arrayWithCapacity:AGIPC_ITEMS_PER_ROW];
     
-    NSUInteger startIndex = indexPath.row * ITEMS_PER_ROW, endIndex = startIndex + ITEMS_PER_ROW - 1;
+    NSUInteger startIndex = indexPath.row * AGIPC_ITEMS_PER_ROW, endIndex = startIndex + AGIPC_ITEMS_PER_ROW - 1;
     if (startIndex < self.assets.count)
     {
         if (endIndex > self.assets.count - 1)
@@ -136,6 +136,14 @@
 	}
     
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (IS_IPAD())
+        return AGIPC_ITEM_HEIGHT_IPAD + AGIPC_ITEM_TOP_MARGIN_IPAD;
+    else
+        return AGIPC_ITEM_HEIGHT_IPHONE + AGIPC_ITEM_TOP_MARGIN_IPHONE;
 }
 
 #pragma mark - View Lifecycle
@@ -192,7 +200,7 @@
             [gridItem release];
         }];
         
-        dispatch_sync(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             
             [self reloadData];
             
