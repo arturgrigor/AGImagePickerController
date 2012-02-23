@@ -126,9 +126,13 @@
             });
         }
         
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+        
     } andSuccessBlock:^(NSArray *info) {
         NSLog(@"Info: %@", info);
         [self dismissModalViewControllerAnimated:YES];
+        
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     }];
     imagePickerController.maximumNumberOfPhotos = 3;
     [self presentModalViewController:imagePickerController animated:YES];

@@ -45,6 +45,8 @@
 #define AGIPC_CHECKMARK_RIGHT_MARGIN_IPAD       8.f
 #define AGIPC_CHECKMARK_BOTTOM_MARGIN_IPAD      8.f
 
+#define SHOULD_CHANGE_STATUS_BAR_STYLE          1
+
 @class AGImagePickerController;
 
 typedef void (^AGIPCDidFinish)(NSArray *info);
@@ -63,12 +65,16 @@ typedef void (^AGIPCDidFail)(NSError *error);
     ALAssetsLibrary *assetsLibrary;
     id delegate;
     
+    BOOL shouldChangeStatusBarStyle;
+    UIStatusBarStyle oldStatusBarStyle;
+    
     AGIPCDidFinish didFinishBlock;
     AGIPCDidFail didFailBlock;
     
     NSUInteger maximumNumberOfPhotos;
 }
 
+@property (nonatomic, assign) BOOL shouldChangeStatusBarStyle;
 @property (nonatomic, assign) NSUInteger maximumNumberOfPhotos;
 
 @property (nonatomic, assign) id delegate;
@@ -79,6 +85,7 @@ typedef void (^AGIPCDidFail)(NSError *error);
 
 - (id)initWithDelegate:(id)theDelegate;
 - (id)initWithFailureBlock:(AGIPCDidFail)theFailureBlock andSuccessBlock:(AGIPCDidFinish)theSuccessBlock;
+- (id)initWithDelegate:(id)theDelegate failureBlock:(AGIPCDidFail)theFailureBlock successBlock:(AGIPCDidFinish)theSuccessBlock maximumNumberOfPhotos:(NSUInteger)theMaximumNumberOfPhotos andShouldChangeStatusBarStyle:(BOOL)shouldChangeStatusBarStyleValue;
 
 @end
 

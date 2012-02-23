@@ -37,9 +37,25 @@
 
 #pragma mark - Properties
 
-@synthesize assetsLibrary, delegate, maximumNumberOfPhotos;
+@synthesize assetsLibrary, delegate, maximumNumberOfPhotos, shouldChangeStatusBarStyle;
 
 @synthesize didFailBlock, didFinishBlock;
+
+- (void)setShouldChangeStatusBarStyle:(BOOL)theShouldChangeStatusBarStyle
+{
+    if (shouldChangeStatusBarStyle != theShouldChangeStatusBarStyle)
+    {
+        shouldChangeStatusBarStyle = theShouldChangeStatusBarStyle;
+        
+        if (shouldChangeStatusBarStyle)
+            if (IS_IPAD())
+                [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
+            else
+                [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
+        else
+            [[UIApplication sharedApplication] setStatusBarStyle:oldStatusBarStyle animated:YES];
+    }
+}
 
 #pragma mark - Object Lifecycle
 
@@ -52,42 +68,35 @@
 
 - (id)init
 {
+    return [self initWithDelegate:nil failureBlock:nil successBlock:nil maximumNumberOfPhotos:0 andShouldChangeStatusBarStyle:SHOULD_CHANGE_STATUS_BAR_STYLE];
+}
+
+- (id)initWithDelegate:(id)theDelegate
+{
+    return [self initWithDelegate:theDelegate failureBlock:nil successBlock:nil maximumNumberOfPhotos:0 andShouldChangeStatusBarStyle:SHOULD_CHANGE_STATUS_BAR_STYLE];
+}
+
+- (id)initWithFailureBlock:(AGIPCDidFail)theFailureBlock andSuccessBlock:(AGIPCDidFinish)theSuccessBlock
+{
+    return [self initWithDelegate:nil failureBlock:theFailureBlock successBlock:theSuccessBlock maximumNumberOfPhotos:0 andShouldChangeStatusBarStyle:SHOULD_CHANGE_STATUS_BAR_STYLE];
+}
+
+- (id)initWithDelegate:(id)theDelegate failureBlock:(AGIPCDidFail)theFailureBlock successBlock:(AGIPCDidFinish)theSuccessBlock maximumNumberOfPhotos:(NSUInteger)theMaximumNumberOfPhotos andShouldChangeStatusBarStyle:(BOOL)shouldChangeStatusBarStyleValue
+{
     self = [super init];
     if (self)
     {
+        oldStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
         assetsLibrary = [[ALAssetsLibrary alloc] init];
         
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
+        self.shouldChangeStatusBarStyle = shouldChangeStatusBarStyleValue;
         self.navigationBar.barStyle = UIBarStyleBlack;
         self.navigationBar.translucent = YES;
         self.toolbar.barStyle = UIBarStyleBlack;
         self.toolbar.translucent = YES;
         
-        self.maximumNumberOfPhotos = 0;
-        self.delegate = nil;
-        self.didFailBlock = nil;
-        self.didFinishBlock = nil;
-    }
-    
-    return self;
-}
-
-- (id)initWithDelegate:(id)theDelegate
-{
-    self = [self init];
-    if (self)
-    {
+        self.maximumNumberOfPhotos = theMaximumNumberOfPhotos;
         self.delegate = theDelegate;
-    }
-    
-    return self;
-}
-
-- (id)initWithFailureBlock:(AGIPCDidFail)theFailureBlock andSuccessBlock:(AGIPCDidFinish)theSuccessBlock
-{
-    self = [self init];
-    if (self)
-    {
         self.didFailBlock = theFailureBlock;
         self.didFinishBlock = theSuccessBlock;
     }
@@ -117,29 +126,16 @@
 {
     // Reset the number of selections
     [AGIPCGridItem performSelector:@selector(resetNumberOfSelections)];
-    
-    NSMutableArray *selectedImages = [NSMutableArray array];
-	
-	for(ALAsset *asset in selectedAssets)
-    {
-        NSMutableDictionary *workingDictionary = [[NSMutableDictionary alloc] init];
-        [workingDictionary setObject:[asset valueForProperty:ALAssetPropertyType] forKey:@"UIImagePickerControllerMediaType"];
-        [workingDictionary setObject:[UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage] forKey:@"UIImagePickerControllerOriginalImage"];
-		[workingDictionary setObject:[[asset valueForProperty:ALAssetPropertyURLs] valueForKey:[[[asset valueForProperty:ALAssetPropertyURLs] allKeys] objectAtIndex:0]] forKey:@"UIImagePickerControllerReferenceURL"];
-		
-		[selectedImages addObject:workingDictionary];
-		[workingDictionary release];	
-	}
 	
     [self popToRootViewControllerAnimated:NO];
     
 	if ([self.delegate respondsToSelector:@selector(agImagePickerController:didFinishPickingMediaWithInfo:)])
     {
-		[delegate performSelector:@selector(agImagePickerController:didFinishPickingMediaWithInfo:) withObject:self withObject:selectedImages];
+		[delegate performSelector:@selector(agImagePickerController:didFinishPickingMediaWithInfo:) withObject:self withObject:selectedAssets];
 	}
     
     if (self.didFinishBlock)
-        self.didFinishBlock(selectedImages);
+        self.didFinishBlock(selectedAssets);
 }
 
 - (void)didCancelPickingAssets
