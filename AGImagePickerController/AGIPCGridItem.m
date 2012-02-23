@@ -64,6 +64,8 @@ static NSUInteger numberOfSelectedGridItems = 0;
         [asset release];
         asset = [theAsset retain];
         
+        NSLog(@"Width: %lu, Height: %lu", CGImageGetWidth(asset.thumbnail), CGImageGetHeight(asset.thumbnail));
+        
         self.thumbnailImageView.image = [UIImage imageWithCGImage:asset.thumbnail];
     }
 }

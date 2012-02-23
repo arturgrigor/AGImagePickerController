@@ -38,10 +38,10 @@
 #define AGIPC_CHECKMARK_RIGHT_MARGIN_IPHONE     4.f
 #define AGIPC_CHECKMARK_BOTTOM_MARGIN_IPHONE    4.f
 
-#define AGIPC_ITEM_WIDTH_IPAD                   162.f
-#define AGIPC_ITEM_HEIGHT_IPAD                  162.f
-#define AGIPC_ITEM_LEFT_MARGIN_IPAD             24.f
-#define AGIPC_ITEM_TOP_MARGIN_IPAD              24.f
+#define AGIPC_ITEM_WIDTH_IPAD                   150.f
+#define AGIPC_ITEM_HEIGHT_IPAD                  150.f
+#define AGIPC_ITEM_LEFT_MARGIN_IPAD             33.f
+#define AGIPC_ITEM_TOP_MARGIN_IPAD              33.f
 #define AGIPC_CHECKMARK_RIGHT_MARGIN_IPAD       8.f
 #define AGIPC_CHECKMARK_BOTTOM_MARGIN_IPAD      8.f
 

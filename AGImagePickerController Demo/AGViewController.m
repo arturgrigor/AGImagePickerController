@@ -113,10 +113,19 @@
     AGImagePickerController *imagePickerController = [[AGImagePickerController alloc] initWithFailureBlock:^(NSError *error) {
         NSLog(@"Fail. Error: %@", error);
         
-        if (error == nil)
+        if (error == nil) {
             NSLog(@"User has cancelled.");
+            [self dismissModalViewControllerAnimated:YES];
+        } else {
+            
+            // We need to wait for the view controller to appear first.
+            double delayInSeconds = 0.5;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [self dismissModalViewControllerAnimated:YES];
+            });
+        }
         
-        [self dismissModalViewControllerAnimated:YES];
     } andSuccessBlock:^(NSArray *info) {
         NSLog(@"Info: %@", info);
         [self dismissModalViewControllerAnimated:YES];
