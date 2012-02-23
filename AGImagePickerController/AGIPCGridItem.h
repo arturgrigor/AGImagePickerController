@@ -18,6 +18,7 @@
 @optional
 - (void)agGridItem:(AGIPCGridItem *)gridItem didChangeSelectionState:(NSNumber *)selected;
 - (void)agGridItem:(AGIPCGridItem *)gridItem didChangeNumberOfSelections:(NSNumber *)numberOfSelections;
+- (BOOL)agGridItemCanSelect:(AGIPCGridItem *)gridItem;
 
 @end
 

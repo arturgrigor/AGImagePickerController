@@ -30,6 +30,15 @@ static NSUInteger numberOfSelectedGridItems = 0;
 {
     if (selected != isSelected)
     {
+        if (isSelected) {
+            // Check if we can select
+            if ([self.delegate respondsToSelector:@selector(agGridItemCanSelect:)])
+            {
+                if (![self.delegate agGridItemCanSelect:self])
+                    return;
+            }
+        }
+        
         selected = isSelected;
         
         self.selectionView.hidden = !selected;

@@ -130,6 +130,7 @@
         NSLog(@"Info: %@", info);
         [self dismissModalViewControllerAnimated:YES];
     }];
+    imagePickerController.maximumNumberOfPhotos = 3;
     [self presentModalViewController:imagePickerController animated:YES];
     [imagePickerController release];
 }

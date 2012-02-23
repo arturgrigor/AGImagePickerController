@@ -246,4 +246,12 @@
     self.title = [NSString stringWithFormat:@"%@ (%d/%d)", NSLocalizedStringWithDefaultValue(@"AGIPC.PickPhotos", nil, [NSBundle mainBundle], @"Pick Photos", nil), [AGIPCGridItem numberOfSelections], self.assets.count];
 }
 
+- (BOOL)agGridItemCanSelect:(AGIPCGridItem *)gridItem
+{
+    if (((AGImagePickerController *)self.navigationController).maximumNumberOfPhotos > 0)
+        return ([AGIPCGridItem numberOfSelections] < ((AGImagePickerController *)self.navigationController).maximumNumberOfPhotos);
+    else
+        return YES;
+}
+
 @end

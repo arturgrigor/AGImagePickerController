@@ -37,7 +37,7 @@
 
 #pragma mark - Properties
 
-@synthesize assetsLibrary, delegate;
+@synthesize assetsLibrary, delegate, maximumNumberOfPhotos;
 
 @synthesize didFailBlock, didFinishBlock;
 
@@ -63,6 +63,7 @@
         self.toolbar.barStyle = UIBarStyleBlack;
         self.toolbar.translucent = YES;
         
+        self.maximumNumberOfPhotos = 0;
         self.delegate = nil;
         self.didFailBlock = nil;
         self.didFinishBlock = nil;

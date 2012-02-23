@@ -65,7 +65,11 @@ typedef void (^AGIPCDidFail)(NSError *error);
     
     AGIPCDidFinish didFinishBlock;
     AGIPCDidFail didFailBlock;
+    
+    NSUInteger maximumNumberOfPhotos;
 }
+
+@property (nonatomic, assign) NSUInteger maximumNumberOfPhotos;
 
 @property (nonatomic, assign) id delegate;
 @property (nonatomic, readonly) ALAssetsLibrary *assetsLibrary;
