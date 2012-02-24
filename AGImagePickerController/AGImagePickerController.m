@@ -62,6 +62,8 @@
 - (void)dealloc
 {
     [assetsLibrary release];
+    [didFailBlock release];
+    [didFinishBlock release];
     
     [super dealloc];
 }

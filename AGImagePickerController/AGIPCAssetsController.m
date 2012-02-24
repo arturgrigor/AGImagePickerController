@@ -85,7 +85,7 @@
     }
     if (self)
     {
-        self.assets = [[NSMutableArray alloc] init];
+        assets = [[NSMutableArray alloc] init];
         self.assetsGroup = theAssetsGroup;
         self.title = NSLocalizedStringWithDefaultValue(@"AGIPC.Loading", nil, [NSBundle mainBundle], @"Loading...", nil);
     }
