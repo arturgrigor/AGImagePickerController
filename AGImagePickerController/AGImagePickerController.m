@@ -37,7 +37,7 @@
 
 #pragma mark - Properties
 
-@synthesize assetsLibrary, delegate, maximumNumberOfPhotos, shouldChangeStatusBarStyle;
+@synthesize delegate, maximumNumberOfPhotos, shouldChangeStatusBarStyle;
 
 @synthesize didFailBlock, didFinishBlock;
 
@@ -57,11 +57,21 @@
     }
 }
 
++ (ALAssetsLibrary *)defaultAssetsLibrary
+{
+    static ALAssetsLibrary *assetsLibrary = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        assetsLibrary = [[ALAssetsLibrary alloc] init];
+    });
+    
+    return assetsLibrary;
+}
+
 #pragma mark - Object Lifecycle
 
 - (void)dealloc
 {
-    [assetsLibrary release];
     [didFailBlock release];
     [didFinishBlock release];
     
@@ -89,7 +99,6 @@
     if (self)
     {
         oldStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
-        assetsLibrary = [[ALAssetsLibrary alloc] init];
         
         self.shouldChangeStatusBarStyle = shouldChangeStatusBarStyleValue;
         self.navigationBar.barStyle = UIBarStyleBlack;

@@ -62,7 +62,6 @@ typedef void (^AGIPCDidFail)(NSError *error);
 
 @interface AGImagePickerController : UINavigationController
 {
-    ALAssetsLibrary *assetsLibrary;
     id delegate;
     
     BOOL shouldChangeStatusBarStyle;
@@ -78,10 +77,11 @@ typedef void (^AGIPCDidFail)(NSError *error);
 @property (nonatomic, assign) NSUInteger maximumNumberOfPhotos;
 
 @property (nonatomic, assign) id delegate;
-@property (nonatomic, readonly) ALAssetsLibrary *assetsLibrary;
 
 @property (nonatomic, copy) AGIPCDidFail didFailBlock;
 @property (nonatomic, copy) AGIPCDidFinish didFinishBlock;
+
++ (ALAssetsLibrary *)defaultAssetsLibrary;
 
 - (id)initWithDelegate:(id)theDelegate;
 - (id)initWithFailureBlock:(AGIPCDidFail)theFailureBlock andSuccessBlock:(AGIPCDidFinish)theSuccessBlock;

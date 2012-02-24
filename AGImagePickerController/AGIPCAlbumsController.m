@@ -170,7 +170,7 @@
                 [((AGImagePickerController *)self.navigationController) performSelector:@selector(didFail:) withObject:error];
             };	
             
-            [((AGImagePickerController *)self.navigationController).assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAll
+            [[AGImagePickerController defaultAssetsLibrary] enumerateGroupsWithTypes:ALAssetsGroupAll
                                    usingBlock:assetGroupEnumerator 
                                  failureBlock:assetGroupEnumberatorFailure];
             
