@@ -9,6 +9,7 @@
 #import "AGIPCAssetsController.h"
 
 #import "AGImagePickerController.h"
+#import "AGImagePickerController+Constants.h"
 
 #import "AGIPCGridCell.h"
 
@@ -98,14 +99,15 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     double numberOfAssets = (double)self.assetsGroup.numberOfAssets;
-    return ceil(numberOfAssets / 4);
+    return ceil(numberOfAssets / [AGImagePickerController numberOfItemsPerRow]);
 }
 
 - (NSArray *)itemsForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSMutableArray *items = [NSMutableArray arrayWithCapacity:AGIPC_ITEMS_PER_ROW];
+    NSMutableArray *items = [NSMutableArray arrayWithCapacity:[AGImagePickerController numberOfItemsPerRow]];
     
-    NSUInteger startIndex = indexPath.row * AGIPC_ITEMS_PER_ROW, endIndex = startIndex + AGIPC_ITEMS_PER_ROW - 1;
+    NSUInteger startIndex = indexPath.row * [AGImagePickerController numberOfItemsPerRow], 
+                 endIndex = startIndex + [AGImagePickerController numberOfItemsPerRow] - 1;
     if (startIndex < self.assets.count)
     {
         if (endIndex > self.assets.count - 1)
@@ -139,13 +141,23 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (IS_IPAD())
-        return AGIPC_ITEM_HEIGHT_IPAD + AGIPC_ITEM_TOP_MARGIN_IPAD;
-    else
-        return AGIPC_ITEM_HEIGHT_IPHONE + AGIPC_ITEM_TOP_MARGIN_IPHONE;
+    CGRect itemRect = [AGImagePickerController itemRect];
+    return itemRect.size.height + itemRect.origin.y;
 }
 
 #pragma mark - View Lifecycle
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return YES;
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
+    [self reloadData];
+}
 
 - (void)viewWillAppear:(BOOL)animated
 {

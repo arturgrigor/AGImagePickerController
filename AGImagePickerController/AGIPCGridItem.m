@@ -109,16 +109,8 @@ static NSUInteger numberOfSelectedGridItems = 0;
         self.selected = NO;
         self.delegate = theDelegate;
         
-        CGRect frame = CGRectZero, checkmarkFrame = CGRectZero;
-        if (IS_IPAD())
-        {
-            frame = CGRectMake(AGIPC_ITEM_LEFT_MARGIN_IPAD, AGIPC_ITEM_TOP_MARGIN_IPAD, AGIPC_ITEM_WIDTH_IPAD, AGIPC_ITEM_HEIGHT_IPAD);
-            checkmarkFrame = CGRectMake(frame.size.width - AGIPC_CHECKMARK_WIDTH - AGIPC_CHECKMARK_RIGHT_MARGIN_IPAD, frame.size.height - AGIPC_CHECKMARK_HEIGHT - AGIPC_CHECKMARK_BOTTOM_MARGIN_IPAD, AGIPC_CHECKMARK_WIDTH, AGIPC_CHECKMARK_HEIGHT);        }
-        else
-        {
-            frame = CGRectMake(AGIPC_ITEM_LEFT_MARGIN_IPHONE, AGIPC_ITEM_TOP_MARGIN_IPHONE, AGIPC_ITEM_WIDTH_IPHONE, AGIPC_ITEM_HEIGHT_IPHONE);
-            checkmarkFrame = CGRectMake(frame.size.width - AGIPC_CHECKMARK_WIDTH - AGIPC_CHECKMARK_RIGHT_MARGIN_IPHONE, frame.size.height - AGIPC_CHECKMARK_HEIGHT - AGIPC_CHECKMARK_BOTTOM_MARGIN_IPHONE, AGIPC_CHECKMARK_WIDTH, AGIPC_CHECKMARK_HEIGHT);
-        }
+        CGRect frame = [AGImagePickerController itemRect];
+        CGRect checkmarkFrame = [AGImagePickerController checkmarkFrameUsingItemFrame:frame];
         
         self.thumbnailImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
 		self.thumbnailImageView.contentMode = UIViewContentModeScaleToFill;

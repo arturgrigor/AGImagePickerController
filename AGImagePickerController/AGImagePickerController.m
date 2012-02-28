@@ -20,6 +20,7 @@
 //
 
 #import "AGImagePickerController.h"
+#import "AGImagePickerController+Constants.h"
 
 #import "AGIPCAlbumsController.h"
 
@@ -32,6 +33,8 @@
 - (void)didFail:(NSError *)error;
 
 @end
+
+static UIInterfaceOrientation currentInterfaceOrientation;
 
 @implementation AGImagePickerController
 
@@ -68,6 +71,11 @@
     return assetsLibrary;
 }
 
++ (UIInterfaceOrientation)currentInterfaceOrientation
+{
+    return currentInterfaceOrientation;
+}
+
 #pragma mark - Object Lifecycle
 
 - (void)dealloc
@@ -98,6 +106,7 @@
     self = [super init];
     if (self)
     {
+        currentInterfaceOrientation = self.interfaceOrientation;
         oldStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
         
         self.shouldChangeStatusBarStyle = shouldChangeStatusBarStyleValue;
@@ -116,6 +125,13 @@
 }
 
 #pragma mark - View lifecycle
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    currentInterfaceOrientation = toInterfaceOrientation;
+    
+    return YES;
+}
 
 - (void)viewDidLoad
 {

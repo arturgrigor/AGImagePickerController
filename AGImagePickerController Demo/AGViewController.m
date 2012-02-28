@@ -10,6 +10,7 @@
 
 @interface AGViewController (Private)
 
+- (void)centerButtonForInterfaceOrientation:(UIInterfaceOrientation)orientation;
 - (void)openAction:(id)sender;
 
 @end
@@ -25,7 +26,7 @@
     if (openButton == nil)
     {
         openButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-        [openButton setFrame:CGRectMake((self.view.frame.size.width - 72.f) / 2, (self.view.frame.size.height - 37.f) / 2, 72.f, 37.f)];
+        [self centerButtonForInterfaceOrientation:self.interfaceOrientation];
         [openButton setTitle:@"Open" forState:UIControlStateNormal];
         
         [openButton addTarget:self action:@selector(openAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -96,17 +97,34 @@
 	[super viewDidDisappear:animated];
 }
 
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
+    [self centerButtonForInterfaceOrientation:toInterfaceOrientation];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-    } else {
-        return YES;
-    }
+    return YES;
 }
 
 #pragma mark - Private
+
+- (void)centerButtonForInterfaceOrientation:(UIInterfaceOrientation)orientation
+{
+    CGRect bounds = [[UIScreen mainScreen] bounds];
+    CGFloat width = bounds.size.width;
+    CGFloat height = bounds.size.height;
+    
+    if (UIInterfaceOrientationIsLandscape(orientation)) {
+        width = bounds.size.height;
+        height = bounds.size.width;
+    }
+    
+    CGRect frame = CGRectMake((width - 72.f) / 2, (height - 37.f) / 2, 72.f, 37.f);
+    self.openButton.frame = frame;
+}
 
 - (void)openAction:(id)sender
 {

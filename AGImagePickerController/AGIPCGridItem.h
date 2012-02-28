@@ -10,6 +10,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 
 #import "AGImagePickerController.h"
+#import "AGImagePickerController+Constants.h"
 
 @class AGIPCGridItem;
 

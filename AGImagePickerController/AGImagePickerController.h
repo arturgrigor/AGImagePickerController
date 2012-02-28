@@ -22,31 +22,6 @@
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
-#define IS_IPAD()               ([[UIDevice currentDevice] respondsToSelector:@selector(userInterfaceIdiom)] && \
-[[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-
-// Size in points
-#define AGIPC_CHECKMARK_WIDTH                   28.f
-#define AGIPC_CHECKMARK_HEIGHT                  28.f
-
-#define AGIPC_ITEMS_PER_ROW                     4
-
-#define AGIPC_ITEM_WIDTH_IPHONE                 75.f
-#define AGIPC_ITEM_HEIGHT_IPHONE                75.f
-#define AGIPC_ITEM_LEFT_MARGIN_IPHONE           4.f
-#define AGIPC_ITEM_TOP_MARGIN_IPHONE            4.f
-#define AGIPC_CHECKMARK_RIGHT_MARGIN_IPHONE     4.f
-#define AGIPC_CHECKMARK_BOTTOM_MARGIN_IPHONE    4.f
-
-#define AGIPC_ITEM_WIDTH_IPAD                   150.f
-#define AGIPC_ITEM_HEIGHT_IPAD                  150.f
-#define AGIPC_ITEM_LEFT_MARGIN_IPAD             33.f
-#define AGIPC_ITEM_TOP_MARGIN_IPAD              33.f
-#define AGIPC_CHECKMARK_RIGHT_MARGIN_IPAD       8.f
-#define AGIPC_CHECKMARK_BOTTOM_MARGIN_IPAD      8.f
-
-#define SHOULD_CHANGE_STATUS_BAR_STYLE          1
-
 @class AGImagePickerController;
 
 typedef void (^AGIPCDidFinish)(NSArray *info);
@@ -82,6 +57,7 @@ typedef void (^AGIPCDidFail)(NSError *error);
 @property (nonatomic, copy) AGIPCDidFinish didFinishBlock;
 
 + (ALAssetsLibrary *)defaultAssetsLibrary;
++ (UIInterfaceOrientation)currentInterfaceOrientation;
 
 - (id)initWithDelegate:(id)theDelegate;
 - (id)initWithFailureBlock:(AGIPCDidFail)theFailureBlock andSuccessBlock:(AGIPCDidFinish)theSuccessBlock;
