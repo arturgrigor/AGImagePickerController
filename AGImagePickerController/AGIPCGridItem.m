@@ -115,18 +115,18 @@ static NSUInteger numberOfSelectedGridItems = 0;
         CGRect frame = [AGImagePickerController itemRect];
         CGRect checkmarkFrame = [AGImagePickerController checkmarkFrameUsingItemFrame:frame];
         
-        self.thumbnailImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        self.thumbnailImageView = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)] autorelease];
 		self.thumbnailImageView.contentMode = UIViewContentModeScaleToFill;
 		[self addSubview:self.thumbnailImageView];
         
-        self.selectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        self.selectionView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)] autorelease];
         self.selectionView.backgroundColor = [UIColor whiteColor];
         self.selectionView.alpha = .5f;
         self.selectionView.hidden = !self.selected;
         [self addSubview:self.selectionView];
         
         // Position the checkmark image in the bottom right corner
-        self.checkmarkImageView = [[UIImageView alloc] initWithFrame:checkmarkFrame];
+        self.checkmarkImageView = [[[UIImageView alloc] initWithFrame:checkmarkFrame] autorelease];
         if (IS_IPAD())
             self.checkmarkImageView.image = [UIImage imageNamed:@"AGIPC-Checkmark-iPad"];
         else

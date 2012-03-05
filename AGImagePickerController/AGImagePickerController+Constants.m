@@ -59,11 +59,9 @@
 {
     CGRect bounds = [[UIScreen mainScreen] bounds];
     CGFloat width = bounds.size.width;
-    CGFloat height = bounds.size.height;
     
     if (UIInterfaceOrientationIsLandscape([AGImagePickerController currentInterfaceOrientation])) {
         width = bounds.size.height;
-        height = bounds.size.width;
     }
     
     CGFloat x = 0, y = 0;
