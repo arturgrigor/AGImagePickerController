@@ -18,6 +18,7 @@
 		FE1E334214ED167800F6A6A2 /* AGViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE1E334014ED167800F6A6A2 /* AGViewController_iPad.xib */; };
 		FE3850CB1501B8A10053C9DD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = FE3850CA1501B8A10053C9DD /* README.md */; };
 		FE3850CE1501B8D70053C9DD /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = FE3850CD1501B8D70053C9DD /* LICENSE */; };
+		FE3851AF1504CF7B00A9F7F8 /* AGIPCToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3851AE1504CF7B00A9F7F8 /* AGIPCToolbarItem.m */; };
 		FE3BAF8814EE80E7001BF3EC /* AGIPCAssetsController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3BAF8714EE80E7001BF3EC /* AGIPCAssetsController.m */; };
 		FE3BAF8B14EE816E001BF3EC /* AGIPCAssetsController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE3BAF8A14EE816D001BF3EC /* AGIPCAssetsController_iPhone.xib */; };
 		FE3BAF8D14EE817B001BF3EC /* AGIPCAssetsController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE3BAF8C14EE817B001BF3EC /* AGIPCAssetsController_iPad.xib */; };
@@ -51,6 +52,8 @@
 		FE1E334114ED167800F6A6A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AGViewController_iPad.xib; sourceTree = "<group>"; };
 		FE3850CA1501B8A10053C9DD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = SOURCE_ROOT; };
 		FE3850CD1501B8D70053C9DD /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		FE3851AD1504CF7B00A9F7F8 /* AGIPCToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGIPCToolbarItem.h; sourceTree = "<group>"; };
+		FE3851AE1504CF7B00A9F7F8 /* AGIPCToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGIPCToolbarItem.m; sourceTree = "<group>"; };
 		FE3BAF8614EE80E7001BF3EC /* AGIPCAssetsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGIPCAssetsController.h; sourceTree = "<group>"; };
 		FE3BAF8714EE80E7001BF3EC /* AGIPCAssetsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGIPCAssetsController.m; sourceTree = "<group>"; };
 		FE3BAF8A14EE816D001BF3EC /* AGIPCAssetsController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AGIPCAssetsController_iPhone.xib; sourceTree = "<group>"; };
@@ -162,6 +165,8 @@
 				FECDC90014EDB9C30038006D /* AGIPCGridCell.m */,
 				FECDC90314EDBB690038006D /* AGIPCGridItem.h */,
 				FECDC90414EDBB690038006D /* AGIPCGridItem.m */,
+				FE3851AD1504CF7B00A9F7F8 /* AGIPCToolbarItem.h */,
+				FE3851AE1504CF7B00A9F7F8 /* AGIPCToolbarItem.m */,
 				FE3850CD1501B8D70053C9DD /* LICENSE */,
 				FECDC90614EDC1BC0038006D /* Resources */,
 			);
@@ -260,6 +265,7 @@
 				FECDC90514EDBB690038006D /* AGIPCGridItem.m in Sources */,
 				FE3BAF8814EE80E7001BF3EC /* AGIPCAssetsController.m in Sources */,
 				FE6E796214FCDC8A006612F0 /* AGImagePickerController+Constants.m in Sources */,
+				FE3851AF1504CF7B00A9F7F8 /* AGIPCToolbarItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

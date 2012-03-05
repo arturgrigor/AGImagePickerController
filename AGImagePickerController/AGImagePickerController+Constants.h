@@ -1,6 +1,6 @@
 //
 //  AGImagePickerController+Constants.h
-//  AGImagePickerController Demo
+//  AGImagePickerController
 //
 //  Created by Artur Grigor on 28.02.2012.
 //  Copyright (c) 2012 Artur Grigor. All rights reserved.

@@ -15,6 +15,7 @@
 #import "AGImagePickerController+Constants.h"
 
 #import "AGIPCGridCell.h"
+#import "AGIPCToolbarItem.h"
 
 @interface AGIPCAssetsController ()
 
@@ -25,14 +26,19 @@
 
 @interface AGIPCAssetsController (Private)
 
+- (BOOL)toolbarHidden;
+
 - (void)loadAssets;
 - (void)reloadData;
+
+- (void)setupToolbarItems;
 
 - (NSArray *)itemsForRowAtIndexPath:(NSIndexPath *)indexPath;
 
 - (void)doneAction:(id)sender;
 - (void)selectAllAction:(id)sender;
 - (void)deselectAllAction:(id)sender;
+- (void)customBarButtonItemAction:(id)sender;
 
 @end
 
@@ -41,6 +47,15 @@
 #pragma mark - Properties
 
 @synthesize tableView, assetsGroup, assets;
+
+- (BOOL)toolbarHidden
+{
+    if (((AGImagePickerController *)self.navigationController).toolbarItemsForSelection != nil) {
+        return !(((AGImagePickerController *)self.navigationController).toolbarItemsForSelection.count > 0);
+    } else {
+        return NO;
+    }
+}
 
 - (void)setAssetsGroup:(ALAssetsGroup *)theAssetsGroup
 {
@@ -169,7 +184,7 @@
     
     [super viewWillAppear:animated];
     
-    [self.navigationController setToolbarHidden:NO animated:YES];
+    [self.navigationController setToolbarHidden:[self toolbarHidden] animated:YES];
 }
 
 -(void)viewDidLoad
@@ -184,21 +199,45 @@
 	self.navigationItem.rightBarButtonItem = doneButtonItem;
     [doneButtonItem release];
     
-    // Toolbar Items
-    UIBarButtonItem *selectAll = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"AGIPC.SelectAll", nil, [NSBundle mainBundle], @"Select All", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(selectAllAction:)];
-    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *deselectAll = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"AGIPC.DeselectAll", nil, [NSBundle mainBundle], @"Deselect All", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(deselectAllAction:)];
-    
-    NSArray *toolbarItems = [[NSArray alloc] initWithObjects:selectAll, flexibleSpace, deselectAll, nil];
-    self.toolbarItems = toolbarItems;
-    [toolbarItems release];
-    
-    [selectAll release];
-    [flexibleSpace release];
-    [deselectAll release];
+    // Setup toolbar items
+    [self setupToolbarItems];
 }
 
 #pragma mark - Private
+
+- (void)setupToolbarItems
+{
+    if (((AGImagePickerController *)self.navigationController).toolbarItemsForSelection != nil)
+    {
+        NSMutableArray *items = [NSMutableArray array];
+        
+        // Custom Toolbar Items
+        for (id item in ((AGImagePickerController *)self.navigationController).toolbarItemsForSelection)
+        {
+            NSAssert([item isKindOfClass:[AGIPCToolbarItem class]], @"Item is not a instance of AGIPCToolbarItem.");
+            
+            ((AGIPCToolbarItem *)item).barButtonItem.target = self;
+            ((AGIPCToolbarItem *)item).barButtonItem.action = @selector(customBarButtonItemAction:);
+            
+            [items addObject:((AGIPCToolbarItem *)item).barButtonItem];
+        }
+        
+        self.toolbarItems = items;
+    } else {
+        // Standard Toolbar Items
+        UIBarButtonItem *selectAll = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"AGIPC.SelectAll", nil, [NSBundle mainBundle], @"Select All", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(selectAllAction:)];
+        UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        UIBarButtonItem *deselectAll = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"AGIPC.DeselectAll", nil, [NSBundle mainBundle], @"Deselect All", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(deselectAllAction:)];
+        
+        NSArray *toolbarItems = [[NSArray alloc] initWithObjects:selectAll, flexibleSpace, deselectAll, nil];
+        self.toolbarItems = toolbarItems;
+        [toolbarItems release];
+        
+        [selectAll release];
+        [flexibleSpace release];
+        [deselectAll release];
+    }
+}
 
 - (void)loadAssets
 {
@@ -249,6 +288,23 @@
 {
     for (AGIPCGridItem *gridItem in self.assets) {
         gridItem.selected = NO;
+    }
+}
+
+- (void)customBarButtonItemAction:(id)sender
+{
+    for (id item in ((AGImagePickerController *)self.navigationController).toolbarItemsForSelection)
+    {
+        NSAssert([item isKindOfClass:[AGIPCToolbarItem class]], @"Item is not a instance of AGIPCToolbarItem.");
+        
+        if (((AGIPCToolbarItem *)item).barButtonItem == sender)
+        {
+            if (((AGIPCToolbarItem *)item).assetIsSelectedBlock) {
+                [self.assets enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    ((AGIPCGridItem *)obj).selected = ((AGIPCToolbarItem *)item).assetIsSelectedBlock(idx, ((AGIPCGridItem *)obj).asset);
+                }];
+            }
+        }
     }
 }
 

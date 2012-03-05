@@ -8,6 +8,8 @@
 
 #import "AGViewController.h"
 
+#import "AGIPCToolbarItem.h"
+
 @interface AGViewController (Private)
 
 - (void)centerButtonForInterfaceOrientation:(UIInterfaceOrientation)orientation;
@@ -152,6 +154,25 @@
         
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     }];
+    
+    // Custom toolbar items
+    AGIPCToolbarItem *selectAll = [[AGIPCToolbarItem alloc] initWithBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:@"+ Select All" style:UIBarButtonItemStyleBordered target:nil action:nil] autorelease] andSelectionBlock:^BOOL(NSUInteger index, ALAsset *asset) {
+        return YES;
+    }];
+    AGIPCToolbarItem *flexible = [[AGIPCToolbarItem alloc] initWithBarButtonItem:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease] andSelectionBlock:nil]; 
+    AGIPCToolbarItem *selectOdd = [[AGIPCToolbarItem alloc] initWithBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:@"+ Select Odd" style:UIBarButtonItemStyleBordered target:nil action:nil] autorelease] andSelectionBlock:^BOOL(NSUInteger index, ALAsset *asset) {
+        return !(index % 2);
+    }];
+    AGIPCToolbarItem *deselectAll = [[AGIPCToolbarItem alloc] initWithBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:@"- Deselect All" style:UIBarButtonItemStyleBordered target:nil action:nil] autorelease] andSelectionBlock:^BOOL(NSUInteger index, ALAsset *asset) {
+        return NO;
+    }];  
+    imagePickerController.toolbarItemsForSelection = [NSArray arrayWithObjects:selectAll, flexible, selectOdd, flexible, deselectAll, nil];
+//    imagePickerController.toolbarItemsForSelection = [NSArray array];
+    [selectOdd release];
+    [flexible release];
+    [selectAll release];
+    [deselectAll release];
+    
     imagePickerController.maximumNumberOfPhotos = 3;
     [self presentModalViewController:imagePickerController animated:YES];
     [imagePickerController release];

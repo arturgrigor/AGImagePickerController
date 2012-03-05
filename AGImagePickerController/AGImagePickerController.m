@@ -13,7 +13,6 @@
 #import "AGImagePickerController+Constants.h"
 
 #import "AGIPCAlbumsController.h"
-
 #import "AGIPCGridItem.h"
 
 @interface AGImagePickerController (Private)
@@ -33,6 +32,8 @@ static UIInterfaceOrientation currentInterfaceOrientation;
 @synthesize delegate, maximumNumberOfPhotos, shouldChangeStatusBarStyle;
 
 @synthesize didFailBlock, didFinishBlock;
+
+@synthesize toolbarItemsForSelection;
 
 - (void)setShouldChangeStatusBarStyle:(BOOL)theShouldChangeStatusBarStyle
 {
@@ -70,6 +71,8 @@ static UIInterfaceOrientation currentInterfaceOrientation;
 
 - (void)dealloc
 {
+    [toolbarItemsForSelection release];
+    
     [didFailBlock release];
     [didFinishBlock release];
     
@@ -78,20 +81,20 @@ static UIInterfaceOrientation currentInterfaceOrientation;
 
 - (id)init
 {
-    return [self initWithDelegate:nil failureBlock:nil successBlock:nil maximumNumberOfPhotos:0 andShouldChangeStatusBarStyle:SHOULD_CHANGE_STATUS_BAR_STYLE];
+    return [self initWithDelegate:nil failureBlock:nil successBlock:nil maximumNumberOfPhotos:0 shouldChangeStatusBarStyle:SHOULD_CHANGE_STATUS_BAR_STYLE andToolbarItemsForSelection:nil];
 }
 
 - (id)initWithDelegate:(id)theDelegate
 {
-    return [self initWithDelegate:theDelegate failureBlock:nil successBlock:nil maximumNumberOfPhotos:0 andShouldChangeStatusBarStyle:SHOULD_CHANGE_STATUS_BAR_STYLE];
+    return [self initWithDelegate:theDelegate failureBlock:nil successBlock:nil maximumNumberOfPhotos:0 shouldChangeStatusBarStyle:SHOULD_CHANGE_STATUS_BAR_STYLE andToolbarItemsForSelection:nil];
 }
 
 - (id)initWithFailureBlock:(AGIPCDidFail)theFailureBlock andSuccessBlock:(AGIPCDidFinish)theSuccessBlock
 {
-    return [self initWithDelegate:nil failureBlock:theFailureBlock successBlock:theSuccessBlock maximumNumberOfPhotos:0 andShouldChangeStatusBarStyle:SHOULD_CHANGE_STATUS_BAR_STYLE];
+    return [self initWithDelegate:nil failureBlock:theFailureBlock successBlock:theSuccessBlock maximumNumberOfPhotos:0 shouldChangeStatusBarStyle:SHOULD_CHANGE_STATUS_BAR_STYLE andToolbarItemsForSelection:nil];
 }
 
-- (id)initWithDelegate:(id)theDelegate failureBlock:(AGIPCDidFail)theFailureBlock successBlock:(AGIPCDidFinish)theSuccessBlock maximumNumberOfPhotos:(NSUInteger)theMaximumNumberOfPhotos andShouldChangeStatusBarStyle:(BOOL)shouldChangeStatusBarStyleValue
+- (id)initWithDelegate:(id)theDelegate failureBlock:(AGIPCDidFail)theFailureBlock successBlock:(AGIPCDidFinish)theSuccessBlock maximumNumberOfPhotos:(NSUInteger)theMaximumNumberOfPhotos shouldChangeStatusBarStyle:(BOOL)shouldChangeStatusBarStyleValue andToolbarItemsForSelection:(NSArray *)theToolbarItemsForSelection
 {
     self = [super init];
     if (self)
@@ -105,6 +108,7 @@ static UIInterfaceOrientation currentInterfaceOrientation;
         self.toolbar.barStyle = UIBarStyleBlack;
         self.toolbar.translucent = YES;
         
+        self.toolbarItemsForSelection = theToolbarItemsForSelection;
         self.maximumNumberOfPhotos = theMaximumNumberOfPhotos;
         self.delegate = theDelegate;
         self.didFailBlock = theFailureBlock;

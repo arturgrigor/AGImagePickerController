@@ -36,22 +36,26 @@ typedef void (^AGIPCDidFail)(NSError *error);
     AGIPCDidFail didFailBlock;
     
     NSUInteger maximumNumberOfPhotos;
+    
+    NSArray *toolbarItemsForSelection;
 }
 
 @property (nonatomic, assign) BOOL shouldChangeStatusBarStyle;
-@property (nonatomic, assign) NSUInteger maximumNumberOfPhotos;
+@property NSUInteger maximumNumberOfPhotos;
 
 @property (nonatomic, assign) id delegate;
 
-@property (nonatomic, copy) AGIPCDidFail didFailBlock;
-@property (nonatomic, copy) AGIPCDidFinish didFinishBlock;
+@property (copy) AGIPCDidFail didFailBlock;
+@property (copy) AGIPCDidFinish didFinishBlock;
+
+@property (retain) NSArray *toolbarItemsForSelection; 
 
 + (ALAssetsLibrary *)defaultAssetsLibrary;
 + (UIInterfaceOrientation)currentInterfaceOrientation;
 
 - (id)initWithDelegate:(id)theDelegate;
 - (id)initWithFailureBlock:(AGIPCDidFail)theFailureBlock andSuccessBlock:(AGIPCDidFinish)theSuccessBlock;
-- (id)initWithDelegate:(id)theDelegate failureBlock:(AGIPCDidFail)theFailureBlock successBlock:(AGIPCDidFinish)theSuccessBlock maximumNumberOfPhotos:(NSUInteger)theMaximumNumberOfPhotos andShouldChangeStatusBarStyle:(BOOL)shouldChangeStatusBarStyleValue;
+- (id)initWithDelegate:(id)theDelegate failureBlock:(AGIPCDidFail)theFailureBlock successBlock:(AGIPCDidFinish)theSuccessBlock maximumNumberOfPhotos:(NSUInteger)theMaximumNumberOfPhotos shouldChangeStatusBarStyle:(BOOL)shouldChangeStatusBarStyleValue andToolbarItemsForSelection:(NSArray *)theToolbarItemsForSelection;
 
 @end
 
