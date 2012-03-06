@@ -57,6 +57,9 @@ static UIInterfaceOrientation currentInterfaceOrientation;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         assetsLibrary = [[ALAssetsLibrary alloc] init];
+        
+        // Workaround for triggering ALAssetsLibraryChangedNotification
+        [assetsLibrary writeImageToSavedPhotosAlbum:nil metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) { }];
     });
     
     return assetsLibrary;

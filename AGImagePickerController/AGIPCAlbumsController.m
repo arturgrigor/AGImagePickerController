@@ -22,6 +22,11 @@
 
 @interface AGIPCAlbumsController (Private)
 
+- (void)createNotifications;
+- (void)destroyNotifications;
+
+- (void)didChangeLibrary:(NSNotification *)notification;
+
 - (void)loadAssetsGroups;
 - (void)reloadData;
 
@@ -60,7 +65,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-
+        
     }
     
     return self;
@@ -87,6 +92,9 @@
 {
     [super viewDidLoad];
     
+    // Setup Notifications
+    [self createNotifications];
+    
     // Navigation Bar Items
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction:)];
 	self.navigationItem.leftBarButtonItem = cancelButton;
@@ -96,7 +104,9 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    
+    // Destroy Notifications
+    [self destroyNotifications];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -162,7 +172,7 @@
                 
                 [self.assetsGroups addObject:group];
                 
-                dispatch_sync(dispatch_get_main_queue(), ^{
+                dispatch_async(dispatch_get_main_queue(), ^{
                     [self reloadData];
                 });
             };
@@ -190,6 +200,28 @@
 - (void)cancelAction:(id)sender
 {
     [((AGImagePickerController *)self.navigationController) performSelector:@selector(didCancelPickingAssets)];
+}
+
+#pragma mark - Notifications
+
+- (void)createNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(didChangeLibrary:) 
+                                                 name:ALAssetsLibraryChangedNotification 
+                                               object:[AGImagePickerController defaultAssetsLibrary]];
+}
+
+- (void)destroyNotifications
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self 
+                                                    name:ALAssetsLibraryChangedNotification 
+                                                  object:[AGImagePickerController defaultAssetsLibrary]];
+}
+
+- (void)didChangeLibrary:(NSNotification *)notification
+{
+    [self loadAssetsGroups];
 }
 
 @end

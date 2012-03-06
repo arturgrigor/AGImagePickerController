@@ -26,6 +26,11 @@
 
 @interface AGIPCAssetsController (Private)
 
+- (void)createNotifications;
+- (void)destroyNotifications;
+
+- (void)didChangeLibrary:(NSNotification *)notification;
+
 - (BOOL)toolbarHidden;
 
 - (void)loadAssets;
@@ -187,10 +192,14 @@
     [self.navigationController setToolbarHidden:[self toolbarHidden] animated:YES];
 }
 
--(void)viewDidLoad
+- (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    // Setup Notifications
+    [self createNotifications];
+    
+    // Start loading the assets
     [self loadAssets];
     
     // Navigation Bar Items
@@ -201,6 +210,14 @@
     
     // Setup toolbar items
     [self setupToolbarItems];
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    
+    // Destroy Notifications
+    [self destroyNotifications];
 }
 
 #pragma mark - Private
@@ -323,6 +340,28 @@
         return ([AGIPCGridItem numberOfSelections] < ((AGImagePickerController *)self.navigationController).maximumNumberOfPhotos);
     else
         return YES;
+}
+
+#pragma mark - Notifications
+
+- (void)createNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(didChangeLibrary:) 
+                                                 name:ALAssetsLibraryChangedNotification 
+                                               object:[AGImagePickerController defaultAssetsLibrary]];
+}
+
+- (void)destroyNotifications
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self 
+                                                    name:ALAssetsLibraryChangedNotification 
+                                                  object:[AGImagePickerController defaultAssetsLibrary]];
+}
+
+- (void)didChangeLibrary:(NSNotification *)notification
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end
