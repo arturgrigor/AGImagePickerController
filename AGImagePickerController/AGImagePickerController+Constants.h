@@ -15,6 +15,7 @@
 [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 
 #define SHOULD_CHANGE_STATUS_BAR_STYLE                      1
+#define SHOULD_DISPLAY_SELECTION_INFO                       1
 
 // Size in points
 #define AGIPC_CHECKMARK_WIDTH                               28.f

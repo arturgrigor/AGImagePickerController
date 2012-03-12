@@ -26,6 +26,8 @@
 
 @interface AGIPCAssetsController (Private)
 
+- (void)changeSelectionInformation;
+
 - (void)createNotifications;
 - (void)destroyNotifications;
 
@@ -188,13 +190,18 @@
     [AGIPCGridItem performSelector:@selector(resetNumberOfSelections)];
     
     [super viewWillAppear:animated];
-    
+
     [self.navigationController setToolbarHidden:[self toolbarHidden] animated:YES];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // Fullscreen
+    if (((AGImagePickerController *)self.navigationController).shouldChangeStatusBarStyle) {
+        self.wantsFullScreenLayout = YES;
+    }
     
     // Setup Notifications
     [self createNotifications];
@@ -286,7 +293,8 @@
 - (void)reloadData
 {
     [self.tableView reloadData];
-    self.title = [NSString stringWithFormat:@"%@ (%d/%d)", NSLocalizedStringWithDefaultValue(@"AGIPC.PickPhotos", nil, [NSBundle mainBundle], @"Pick Photos", nil), [AGIPCGridItem numberOfSelections], self.assets.count];
+    [self setTitle:[self.assetsGroup valueForProperty:ALAssetsGroupPropertyName]];
+    [self changeSelectionInformation];
 }
 
 - (void)doneAction:(id)sender
@@ -325,13 +333,19 @@
     }
 }
 
+- (void)changeSelectionInformation
+{
+    if (((AGImagePickerController *)self.navigationController).shouldDisplaySelectionInformation) {
+        self.navigationController.navigationBar.topItem.prompt = [NSString stringWithFormat:@"(%d/%d)", [AGIPCGridItem numberOfSelections], self.assets.count];
+    }
+}
+
 #pragma mark - AGGridItemDelegate Methods
 
 - (void)agGridItem:(AGIPCGridItem *)gridItem didChangeNumberOfSelections:(NSNumber *)numberOfSelections
 {
     self.navigationItem.rightBarButtonItem.enabled = (numberOfSelections.unsignedIntegerValue > 0);
-    
-    self.title = [NSString stringWithFormat:@"%@ (%d/%d)", NSLocalizedStringWithDefaultValue(@"AGIPC.PickPhotos", nil, [NSBundle mainBundle], @"Pick Photos", nil), [AGIPCGridItem numberOfSelections], self.assets.count];
+    [self changeSelectionInformation];
 }
 
 - (BOOL)agGridItemCanSelect:(AGIPCGridItem *)gridItem

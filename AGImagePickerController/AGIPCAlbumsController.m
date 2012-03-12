@@ -92,6 +92,11 @@
 {
     [super viewDidLoad];
     
+    // Fullscreen
+    if (((AGImagePickerController *)self.navigationController).shouldChangeStatusBarStyle) {
+        self.wantsFullScreenLayout = YES;
+    }
+    
     // Setup Notifications
     [self createNotifications];
     
@@ -128,14 +133,15 @@
     
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
     }
     
     ALAssetsGroup *group = [self.assetsGroups objectAtIndex:indexPath.row];
     [group setAssetsFilter:[ALAssetsFilter allPhotos]];
     NSUInteger numberOfAssets = group.numberOfAssets;
     
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ (%d)",[group valueForProperty:ALAssetsGroupPropertyName], numberOfAssets];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@", [group valueForProperty:ALAssetsGroupPropertyName]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", numberOfAssets];
     [cell.imageView setImage:[UIImage imageWithCGImage:[(ALAssetsGroup*)[assetsGroups objectAtIndex:indexPath.row] posterImage]]];
 	[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 	
@@ -151,6 +157,11 @@
 	AGIPCAssetsController *controller = [[AGIPCAssetsController alloc] initWithAssetsGroup:[self.assetsGroups objectAtIndex:indexPath.row]];
 	[self.navigationController pushViewController:controller animated:YES];
 	[controller release];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{	
+	return 57;
 }
 
 #pragma mark - Private
@@ -194,7 +205,7 @@
 - (void)reloadData
 {
     [self.tableView reloadData];
-    self.title = NSLocalizedStringWithDefaultValue(@"AGIPC.SelectAlbum", nil, [NSBundle mainBundle], @"Select an Album", nil);
+    self.title = NSLocalizedStringWithDefaultValue(@"AGIPC.Albums", nil, [NSBundle mainBundle], @"Albums", nil);
 }
 
 - (void)cancelAction:(id)sender
