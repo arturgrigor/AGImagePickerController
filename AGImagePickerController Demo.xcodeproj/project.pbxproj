@@ -33,6 +33,8 @@
 		FEA599E814ED38EE0057FF9C /* AGIPCAlbumsController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA599E714ED38ED0057FF9C /* AGIPCAlbumsController.m */; };
 		FECDC90114EDB9C30038006D /* AGIPCGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FECDC90014EDB9C30038006D /* AGIPCGridCell.m */; };
 		FECDC90514EDBB690038006D /* AGIPCGridItem.m in Sources */ = {isa = PBXBuildFile; fileRef = FECDC90414EDBB690038006D /* AGIPCGridItem.m */; };
+		FEF247F2150DF461008FEFAD /* AGImagePickerController-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FEF247F1150DF461008FEFAD /* AGImagePickerController-icon.png */; };
+		FEF247F5150DF463008FEFAD /* AGImagePickerController-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEF247F4150DF463008FEFAD /* AGImagePickerController-icon@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +76,8 @@
 		FECDC90014EDB9C30038006D /* AGIPCGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGIPCGridCell.m; sourceTree = "<group>"; };
 		FECDC90314EDBB690038006D /* AGIPCGridItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGIPCGridItem.h; sourceTree = "<group>"; };
 		FECDC90414EDBB690038006D /* AGIPCGridItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGIPCGridItem.m; sourceTree = "<group>"; };
+		FEF247F1150DF461008FEFAD /* AGImagePickerController-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "AGImagePickerController-icon.png"; path = "../AGImagePickerController-icon.png"; sourceTree = "<group>"; };
+		FEF247F4150DF463008FEFAD /* AGImagePickerController-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "AGImagePickerController-icon@2x.png"; path = "../AGImagePickerController-icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +141,8 @@
 		FE1E332F14ED167800F6A6A2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FEF247F4150DF463008FEFAD /* AGImagePickerController-icon@2x.png */,
+				FEF247F1150DF461008FEFAD /* AGImagePickerController-icon.png */,
 				FE3850CA1501B8A10053C9DD /* README.md */,
 				FE1E333014ED167800F6A6A2 /* AGImagePickerController Demo-Info.plist */,
 				FE1E333114ED167800F6A6A2 /* InfoPlist.strings */,
@@ -246,6 +252,8 @@
 				FE87075A14F277A3001CF32C /* AGIPC-Checkmark-iPhone@2x.png in Resources */,
 				FE3850CB1501B8A10053C9DD /* README.md in Resources */,
 				FE3850CE1501B8D70053C9DD /* LICENSE in Resources */,
+				FEF247F2150DF461008FEFAD /* AGImagePickerController-icon.png in Resources */,
+				FEF247F5150DF463008FEFAD /* AGImagePickerController-icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
