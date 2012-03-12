@@ -31,53 +31,87 @@ static NSUInteger numberOfSelectedGridItems = 0;
 
 - (void)setSelected:(BOOL)isSelected
 {
-    if (selected != isSelected)
+    @synchronized (self)
     {
-        if (isSelected) {
-            // Check if we can select
-            if ([self.delegate respondsToSelector:@selector(agGridItemCanSelect:)])
-            {
-                if (![self.delegate agGridItemCanSelect:self])
-                    return;
+        if (selected != isSelected)
+        {
+            if (isSelected) {
+                // Check if we can select
+                if ([self.delegate respondsToSelector:@selector(agGridItemCanSelect:)])
+                {
+                    if (![self.delegate agGridItemCanSelect:self])
+                        return;
+                }
             }
-        }
-        
-        selected = isSelected;
-        
-        self.selectionView.hidden = !selected;
-        self.checkmarkImageView.hidden = !selected;
-        
-        if (selected)
-        {
-            numberOfSelectedGridItems++;
-        }
-        else
-        {
-            if (numberOfSelectedGridItems > 0)
-                numberOfSelectedGridItems--;
-        }
-        
-        if ([self.delegate respondsToSelector:@selector(agGridItem:didChangeSelectionState:)])
-        {
-            [self.delegate performSelector:@selector(agGridItem:didChangeSelectionState:) withObject:self withObject:[NSNumber numberWithBool:selected]];
-        }
-        
-        if ([self.delegate respondsToSelector:@selector(agGridItem:didChangeNumberOfSelections:)])
-        {
-            [self.delegate performSelector:@selector(agGridItem:didChangeNumberOfSelections:) withObject:self withObject:[NSNumber numberWithUnsignedInteger:numberOfSelectedGridItems]];
+            
+            selected = isSelected;
+            
+            self.selectionView.hidden = !selected;
+            self.checkmarkImageView.hidden = !selected;
+            
+            if (selected)
+            {
+                numberOfSelectedGridItems++;
+            }
+            else
+            {
+                if (numberOfSelectedGridItems > 0)
+                    numberOfSelectedGridItems--;
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+               
+                if ([self.delegate respondsToSelector:@selector(agGridItem:didChangeSelectionState:)])
+                {
+                    [self.delegate performSelector:@selector(agGridItem:didChangeSelectionState:) withObject:self withObject:[NSNumber numberWithBool:selected]];
+                }
+                
+                if ([self.delegate respondsToSelector:@selector(agGridItem:didChangeNumberOfSelections:)])
+                {
+                    [self.delegate performSelector:@selector(agGridItem:didChangeNumberOfSelections:) withObject:self withObject:[NSNumber numberWithUnsignedInteger:numberOfSelectedGridItems]];
+                }
+                
+            });
         }
     }
 }
 
+- (BOOL)selected
+{
+    BOOL ret;
+    
+    @synchronized (self)
+    {
+        ret = selected;
+    }
+    
+    return ret;
+}
+
 - (void)setAsset:(ALAsset *)theAsset
 {
-    if (asset != theAsset)
+    @synchronized (self)
     {
-        [asset release];
-        asset = [theAsset retain];
-        
-        self.thumbnailImageView.image = [UIImage imageWithCGImage:asset.thumbnail];
+        if (asset != theAsset)
+        {
+            [asset release];
+            asset = [theAsset retain];
+            
+            self.thumbnailImageView.image = [UIImage imageWithCGImage:asset.thumbnail];
+        }
     }
+}
+
+- (ALAsset *)asset
+{
+    ALAsset *ret = nil;
+    
+    @synchronized (self)
+    {
+        ret = [[asset retain] autorelease];
+    }
+    
+    return ret;
 }
 
 #pragma mark - Object Lifecycle

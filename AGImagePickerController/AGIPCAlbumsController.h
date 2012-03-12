@@ -18,6 +18,6 @@
     UITableView *tableView;
 }
 
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
+@property (retain) IBOutlet UITableView *tableView;
 
 @end

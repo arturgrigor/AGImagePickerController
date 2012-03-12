@@ -22,10 +22,10 @@
     NSMutableArray *assets;
 }
 
-@property (nonatomic, retain) ALAssetsGroup *assetsGroup;
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
+@property (retain) ALAssetsGroup *assetsGroup;
+@property (retain) IBOutlet UITableView *tableView;
 
-@property (nonatomic, readonly) NSArray *selectedAssets;
+@property (readonly) NSArray *selectedAssets;
 
 - (id)initWithAssetsGroup:(ALAssetsGroup *)theAssetsGroup;
 

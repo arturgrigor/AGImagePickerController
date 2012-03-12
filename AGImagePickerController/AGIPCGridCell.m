@@ -23,16 +23,31 @@
 
 - (void)setItems:(NSArray *)theItems
 {
-    if (items != theItems)
+    @synchronized (self)
     {
-        for (UIView *view in [self subviews]) 
-        {		
-            [view removeFromSuperview];
+        if (items != theItems)
+        {
+            for (UIView *view in [self subviews]) 
+            {		
+                [view removeFromSuperview];
+            }
+            
+            [items release];
+            items = [theItems retain];
         }
-        
-        [items release];
-        items = [theItems retain];
     }
+}
+
+- (NSArray *)items
+{
+    NSArray *array = nil;
+    
+    @synchronized (self)
+    {
+        array = [[items retain] autorelease];
+    }
+    
+    return array;
 }
 
 #pragma mark - Object Lifecycle

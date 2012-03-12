@@ -41,8 +41,8 @@ typedef void (^AGIPCDidFail)(NSError *error);
     NSArray *toolbarItemsForSelection;
 }
 
-@property (nonatomic, assign) BOOL shouldChangeStatusBarStyle;
-@property (nonatomic, assign) BOOL shouldDisplaySelectionInformation;
+@property (assign) BOOL shouldChangeStatusBarStyle;
+@property (assign) BOOL shouldDisplaySelectionInformation;
 @property NSUInteger maximumNumberOfPhotos;
 
 @property (nonatomic, assign) id delegate;

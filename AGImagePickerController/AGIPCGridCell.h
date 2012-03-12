@@ -18,6 +18,6 @@
 
 - (id)initWithItems:(NSArray *)theItems reuseIdentifier:(NSString *)theIdentifier;
 
-@property (nonatomic, retain) NSArray *items;
+@property (retain) NSArray *items;
 
 @end

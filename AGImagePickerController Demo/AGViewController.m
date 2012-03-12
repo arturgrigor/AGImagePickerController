@@ -173,7 +173,7 @@
     [selectAll release];
     [deselectAll release];
     
-    imagePickerController.maximumNumberOfPhotos = 3;
+//    imagePickerController.maximumNumberOfPhotos = 3;
     [self presentModalViewController:imagePickerController animated:YES];
     [imagePickerController release];
 }

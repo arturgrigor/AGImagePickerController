@@ -38,8 +38,8 @@
     id<AGIPCGridItemDelegate> delegate;
 }
 
-@property (nonatomic, assign) BOOL selected;
-@property (nonatomic, retain) ALAsset *asset;
+@property (assign) BOOL selected;
+@property (retain) ALAsset *asset;
 
 @property (nonatomic, assign) id<AGIPCGridItemDelegate> delegate;
 

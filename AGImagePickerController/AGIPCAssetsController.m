@@ -66,14 +66,29 @@
 
 - (void)setAssetsGroup:(ALAssetsGroup *)theAssetsGroup
 {
-    if (assetsGroup != theAssetsGroup)
+    @synchronized (self)
     {
-        [assetsGroup release];
-        assetsGroup = [theAssetsGroup retain];
-        [assetsGroup setAssetsFilter:[ALAssetsFilter allPhotos]];
+        if (assetsGroup != theAssetsGroup)
+        {
+            [assetsGroup release];
+            assetsGroup = [theAssetsGroup retain];
+            [assetsGroup setAssetsFilter:[ALAssetsFilter allPhotos]];
 
-        [self reloadData];
+            [self reloadData];
+        }
     }
+}
+
+- (ALAssetsGroup *)assetsGroup
+{
+    ALAssetsGroup *ret = nil;
+    
+    @synchronized (self)
+    {
+        ret = [[assetsGroup retain] autorelease];
+    }
+    
+    return ret;
 }
 
 - (NSArray *)selectedAssets
@@ -190,8 +205,6 @@
     [AGIPCGridItem performSelector:@selector(resetNumberOfSelections)];
     
     [super viewWillAppear:animated];
-
-    [self.navigationController setToolbarHidden:[self toolbarHidden] animated:YES];
 }
 
 - (void)viewDidLoad
@@ -267,23 +280,27 @@
 {
     [self.assets removeAllObjects];
     
+    __block AGIPCAssetsController *blockSelf = self;
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         
-        [self.assetsGroup enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
-            
-            if (result == nil) 
-            {
-                return;
-            }
-            
-            AGIPCGridItem *gridItem = [[AGIPCGridItem alloc] initWithAsset:result andDelegate:self];
-            [self.assets addObject:gridItem];
-            [gridItem release];
-        }];
+        @autoreleasepool {
+            [blockSelf.assetsGroup enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
+                
+                if (result == nil) 
+                {
+                    return;
+                }
+                
+                AGIPCGridItem *gridItem = [[AGIPCGridItem alloc] initWithAsset:result andDelegate:blockSelf];
+                [blockSelf.assets addObject:gridItem];
+                [gridItem release];
+            }];
+        }
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            [self reloadData];
+            [blockSelf reloadData];
             
         });
         
@@ -292,6 +309,9 @@
 
 - (void)reloadData
 {
+    // Don't display the select button until all the assets are loaded.
+    [self.navigationController setToolbarHidden:[self toolbarHidden] animated:YES];
+    
     [self.tableView reloadData];
     [self setTitle:[self.assetsGroup valueForProperty:ALAssetsGroupPropertyName]];
     [self changeSelectionInformation];
@@ -325,9 +345,13 @@
         if (((AGIPCToolbarItem *)item).barButtonItem == sender)
         {
             if (((AGIPCToolbarItem *)item).assetIsSelectedBlock) {
-                [self.assets enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                    ((AGIPCGridItem *)obj).selected = ((AGIPCToolbarItem *)item).assetIsSelectedBlock(idx, ((AGIPCGridItem *)obj).asset);
-                }];
+                
+                NSUInteger idx = 0;
+                for (AGIPCGridItem *obj in self.assets) {
+                    obj.selected = ((AGIPCToolbarItem *)item).assetIsSelectedBlock(idx, ((AGIPCGridItem *)obj).asset);
+                    idx++;
+                }
+                
             }
         }
     }

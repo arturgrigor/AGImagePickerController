@@ -37,18 +37,33 @@ static UIInterfaceOrientation currentInterfaceOrientation;
 
 - (void)setShouldChangeStatusBarStyle:(BOOL)theShouldChangeStatusBarStyle
 {
-    if (shouldChangeStatusBarStyle != theShouldChangeStatusBarStyle)
+    @synchronized (self)
     {
-        shouldChangeStatusBarStyle = theShouldChangeStatusBarStyle;
-        
-        if (shouldChangeStatusBarStyle)
-            if (IS_IPAD())
-                [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
+        if (shouldChangeStatusBarStyle != theShouldChangeStatusBarStyle)
+        {
+            shouldChangeStatusBarStyle = theShouldChangeStatusBarStyle;
+            
+            if (shouldChangeStatusBarStyle)
+                if (IS_IPAD())
+                    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
+                else
+                    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
             else
-                [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
-        else
-            [[UIApplication sharedApplication] setStatusBarStyle:oldStatusBarStyle animated:YES];
+                [[UIApplication sharedApplication] setStatusBarStyle:oldStatusBarStyle animated:YES];
+        }
     }
+}
+
+- (BOOL)shouldChangeStatusBarStyle
+{
+    BOOL should;
+    
+    @synchronized (self)
+    {
+        should = shouldChangeStatusBarStyle;
+    }
+    
+    return should;
 }
 
 + (ALAssetsLibrary *)defaultAssetsLibrary
