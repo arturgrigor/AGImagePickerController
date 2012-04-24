@@ -315,6 +315,9 @@
     [self.tableView reloadData];
     [self setTitle:[self.assetsGroup valueForProperty:ALAssetsGroupPropertyName]];
     [self changeSelectionInformation];
+    
+    NSInteger totalRows = [self.tableView numberOfRowsInSection:0];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:totalRows-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
 }
 
 - (void)doneAction:(id)sender
