@@ -39,6 +39,7 @@
 #pragma mark - Properties
 
 @synthesize tableView;
+@synthesize savedPhotosOnTop;
 
 - (NSMutableArray *)assetsGroups
 {
@@ -181,7 +182,17 @@
                     return;
                 }
                 
-                [self.assetsGroups addObject:group];
+                if (savedPhotosOnTop) {
+                    if ([[group valueForProperty:ALAssetsGroupPropertyType] intValue] == ALAssetsGroupSavedPhotos) {
+                        [self.assetsGroups insertObject:group atIndex:0];
+                    } else if ([[group valueForProperty:ALAssetsGroupPropertyType] intValue] > ALAssetsGroupSavedPhotos) {
+                        [self.assetsGroups insertObject:group atIndex:1];
+                    } else {
+                        [self.assetsGroups addObject:group];
+                    }
+                } else {
+                    [self.assetsGroups addObject:group];
+                }
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self reloadData];

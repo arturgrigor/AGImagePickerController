@@ -31,6 +31,7 @@ typedef void (^AGIPCDidFail)(NSError *error);
     
     BOOL shouldChangeStatusBarStyle;
     BOOL shouldDisplaySelectionInformation;
+    BOOL shouldShowSavedPhotosOnTop;
     UIStatusBarStyle oldStatusBarStyle;
     
     AGIPCDidFinish didFinishBlock;
@@ -43,6 +44,7 @@ typedef void (^AGIPCDidFail)(NSError *error);
 
 @property (assign) BOOL shouldChangeStatusBarStyle;
 @property (assign) BOOL shouldDisplaySelectionInformation;
+@property (assign) BOOL shouldShowSavedPhotosOnTop;
 @property NSUInteger maximumNumberOfPhotos;
 
 @property (nonatomic, assign) id delegate;
