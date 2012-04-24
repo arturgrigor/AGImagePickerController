@@ -19,5 +19,6 @@
 }
 
 @property (retain) IBOutlet UITableView *tableView;
+@property (assign) BOOL savedPhotosOnTop;
 
 @end

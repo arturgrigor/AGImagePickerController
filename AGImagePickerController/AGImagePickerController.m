@@ -29,7 +29,7 @@ static UIInterfaceOrientation currentInterfaceOrientation;
 
 #pragma mark - Properties
 
-@synthesize delegate, maximumNumberOfPhotos, shouldChangeStatusBarStyle, shouldDisplaySelectionInformation;
+@synthesize delegate, maximumNumberOfPhotos, shouldChangeStatusBarStyle, shouldDisplaySelectionInformation, shouldShowSavedPhotosOnTop;
 
 @synthesize didFailBlock, didFinishBlock;
 
@@ -150,12 +150,13 @@ static UIInterfaceOrientation currentInterfaceOrientation;
 {
     [super viewDidLoad];
     
-    UIViewController *rootViewController = nil;
+    AGIPCAlbumsController *rootViewController = nil;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         rootViewController = [[AGIPCAlbumsController alloc] initWithNibName:@"AGIPCAlbumsController_iPhone" bundle:nil];
     } else {
         rootViewController = [[AGIPCAlbumsController alloc] initWithNibName:@"AGIPCAlbumsController_iPad" bundle:nil];
     }
+    rootViewController.savedPhotosOnTop = shouldShowSavedPhotosOnTop;
     self.viewControllers = [NSArray arrayWithObject:rootViewController];
     [rootViewController release];
 }
