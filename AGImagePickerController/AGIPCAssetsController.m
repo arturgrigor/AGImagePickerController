@@ -317,7 +317,12 @@
     [self changeSelectionInformation];
     
     NSInteger totalRows = [self.tableView numberOfRowsInSection:0];
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:totalRows-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    
+    //Prevents crash if totalRows = 0 (when the album is empty). 
+    if (totalRows > 0) {
+
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:totalRows-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    }
 }
 
 - (void)doneAction:(id)sender
