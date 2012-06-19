@@ -17,6 +17,6 @@
 }
 
 @property (nonatomic, readonly) UIButton *openButton;
-@property (nonatomic, readonly) NSMutableArray *selectedPhotos;
+@property (nonatomic, retain) NSMutableArray *selectedPhotos;
 
 @end

@@ -52,6 +52,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
+        self.selectedPhotos = [NSMutableArray array];
+        
         [self.view addSubview:self.openButton];
     }
     
@@ -134,6 +136,7 @@
         NSLog(@"Fail. Error: %@", error);
         
         if (error == nil) {
+            [self.selectedPhotos removeAllObjects];
             NSLog(@"User has cancelled.");
             [self dismissModalViewControllerAnimated:YES];
         } else {
@@ -149,6 +152,8 @@
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
         
     } andSuccessBlock:^(NSArray *info) {
+        [self.selectedPhotos setArray:info];
+        
         NSLog(@"Info: %@", info);
         [self dismissModalViewControllerAnimated:YES];
         
@@ -157,6 +162,7 @@
     
     // Show saved photos on top
     imagePickerController.shouldShowSavedPhotosOnTop = YES;
+    imagePickerController.selection = self.selectedPhotos;
     
     // Custom toolbar items
     AGIPCToolbarItem *selectAll = [[AGIPCToolbarItem alloc] initWithBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:@"+ Select All" style:UIBarButtonItemStyleBordered target:nil action:nil] autorelease] andSelectionBlock:^BOOL(NSUInteger index, ALAsset *asset) {

@@ -33,7 +33,7 @@ static UIInterfaceOrientation currentInterfaceOrientation;
 
 @synthesize didFailBlock, didFinishBlock;
 
-@synthesize toolbarItemsForSelection;
+@synthesize toolbarItemsForSelection, selection;
 
 - (void)setShouldChangeStatusBarStyle:(BOOL)theShouldChangeStatusBarStyle
 {
@@ -90,6 +90,7 @@ static UIInterfaceOrientation currentInterfaceOrientation;
 - (void)dealloc
 {
     [toolbarItemsForSelection release];
+    [selection release];
     
     [didFailBlock release];
     [didFinishBlock release];
@@ -128,6 +129,7 @@ static UIInterfaceOrientation currentInterfaceOrientation;
         self.toolbar.translucent = YES;
         
         self.toolbarItemsForSelection = theToolbarItemsForSelection;
+        self.selection = nil;
         self.maximumNumberOfPhotos = theMaximumNumberOfPhotos;
         self.delegate = theDelegate;
         self.didFailBlock = theFailureBlock;

@@ -20,6 +20,7 @@
 @interface AGIPCAssetsController ()
 
 @property (nonatomic, retain) NSMutableArray *assets;
+@property (readonly) AGImagePickerController *imagePickerController;
 
 @end
 
@@ -57,8 +58,8 @@
 
 - (BOOL)toolbarHidden
 {
-    if (((AGImagePickerController *)self.navigationController).toolbarItemsForSelection != nil) {
-        return !(((AGImagePickerController *)self.navigationController).toolbarItemsForSelection.count > 0);
+    if (self.imagePickerController.toolbarItemsForSelection != nil) {
+        return !(self.imagePickerController.toolbarItemsForSelection.count > 0);
     } else {
         return NO;
     }
@@ -104,6 +105,11 @@
 	}
     
     return selectedAssets;
+}
+
+- (AGImagePickerController *)imagePickerController
+{
+    return ((AGImagePickerController *)self.navigationController);
 }
 
 #pragma mark - Object Lifecycle
@@ -212,7 +218,7 @@
     [super viewDidLoad];
     
     // Fullscreen
-    if (((AGImagePickerController *)self.navigationController).shouldChangeStatusBarStyle) {
+    if (self.imagePickerController.shouldChangeStatusBarStyle) {
         self.wantsFullScreenLayout = YES;
     }
     
@@ -244,12 +250,12 @@
 
 - (void)setupToolbarItems
 {
-    if (((AGImagePickerController *)self.navigationController).toolbarItemsForSelection != nil)
+    if (self.imagePickerController.toolbarItemsForSelection != nil)
     {
         NSMutableArray *items = [NSMutableArray array];
         
         // Custom Toolbar Items
-        for (id item in ((AGImagePickerController *)self.navigationController).toolbarItemsForSelection)
+        for (id item in self.imagePickerController.toolbarItemsForSelection)
         {
             NSAssert([item isKindOfClass:[AGIPCToolbarItem class]], @"Item is not a instance of AGIPCToolbarItem.");
             
@@ -293,6 +299,11 @@
                 }
                 
                 AGIPCGridItem *gridItem = [[AGIPCGridItem alloc] initWithAsset:result andDelegate:blockSelf];
+                if ( blockSelf.imagePickerController.selection != nil && 
+                    [blockSelf.imagePickerController.selection containsObject:result])
+                {
+                    gridItem.selected = YES;
+                }
                 [blockSelf.assets addObject:gridItem];
                 [gridItem release];
             }];
@@ -327,7 +338,7 @@
 
 - (void)doneAction:(id)sender
 {
-    [((AGImagePickerController *)self.navigationController) performSelector:@selector(didFinishPickingAssets:) withObject:self.selectedAssets];
+    [self.imagePickerController performSelector:@selector(didFinishPickingAssets:) withObject:self.selectedAssets];
 }
 
 - (void)selectAllAction:(id)sender
@@ -346,7 +357,7 @@
 
 - (void)customBarButtonItemAction:(id)sender
 {
-    for (id item in ((AGImagePickerController *)self.navigationController).toolbarItemsForSelection)
+    for (id item in self.imagePickerController.toolbarItemsForSelection)
     {
         NSAssert([item isKindOfClass:[AGIPCToolbarItem class]], @"Item is not a instance of AGIPCToolbarItem.");
         
@@ -367,7 +378,7 @@
 
 - (void)changeSelectionInformation
 {
-    if (((AGImagePickerController *)self.navigationController).shouldDisplaySelectionInformation) {
+    if (self.imagePickerController.shouldDisplaySelectionInformation) {
         self.navigationController.navigationBar.topItem.prompt = [NSString stringWithFormat:@"(%d/%d)", [AGIPCGridItem numberOfSelections], self.assets.count];
     }
 }
@@ -382,8 +393,8 @@
 
 - (BOOL)agGridItemCanSelect:(AGIPCGridItem *)gridItem
 {
-    if (((AGImagePickerController *)self.navigationController).maximumNumberOfPhotos > 0)
-        return ([AGIPCGridItem numberOfSelections] < ((AGImagePickerController *)self.navigationController).maximumNumberOfPhotos);
+    if (self.imagePickerController.maximumNumberOfPhotos > 0)
+        return ([AGIPCGridItem numberOfSelections] < self.imagePickerController.maximumNumberOfPhotos);
     else
         return YES;
 }
