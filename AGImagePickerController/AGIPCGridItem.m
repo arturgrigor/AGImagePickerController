@@ -3,7 +3,7 @@
 //  AGImagePickerController
 //
 //  Created by Artur Grigor on 17.02.2012.
-//  Copyright (c) 2012 Artur Grigor. All rights reserved.
+//  Copyright (c) 2012 - 2013 Artur Grigor. All rights reserved.
 //  
 //  For the full copyright and license information, please view the LICENSE
 //  file that was distributed with this source code.
@@ -11,11 +11,25 @@
 
 #import "AGIPCGridItem.h"
 
-@interface AGIPCGridItem ()
 
-@property (nonatomic, retain) UIImageView *thumbnailImageView;
-@property (nonatomic, retain) UIView *selectionView;
-@property (nonatomic, retain) UIImageView *checkmarkImageView;
+#import "AGImagePickerController+Helper.h"
+
+@interface AGIPCGridItem ()
+{
+    AGImagePickerController *_imagePickerController;
+    ALAsset *_asset;
+    id<AGIPCGridItemDelegate> __ag_weak _delegate;
+    
+    BOOL _selected;
+    
+    UIImageView *_thumbnailImageView;
+    UIView *_selectionView;
+    UIImageView *_checkmarkImageView;
+}
+
+@property (nonatomic, strong) UIImageView *thumbnailImageView;
+@property (nonatomic, strong) UIView *selectionView;
+@property (nonatomic, strong) UIImageView *checkmarkImageView;
 
 + (void)resetNumberOfSelections;
 
@@ -27,15 +41,15 @@ static NSUInteger numberOfSelectedGridItems = 0;
 
 #pragma mark - Properties
 
-@synthesize delegate, selected, asset, thumbnailImageView, selectionView, checkmarkImageView;
+@synthesize imagePickerController = _imagePickerController, delegate = _delegate, asset = _asset, selected = _selected, thumbnailImageView = _thumbnailImageView, selectionView = _selectionView, checkmarkImageView = _checkmarkImageView;
 
-- (void)setSelected:(BOOL)isSelected
+- (void)setSelected:(BOOL)selected
 {
     @synchronized (self)
     {
-        if (selected != isSelected)
+        if (_selected != selected)
         {
-            if (isSelected) {
+            if (selected) {
                 // Check if we can select
                 if ([self.delegate respondsToSelector:@selector(agGridItemCanSelect:)])
                 {
@@ -44,12 +58,12 @@ static NSUInteger numberOfSelectedGridItems = 0;
                 }
             }
             
-            selected = isSelected;
+            _selected = selected;
             
-            self.selectionView.hidden = !selected;
-            self.checkmarkImageView.hidden = !selected;
+            self.selectionView.hidden = !_selected;
+            self.checkmarkImageView.hidden = !_selected;
             
-            if (selected)
+            if (_selected)
             {
                 numberOfSelectedGridItems++;
             }
@@ -63,12 +77,12 @@ static NSUInteger numberOfSelectedGridItems = 0;
                
                 if ([self.delegate respondsToSelector:@selector(agGridItem:didChangeSelectionState:)])
                 {
-                    [self.delegate performSelector:@selector(agGridItem:didChangeSelectionState:) withObject:self withObject:[NSNumber numberWithBool:selected]];
+                    [self.delegate performSelector:@selector(agGridItem:didChangeSelectionState:) withObject:self withObject:@(_selected)];
                 }
                 
                 if ([self.delegate respondsToSelector:@selector(agGridItem:didChangeNumberOfSelections:)])
                 {
-                    [self.delegate performSelector:@selector(agGridItem:didChangeNumberOfSelections:) withObject:self withObject:[NSNumber numberWithUnsignedInteger:numberOfSelectedGridItems]];
+                    [self.delegate performSelector:@selector(agGridItem:didChangeNumberOfSelections:) withObject:self withObject:@(numberOfSelectedGridItems)];
                 }
                 
             });
@@ -79,25 +93,19 @@ static NSUInteger numberOfSelectedGridItems = 0;
 - (BOOL)selected
 {
     BOOL ret;
-    
-    @synchronized (self)
-    {
-        ret = selected;
-    }
+    @synchronized (self) { ret = _selected; }
     
     return ret;
 }
 
-- (void)setAsset:(ALAsset *)theAsset
+- (void)setAsset:(ALAsset *)asset
 {
     @synchronized (self)
     {
-        if (asset != theAsset)
+        if (_asset != asset)
         {
-            [asset release];
-            asset = [theAsset retain];
-            
-            self.thumbnailImageView.image = [UIImage imageWithCGImage:asset.thumbnail];
+            _asset = asset;
+            self.thumbnailImageView.image = [UIImage imageWithCGImage:_asset.thumbnail];
         }
     }
 }
@@ -105,62 +113,44 @@ static NSUInteger numberOfSelectedGridItems = 0;
 - (ALAsset *)asset
 {
     ALAsset *ret = nil;
-    
-    @synchronized (self)
-    {
-        ret = [[asset retain] autorelease];
-    }
+    @synchronized (self) { ret = _asset; }
     
     return ret;
 }
 
 #pragma mark - Object Lifecycle
 
-- (void)dealloc
+- (id)initWithImagePickerController:(AGImagePickerController *)imagePickerController andAsset:(ALAsset *)asset
 {
-    [asset release];
-    [thumbnailImageView release];
-    [selectionView release];
-    [checkmarkImageView release];
-    
-    [super dealloc];
-}
-
-- (id)init
-{
-    self = [self initWithAsset:nil andDelegate:nil];
+    self = [self initWithImagePickerController:imagePickerController asset:asset andDelegate:nil];
     return self;
 }
 
-- (id)initWithAsset:(ALAsset *)theAsset
-{
-    self = [self initWithAsset:theAsset andDelegate:nil];
-    return self;
-}
-
-- (id)initWithAsset:(ALAsset *)theAsset andDelegate:(id<AGIPCGridItemDelegate>)theDelegate
+- (id)initWithImagePickerController:(AGImagePickerController *)imagePickerController asset:(ALAsset *)asset andDelegate:(id<AGIPCGridItemDelegate>)delegate
 {
     self = [super init];
     if (self)
     {
+        self.imagePickerController = imagePickerController;
+        
         self.selected = NO;
-        self.delegate = theDelegate;
+        self.delegate = delegate;
         
-        CGRect frame = [AGImagePickerController itemRect];
-        CGRect checkmarkFrame = [AGImagePickerController checkmarkFrameUsingItemFrame:frame];
+        CGRect frame = self.imagePickerController.itemRect;
+        CGRect checkmarkFrame = [self.imagePickerController checkmarkFrameUsingItemFrame:frame];
         
-        self.thumbnailImageView = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)] autorelease];
+        self.thumbnailImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
 		self.thumbnailImageView.contentMode = UIViewContentModeScaleToFill;
 		[self addSubview:self.thumbnailImageView];
         
-        self.selectionView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)] autorelease];
+        self.selectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         self.selectionView.backgroundColor = [UIColor whiteColor];
         self.selectionView.alpha = .5f;
         self.selectionView.hidden = !self.selected;
         [self addSubview:self.selectionView];
         
         // Position the checkmark image in the bottom right corner
-        self.checkmarkImageView = [[[UIImageView alloc] initWithFrame:checkmarkFrame] autorelease];
+        self.checkmarkImageView = [[UIImageView alloc] initWithFrame:checkmarkFrame];
         if (IS_IPAD())
             self.checkmarkImageView.image = [UIImage imageNamed:@"AGIPC-Checkmark-iPad"];
         else
@@ -168,7 +158,7 @@ static NSUInteger numberOfSelectedGridItems = 0;
         self.checkmarkImageView.hidden = !self.selected;
 		[self addSubview:self.checkmarkImageView];
         
-        self.asset = theAsset;
+        self.asset = asset;
     }
     
     return self;

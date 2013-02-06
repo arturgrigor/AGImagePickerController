@@ -3,7 +3,7 @@
 //  AGImagePickerController
 //
 //  Created by Artur Grigor on 17.02.2012.
-//  Copyright (c) 2012 Artur Grigor. All rights reserved.
+//  Copyright (c) 2012 - 2013 Artur Grigor. All rights reserved.
 //  
 //  For the full copyright and license information, please view the LICENSE
 //  file that was distributed with this source code.
@@ -13,7 +13,6 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 
 #import "AGImagePickerController.h"
-#import "AGImagePickerController+Constants.h"
 
 @class AGIPCGridItem;
 
@@ -28,23 +27,18 @@
 
 @interface AGIPCGridItem : UIView
 {
-	BOOL selected;
-    ALAsset *asset;
-    
-    UIImageView *thumbnailImageView;
-    UIView *selectionView;
-    UIImageView *checkmarkImageView;
-    
-    id<AGIPCGridItemDelegate> delegate;
+
 }
 
 @property (assign) BOOL selected;
-@property (retain) ALAsset *asset;
+@property (strong) ALAsset *asset;
 
-@property (nonatomic, assign) id<AGIPCGridItemDelegate> delegate;
+@property (nonatomic, ag_weak) id<AGIPCGridItemDelegate> delegate;
 
-- (id)initWithAsset:(ALAsset *)theAsset;
-- (id)initWithAsset:(ALAsset *)theAsset andDelegate:(id<AGIPCGridItemDelegate>)theDelegate;
+@property (strong) AGImagePickerController *imagePickerController;
+
+- (id)initWithImagePickerController:(AGImagePickerController *)imagePickerController andAsset:(ALAsset *)asset;
+- (id)initWithImagePickerController:(AGImagePickerController *)imagePickerController asset:(ALAsset *)asset andDelegate:(id<AGIPCGridItemDelegate>)delegate;
 
 - (void)tap;
 

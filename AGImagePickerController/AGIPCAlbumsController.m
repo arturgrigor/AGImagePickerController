@@ -3,7 +3,7 @@
 //  AGImagePickerController
 //
 //  Created by Artur Grigor on 2/16/12.
-//  Copyright (c) 2012 Artur Grigor. All rights reserved.
+//  Copyright (c) 2012 - 2013 Artur Grigor. All rights reserved.
 //  
 //  For the full copyright and license information, please view the LICENSE
 //  file that was distributed with this source code.
@@ -15,15 +15,19 @@
 #import "AGIPCAssetsController.h"
 
 @interface AGIPCAlbumsController ()
+{
+    NSMutableArray *_assetsGroups;
+    AGImagePickerController *_imagePickerController;
+}
 
-@property (nonatomic, readonly) NSMutableArray *assetsGroups;
+@property (ag_weak, nonatomic, readonly) NSMutableArray *assetsGroups;
 
 @end
 
-@interface AGIPCAlbumsController (Private)
+@interface AGIPCAlbumsController ()
 
-- (void)createNotifications;
-- (void)destroyNotifications;
+- (void)registerForNotifications;
+- (void)unregisterFromNotifications;
 
 - (void)didChangeLibrary:(NSNotification *)notification;
 
@@ -38,35 +42,27 @@
 
 #pragma mark - Properties
 
-@synthesize tableView;
-@synthesize savedPhotosOnTop;
+@synthesize imagePickerController = _imagePickerController;
 
 - (NSMutableArray *)assetsGroups
 {
-    if (assetsGroups == nil)
+    if (_assetsGroups == nil)
     {
-        assetsGroups = [[NSMutableArray alloc] init];
+        _assetsGroups = [[NSMutableArray alloc] init];
         [self loadAssetsGroups];
     }
     
-    return assetsGroups;
+    return _assetsGroups;
 }
 
 #pragma mark - Object Lifecycle
 
-- (void)dealloc
+- (id)initWithImagePickerController:(AGImagePickerController *)imagePickerController
 {
-    [tableView release];
-    [assetsGroups release];
-    
-    [super dealloc];
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        
+    self = [super initWithStyle:UITableViewStylePlain];
+    if (self)
+    {
+        self.imagePickerController = imagePickerController;
     }
     
     return self;
@@ -94,17 +90,16 @@
     [super viewDidLoad];
     
     // Fullscreen
-    if (((AGImagePickerController *)self.navigationController).shouldChangeStatusBarStyle) {
+    if (self.imagePickerController.shouldChangeStatusBarStyle) {
         self.wantsFullScreenLayout = YES;
     }
     
     // Setup Notifications
-    [self createNotifications];
+    [self registerForNotifications];
     
     // Navigation Bar Items
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction:)];
 	self.navigationItem.leftBarButtonItem = cancelButton;
-	[cancelButton release];
 }
 
 - (void)viewDidUnload
@@ -112,12 +107,17 @@
     [super viewDidUnload];
     
     // Destroy Notifications
-    [self destroyNotifications];
+    [self unregisterFromNotifications];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
 }
 
 #pragma mark - UITableViewDataSource Methods
@@ -134,16 +134,16 @@
     
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
     
-    ALAssetsGroup *group = [self.assetsGroups objectAtIndex:indexPath.row];
+    ALAssetsGroup *group = (self.assetsGroups)[indexPath.row];
     [group setAssetsFilter:[ALAssetsFilter allPhotos]];
     NSUInteger numberOfAssets = group.numberOfAssets;
     
     cell.textLabel.text = [NSString stringWithFormat:@"%@", [group valueForProperty:ALAssetsGroupPropertyName]];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", numberOfAssets];
-    [cell.imageView setImage:[UIImage imageWithCGImage:[(ALAssetsGroup*)[assetsGroups objectAtIndex:indexPath.row] posterImage]]];
+    [cell.imageView setImage:[UIImage imageWithCGImage:[(ALAssetsGroup *)self.assetsGroups[indexPath.row] posterImage]]];
 	[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 	
     return cell;
@@ -155,9 +155,8 @@
 {
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-	AGIPCAssetsController *controller = [[AGIPCAssetsController alloc] initWithAssetsGroup:[self.assetsGroups objectAtIndex:indexPath.row]];
+	AGIPCAssetsController *controller = [[AGIPCAssetsController alloc] initWithImagePickerController:self.imagePickerController andAssetsGroup:self.assetsGroups[indexPath.row]];
 	[self.navigationController pushViewController:controller animated:YES];
-	[controller release];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -169,6 +168,8 @@
 
 - (void)loadAssetsGroups
 {
+    __ag_weak AGIPCAlbumsController *weakSelf = self;
+    
     [self.assetsGroups removeAllObjects];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
@@ -182,7 +183,7 @@
                     return;
                 }
                 
-                if (savedPhotosOnTop) {
+                if (weakSelf.imagePickerController.shouldShowSavedPhotosOnTop) {
                     if ([[group valueForProperty:ALAssetsGroupPropertyType] intValue] == ALAssetsGroupSavedPhotos) {
                         [self.assetsGroups insertObject:group atIndex:0];
                     } else if ([[group valueForProperty:ALAssetsGroupPropertyType] intValue] > ALAssetsGroupSavedPhotos) {
@@ -201,7 +202,7 @@
             
             void (^assetGroupEnumberatorFailure)(NSError *) = ^(NSError *error) {
                 NSLog(@"A problem occured. Error: %@", error.localizedDescription);
-                [((AGImagePickerController *)self.navigationController) performSelector:@selector(didFail:) withObject:error];
+                [self.imagePickerController performSelector:@selector(didFail:) withObject:error];
             };	
             
             [[AGImagePickerController defaultAssetsLibrary] enumerateGroupsWithTypes:ALAssetsGroupAll
@@ -221,12 +222,12 @@
 
 - (void)cancelAction:(id)sender
 {
-    [((AGImagePickerController *)self.navigationController) performSelector:@selector(didCancelPickingAssets)];
+    [self.imagePickerController performSelector:@selector(didCancelPickingAssets)];
 }
 
 #pragma mark - Notifications
 
-- (void)createNotifications
+- (void)registerForNotifications
 {
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(didChangeLibrary:) 
@@ -234,7 +235,7 @@
                                                object:[AGImagePickerController defaultAssetsLibrary]];
 }
 
-- (void)destroyNotifications
+- (void)unregisterFromNotifications
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self 
                                                     name:ALAssetsLibraryChangedNotification 

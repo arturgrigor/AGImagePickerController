@@ -3,7 +3,7 @@
 //  AGImagePickerController
 //
 //  Created by Artur Grigor on 2/16/12.
-//  Copyright (c) 2012 Artur Grigor. All rights reserved.
+//  Copyright (c) 2012 - 2013 Artur Grigor. All rights reserved.
 //  
 //  For the full copyright and license information, please view the LICENSE
 //  file that was distributed with this source code.
@@ -12,14 +12,29 @@
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
-@class AGImagePickerController;
+#import "AGImagePickerControllerDefines.h"
 
-typedef void (^AGIPCDidFinish)(NSArray *info);
-typedef void (^AGIPCDidFail)(NSError *error);
+@class AGImagePickerController;
 
 @protocol AGImagePickerControllerDelegate
 
 @optional
+
+#pragma mark - Configuring Rows
+- (NSUInteger)agImagePickerController:(AGImagePickerController *)picker
+   numberOfItemsPerRowForDevice:(AGDeviceType)deviceType
+        andInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
+
+#pragma mark - Configuring Selections
+- (AGImagePickerControllerSelectionBehaviorType)selectionBehaviorInSingleSelectionModeForAGImagePickerController:(AGImagePickerController *)picker;
+
+#pragma mark - Appearance Configuration
+- (BOOL)agImagePickerController:(AGImagePickerController *)picker
+shouldDisplaySelectionInformationInSelectionMode:(AGImagePickerControllerSelectionMode)selectionMode;
+- (BOOL)agImagePickerController:(AGImagePickerController *)picker
+shouldShowToolbarForManagingTheSelectionInSelectionMode:(AGImagePickerControllerSelectionMode)selectionMode;
+
+#pragma mark - Managing Selections
 - (void)agImagePickerController:(AGImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info;
 - (void)agImagePickerController:(AGImagePickerController *)picker didFail:(NSError *)error;
 
@@ -27,41 +42,56 @@ typedef void (^AGIPCDidFail)(NSError *error);
 
 @interface AGImagePickerController : UINavigationController
 {
-    id delegate;
+    id __ag_weak _pickerDelegate;
     
-    BOOL shouldChangeStatusBarStyle;
-    BOOL shouldDisplaySelectionInformation;
-    BOOL shouldShowSavedPhotosOnTop;
-    UIStatusBarStyle oldStatusBarStyle;
+    struct {
+        unsigned int delegateSelectionBehaviorInSingleSelectionMode:1;
+        unsigned int delegateNumberOfItemsPerRowForDevice:1;
+        unsigned int delegateShouldDisplaySelectionInformationInSelectionMode:1;
+        unsigned int delegateShouldShowToolbarForManagingTheSelectionInSelectionMode:1;
+        unsigned int delegateDidFinishPickingMediaWithInfo:1;
+        unsigned int delegateDidFail:1;
+    } _pickerFlags;
     
-    AGIPCDidFinish didFinishBlock;
-    AGIPCDidFail didFailBlock;
+    BOOL _shouldChangeStatusBarStyle;
+    BOOL _shouldShowSavedPhotosOnTop;
+    UIStatusBarStyle _oldStatusBarStyle;
     
-    NSUInteger maximumNumberOfPhotos;
+    AGIPCDidFinish _didFinishBlock;
+    AGIPCDidFail _didFailBlock;
     
-    NSArray *toolbarItemsForSelection;
-    NSArray *selection;
+    NSUInteger _maximumNumberOfPhotosToBeSelected;
+    
+    NSArray *_toolbarItemsForManagingTheSelection;
+    NSArray *_selection;
 }
 
-@property (assign) BOOL shouldChangeStatusBarStyle;
-@property (assign) BOOL shouldDisplaySelectionInformation;
-@property (assign) BOOL shouldShowSavedPhotosOnTop;
-@property NSUInteger maximumNumberOfPhotos;
+@property (nonatomic) BOOL shouldChangeStatusBarStyle;
+@property (nonatomic) BOOL shouldShowSavedPhotosOnTop;
+@property (nonatomic) NSUInteger maximumNumberOfPhotosToBeSelected;
 
-@property (nonatomic, assign) id delegate;
+@property (nonatomic, ag_weak) id delegate;
 
-@property (copy) AGIPCDidFail didFailBlock;
-@property (copy) AGIPCDidFinish didFinishBlock;
+@property (nonatomic, copy) AGIPCDidFail didFailBlock;
+@property (nonatomic, copy) AGIPCDidFinish didFinishBlock;
 
-@property (retain) NSArray *toolbarItemsForSelection; 
-@property (retain) NSArray *selection;
+@property (nonatomic, strong) NSArray *toolbarItemsForManagingTheSelection;
+@property (nonatomic, strong) NSArray *selection;
+
+@property (nonatomic, readonly) AGImagePickerControllerSelectionMode selectionMode;
 
 + (ALAssetsLibrary *)defaultAssetsLibrary;
-+ (UIInterfaceOrientation)currentInterfaceOrientation;
 
-- (id)initWithDelegate:(id)theDelegate;
-- (id)initWithFailureBlock:(AGIPCDidFail)theFailureBlock andSuccessBlock:(AGIPCDidFinish)theSuccessBlock;
-- (id)initWithDelegate:(id)theDelegate failureBlock:(AGIPCDidFail)theFailureBlock successBlock:(AGIPCDidFinish)theSuccessBlock maximumNumberOfPhotos:(NSUInteger)theMaximumNumberOfPhotos shouldChangeStatusBarStyle:(BOOL)shouldChangeStatusBarStyleValue toolbarItemsForSelection:(NSArray *)theToolbarItemsForSelection andShouldDisplaySelectionInformation:(BOOL)shouldDisplaySelectionInformation;
+- (id)initWithDelegate:(id)delegate;
+- (id)initWithFailureBlock:(AGIPCDidFail)failureBlock
+           andSuccessBlock:(AGIPCDidFinish)successBlock;
+- (id)initWithDelegate:(id)delegate
+          failureBlock:(AGIPCDidFail)failureBlock
+          successBlock:(AGIPCDidFinish)successBlock
+maximumNumberOfPhotosToBeSelected:(NSUInteger)maximumNumberOfPhotosToBeSelected
+shouldChangeStatusBarStyle:(BOOL)shouldChangeStatusBarStyle
+toolbarItemsForManagingTheSelection:(NSArray *)toolbarItemsForManagingTheSelection
+andShouldShowSavedPhotosOnTop:(BOOL)shouldShowSavedPhotosOnTop;
 
 @end
 

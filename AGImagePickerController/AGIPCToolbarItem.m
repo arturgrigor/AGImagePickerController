@@ -3,7 +3,7 @@
 //  AGImagePickerController
 //
 //  Created by Artur Grigor on 05.03.2012.
-//  Copyright (c) 2012 Artur Grigor. All rights reserved.
+//  Copyright (c) 2012 - 2013 Artur Grigor. All rights reserved.
 //  
 //  For the full copyright and license information, please view the LICENSE
 //  file that was distributed with this source code.
@@ -19,13 +19,6 @@
 
 #pragma mark - Object Lifecycle
 
-- (void)dealloc
-{
-    [assetIsSelectedBlock release];
-    [barButtonItem release];
-    
-    [super dealloc];
-}
 
 #pragma mark - Designated Initializer
 

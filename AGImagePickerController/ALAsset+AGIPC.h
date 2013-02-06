@@ -3,7 +3,7 @@
 //  AGImagePickerController Demo
 //
 //  Created by Artur Grigor on 19.06.2012.
-//  Copyright (c) 2012 Artur Grigor. All rights reserved.
+//  Copyright (c) 2012 - 2013 Artur Grigor. All rights reserved.
 //
 
 #import <AssetsLibrary/AssetsLibrary.h>

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		FE1E332914ED167800F6A6A2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE1E332814ED167800F6A6A2 /* UIKit.framework */; };
 		FE1E332B14ED167800F6A6A2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE1E332A14ED167800F6A6A2 /* Foundation.framework */; };
-		FE1E332D14ED167800F6A6A2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE1E332C14ED167800F6A6A2 /* CoreGraphics.framework */; };
 		FE1E333314ED167800F6A6A2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE1E333114ED167800F6A6A2 /* InfoPlist.strings */; };
 		FE1E333514ED167800F6A6A2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1E333414ED167800F6A6A2 /* main.m */; };
 		FE1E333914ED167800F6A6A2 /* AGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1E333814ED167800F6A6A2 /* AGAppDelegate.m */; };
@@ -17,23 +16,17 @@
 		FE1E333F14ED167800F6A6A2 /* AGViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE1E333D14ED167800F6A6A2 /* AGViewController_iPhone.xib */; };
 		FE1E334214ED167800F6A6A2 /* AGViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE1E334014ED167800F6A6A2 /* AGViewController_iPad.xib */; };
 		FE3850CB1501B8A10053C9DD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = FE3850CA1501B8A10053C9DD /* README.md */; };
-		FE3850CE1501B8D70053C9DD /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = FE3850CD1501B8D70053C9DD /* LICENSE */; };
 		FE3851AF1504CF7B00A9F7F8 /* AGIPCToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3851AE1504CF7B00A9F7F8 /* AGIPCToolbarItem.m */; };
 		FE3BAF8814EE80E7001BF3EC /* AGIPCAssetsController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3BAF8714EE80E7001BF3EC /* AGIPCAssetsController.m */; };
-		FE3BAF8B14EE816E001BF3EC /* AGIPCAssetsController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE3BAF8A14EE816D001BF3EC /* AGIPCAssetsController_iPhone.xib */; };
-		FE3BAF8D14EE817B001BF3EC /* AGIPCAssetsController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE3BAF8C14EE817B001BF3EC /* AGIPCAssetsController_iPad.xib */; };
-		FE3BAFA414EE8BBF001BF3EC /* AGIPCAlbumsController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE3BAFA314EE8BBF001BF3EC /* AGIPCAlbumsController_iPhone.xib */; };
 		FE465F991590B25A00C30A1D /* ALAsset+AGIPC.m in Sources */ = {isa = PBXBuildFile; fileRef = FE465F981590B25A00C30A1D /* ALAsset+AGIPC.m */; };
-		FE6E796214FCDC8A006612F0 /* AGImagePickerController+Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6E796114FCDC8A006612F0 /* AGImagePickerController+Constants.m */; };
-		FE87075814F277A3001CF32C /* AGIPC-Checkmark-iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = FE87075514F277A3001CF32C /* AGIPC-Checkmark-iPad.png */; };
-		FE87075914F277A3001CF32C /* AGIPC-Checkmark-iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = FE87075614F277A3001CF32C /* AGIPC-Checkmark-iPhone.png */; };
-		FE87075A14F277A3001CF32C /* AGIPC-Checkmark-iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE87075714F277A3001CF32C /* AGIPC-Checkmark-iPhone@2x.png */; };
+		FE4DE10116C2546B0075E499 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE4DE10016C2546B0075E499 /* Default-568h@2x.png */; };
+		FE4DE10416C267410075E499 /* AGImagePickerController+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4DE10316C267410075E499 /* AGImagePickerController+Helper.m */; };
 		FEA599CC14ED1C500057FF9C /* AGImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA599CA14ED1C500057FF9C /* AGImagePickerController.m */; };
-		FEA599D214ED1F510057FF9C /* AGIPCAlbumsController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FEA599D014ED1F510057FF9C /* AGIPCAlbumsController_iPad.xib */; };
-		FEA599E214ED30140057FF9C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA599E114ED30140057FF9C /* AssetsLibrary.framework */; };
 		FEA599E814ED38EE0057FF9C /* AGIPCAlbumsController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA599E714ED38ED0057FF9C /* AGIPCAlbumsController.m */; };
 		FECDC90114EDB9C30038006D /* AGIPCGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FECDC90014EDB9C30038006D /* AGIPCGridCell.m */; };
 		FECDC90514EDBB690038006D /* AGIPCGridItem.m in Sources */ = {isa = PBXBuildFile; fileRef = FECDC90414EDBB690038006D /* AGIPCGridItem.m */; };
+		FEDAA95516C2F3D600234FF0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA599E114ED30140057FF9C /* AssetsLibrary.framework */; };
+		FEDAA95716C3089600234FF0 /* AGImagePickerController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FEDAA95616C3089600234FF0 /* AGImagePickerController.bundle */; };
 		FEF247F2150DF461008FEFAD /* AGImagePickerController-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FEF247F1150DF461008FEFAD /* AGImagePickerController-icon.png */; };
 		FEF247F5150DF463008FEFAD /* AGImagePickerController-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEF247F4150DF463008FEFAD /* AGImagePickerController-icon@2x.png */; };
 /* End PBXBuildFile section */
@@ -54,24 +47,18 @@
 		FE1E333E14ED167800F6A6A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AGViewController_iPhone.xib; sourceTree = "<group>"; };
 		FE1E334114ED167800F6A6A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AGViewController_iPad.xib; sourceTree = "<group>"; };
 		FE3850CA1501B8A10053C9DD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = SOURCE_ROOT; };
-		FE3850CD1501B8D70053C9DD /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		FE3851AD1504CF7B00A9F7F8 /* AGIPCToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGIPCToolbarItem.h; sourceTree = "<group>"; };
 		FE3851AE1504CF7B00A9F7F8 /* AGIPCToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGIPCToolbarItem.m; sourceTree = "<group>"; };
 		FE3BAF8614EE80E7001BF3EC /* AGIPCAssetsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGIPCAssetsController.h; sourceTree = "<group>"; };
 		FE3BAF8714EE80E7001BF3EC /* AGIPCAssetsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGIPCAssetsController.m; sourceTree = "<group>"; };
-		FE3BAF8A14EE816D001BF3EC /* AGIPCAssetsController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AGIPCAssetsController_iPhone.xib; sourceTree = "<group>"; };
-		FE3BAF8C14EE817B001BF3EC /* AGIPCAssetsController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AGIPCAssetsController_iPad.xib; sourceTree = "<group>"; };
-		FE3BAFA314EE8BBF001BF3EC /* AGIPCAlbumsController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AGIPCAlbumsController_iPhone.xib; sourceTree = "<group>"; };
 		FE465F971590B25A00C30A1D /* ALAsset+AGIPC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAsset+AGIPC.h"; sourceTree = "<group>"; };
 		FE465F981590B25A00C30A1D /* ALAsset+AGIPC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAsset+AGIPC.m"; sourceTree = "<group>"; };
-		FE6E796014FCDC8A006612F0 /* AGImagePickerController+Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGImagePickerController+Constants.h"; sourceTree = "<group>"; };
-		FE6E796114FCDC8A006612F0 /* AGImagePickerController+Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGImagePickerController+Constants.m"; sourceTree = "<group>"; };
-		FE87075514F277A3001CF32C /* AGIPC-Checkmark-iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AGIPC-Checkmark-iPad.png"; sourceTree = "<group>"; };
-		FE87075614F277A3001CF32C /* AGIPC-Checkmark-iPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AGIPC-Checkmark-iPhone.png"; sourceTree = "<group>"; };
-		FE87075714F277A3001CF32C /* AGIPC-Checkmark-iPhone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AGIPC-Checkmark-iPhone@2x.png"; sourceTree = "<group>"; };
+		FE4DE10016C2546B0075E499 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		FE4DE10216C267400075E499 /* AGImagePickerController+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGImagePickerController+Helper.h"; sourceTree = "<group>"; };
+		FE4DE10316C267410075E499 /* AGImagePickerController+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGImagePickerController+Helper.m"; sourceTree = "<group>"; };
+		FE6E796014FCDC8A006612F0 /* AGImagePickerControllerDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGImagePickerControllerDefines.h; sourceTree = "<group>"; };
 		FEA599C914ED1C500057FF9C /* AGImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGImagePickerController.h; sourceTree = "<group>"; };
 		FEA599CA14ED1C500057FF9C /* AGImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGImagePickerController.m; sourceTree = "<group>"; };
-		FEA599D014ED1F510057FF9C /* AGIPCAlbumsController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AGIPCAlbumsController_iPad.xib; sourceTree = "<group>"; };
 		FEA599E114ED30140057FF9C /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		FEA599E614ED38ED0057FF9C /* AGIPCAlbumsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGIPCAlbumsController.h; sourceTree = "<group>"; };
 		FEA599E714ED38ED0057FF9C /* AGIPCAlbumsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGIPCAlbumsController.m; sourceTree = "<group>"; };
@@ -79,6 +66,7 @@
 		FECDC90014EDB9C30038006D /* AGIPCGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGIPCGridCell.m; sourceTree = "<group>"; };
 		FECDC90314EDBB690038006D /* AGIPCGridItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGIPCGridItem.h; sourceTree = "<group>"; };
 		FECDC90414EDBB690038006D /* AGIPCGridItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGIPCGridItem.m; sourceTree = "<group>"; };
+		FEDAA95616C3089600234FF0 /* AGImagePickerController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AGImagePickerController.bundle; sourceTree = "<group>"; };
 		FEF247F1150DF461008FEFAD /* AGImagePickerController-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "AGImagePickerController-icon.png"; path = "../AGImagePickerController-icon.png"; sourceTree = "<group>"; };
 		FEF247F4150DF463008FEFAD /* AGImagePickerController-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "AGImagePickerController-icon@2x.png"; path = "../AGImagePickerController-icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -88,10 +76,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FEA599E214ED30140057FF9C /* AssetsLibrary.framework in Frameworks */,
+				FEDAA95516C2F3D600234FF0 /* AssetsLibrary.framework in Frameworks */,
 				FE1E332914ED167800F6A6A2 /* UIKit.framework in Frameworks */,
 				FE1E332B14ED167800F6A6A2 /* Foundation.framework in Frameworks */,
-				FE1E332D14ED167800F6A6A2 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,6 +88,7 @@
 		FE1E331914ED167800F6A6A2 = {
 			isa = PBXGroup;
 			children = (
+				FE4DE10016C2546B0075E499 /* Default-568h@2x.png */,
 				FEA599C714ED1A8C0057FF9C /* AGImagePickerController */,
 				FE1E332E14ED167800F6A6A2 /* AGImagePickerController Demo */,
 				FE1E332714ED167800F6A6A2 /* Frameworks */,
@@ -158,18 +146,16 @@
 		FEA599C714ED1A8C0057FF9C /* AGImagePickerController */ = {
 			isa = PBXGroup;
 			children = (
-				FE6E796014FCDC8A006612F0 /* AGImagePickerController+Constants.h */,
-				FE6E796114FCDC8A006612F0 /* AGImagePickerController+Constants.m */,
+				FE4DE10216C267400075E499 /* AGImagePickerController+Helper.h */,
+				FE4DE10316C267410075E499 /* AGImagePickerController+Helper.m */,
+				FEDAA95616C3089600234FF0 /* AGImagePickerController.bundle */,
 				FEA599C914ED1C500057FF9C /* AGImagePickerController.h */,
 				FEA599CA14ED1C500057FF9C /* AGImagePickerController.m */,
+				FE6E796014FCDC8A006612F0 /* AGImagePickerControllerDefines.h */,
 				FEA599E614ED38ED0057FF9C /* AGIPCAlbumsController.h */,
 				FEA599E714ED38ED0057FF9C /* AGIPCAlbumsController.m */,
-				FEA599D014ED1F510057FF9C /* AGIPCAlbumsController_iPad.xib */,
-				FE3BAFA314EE8BBF001BF3EC /* AGIPCAlbumsController_iPhone.xib */,
 				FE3BAF8614EE80E7001BF3EC /* AGIPCAssetsController.h */,
 				FE3BAF8714EE80E7001BF3EC /* AGIPCAssetsController.m */,
-				FE3BAF8C14EE817B001BF3EC /* AGIPCAssetsController_iPad.xib */,
-				FE3BAF8A14EE816D001BF3EC /* AGIPCAssetsController_iPhone.xib */,
 				FECDC8FF14EDB9C30038006D /* AGIPCGridCell.h */,
 				FECDC90014EDB9C30038006D /* AGIPCGridCell.m */,
 				FECDC90314EDBB690038006D /* AGIPCGridItem.h */,
@@ -178,20 +164,8 @@
 				FE3851AE1504CF7B00A9F7F8 /* AGIPCToolbarItem.m */,
 				FE465F971590B25A00C30A1D /* ALAsset+AGIPC.h */,
 				FE465F981590B25A00C30A1D /* ALAsset+AGIPC.m */,
-				FE3850CD1501B8D70053C9DD /* LICENSE */,
-				FECDC90614EDC1BC0038006D /* Resources */,
 			);
 			path = AGImagePickerController;
-			sourceTree = "<group>";
-		};
-		FECDC90614EDC1BC0038006D /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				FE87075514F277A3001CF32C /* AGIPC-Checkmark-iPad.png */,
-				FE87075614F277A3001CF32C /* AGIPC-Checkmark-iPhone.png */,
-				FE87075714F277A3001CF32C /* AGIPC-Checkmark-iPhone@2x.png */,
-			);
-			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -220,7 +194,7 @@
 		FE1E331B14ED167800F6A6A2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Artur Grigor";
 			};
 			buildConfigurationList = FE1E331E14ED167800F6A6A2 /* Build configuration list for PBXProject "AGImagePickerController Demo" */;
@@ -248,17 +222,11 @@
 				FE1E333314ED167800F6A6A2 /* InfoPlist.strings in Resources */,
 				FE1E333F14ED167800F6A6A2 /* AGViewController_iPhone.xib in Resources */,
 				FE1E334214ED167800F6A6A2 /* AGViewController_iPad.xib in Resources */,
-				FEA599D214ED1F510057FF9C /* AGIPCAlbumsController_iPad.xib in Resources */,
-				FE3BAF8B14EE816E001BF3EC /* AGIPCAssetsController_iPhone.xib in Resources */,
-				FE3BAF8D14EE817B001BF3EC /* AGIPCAssetsController_iPad.xib in Resources */,
-				FE3BAFA414EE8BBF001BF3EC /* AGIPCAlbumsController_iPhone.xib in Resources */,
-				FE87075814F277A3001CF32C /* AGIPC-Checkmark-iPad.png in Resources */,
-				FE87075914F277A3001CF32C /* AGIPC-Checkmark-iPhone.png in Resources */,
-				FE87075A14F277A3001CF32C /* AGIPC-Checkmark-iPhone@2x.png in Resources */,
 				FE3850CB1501B8A10053C9DD /* README.md in Resources */,
-				FE3850CE1501B8D70053C9DD /* LICENSE in Resources */,
 				FEF247F2150DF461008FEFAD /* AGImagePickerController-icon.png in Resources */,
 				FEF247F5150DF463008FEFAD /* AGImagePickerController-icon@2x.png in Resources */,
+				FE4DE10116C2546B0075E499 /* Default-568h@2x.png in Resources */,
+				FEDAA95716C3089600234FF0 /* AGImagePickerController.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,9 +245,9 @@
 				FECDC90114EDB9C30038006D /* AGIPCGridCell.m in Sources */,
 				FECDC90514EDBB690038006D /* AGIPCGridItem.m in Sources */,
 				FE3BAF8814EE80E7001BF3EC /* AGIPCAssetsController.m in Sources */,
-				FE6E796214FCDC8A006612F0 /* AGImagePickerController+Constants.m in Sources */,
 				FE3851AF1504CF7B00A9F7F8 /* AGIPCToolbarItem.m in Sources */,
 				FE465F991590B25A00C30A1D /* ALAsset+AGIPC.m in Sources */,
+				FE4DE10416C267410075E499 /* AGImagePickerController+Helper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +286,11 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -331,6 +304,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
@@ -343,12 +317,18 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
@@ -361,6 +341,7 @@
 		FE1E334614ED167800F6A6A2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AGImagePickerController Demo/AGImagePickerController Demo-Prefix.pch";
@@ -374,6 +355,7 @@
 		FE1E334714ED167800F6A6A2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AGImagePickerController Demo/AGImagePickerController Demo-Prefix.pch";

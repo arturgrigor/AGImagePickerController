@@ -3,20 +3,20 @@
 //  AGImagePickerController Demo
 //
 //  Created by Artur Grigor on 2/16/12.
-//  Copyright (c) 2012 Artur Grigor. All rights reserved.
+//  Copyright (c) 2012 - 2013 Artur Grigor. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
 #import "AGImagePickerController.h"
 
-@interface AGViewController : UIViewController
+@interface AGViewController : UIViewController<AGImagePickerControllerDelegate>
 {
-    UIButton *openButton;
     NSMutableArray *selectedPhotos;
 }
 
-@property (nonatomic, readonly) UIButton *openButton;
-@property (nonatomic, retain) NSMutableArray *selectedPhotos;
+- (IBAction)openAction:(id)sender;
+
+@property (nonatomic, strong) NSMutableArray *selectedPhotos;
 
 @end

@@ -3,17 +3,17 @@
 //  AGImagePickerController Demo
 //
 //  Created by Artur Grigor on 2/16/12.
-//  Copyright (c) 2012 Artur Grigor. All rights reserved.
+//  Copyright (c) 2012 - 2013 Artur Grigor. All rights reserved.
 //
 
 #import "AGViewController.h"
 
 #import "AGIPCToolbarItem.h"
 
-@interface AGViewController (Private)
-
-- (void)centerButtonForInterfaceOrientation:(UIInterfaceOrientation)orientation;
-- (void)openAction:(id)sender;
+@interface AGViewController ()
+{
+    AGImagePickerController *ipc;
+}
 
 @end
 
@@ -23,29 +23,8 @@
 
 @synthesize selectedPhotos;
 
-- (UIButton *)openButton
-{
-    if (openButton == nil)
-    {
-        openButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-        [self centerButtonForInterfaceOrientation:self.interfaceOrientation];
-        [openButton setTitle:@"Open" forState:UIControlStateNormal];
-        
-        [openButton addTarget:self action:@selector(openAction:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    
-    return openButton;
-}
-
 #pragma mark - Object Lifecycle
 
-- (void)dealloc
-{
-    [selectedPhotos release];
-    [openButton release];
-    
-    [super dealloc];
-}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -54,7 +33,38 @@
     {
         self.selectedPhotos = [NSMutableArray array];
         
-        [self.view addSubview:self.openButton];
+        __block AGViewController *blockSelf = self;
+        
+        ipc = [[AGImagePickerController alloc] initWithDelegate:self];
+        ipc.didFailBlock = ^(NSError *error) {
+            NSLog(@"Fail. Error: %@", error);
+            
+            if (error == nil) {
+                [blockSelf.selectedPhotos removeAllObjects];
+                NSLog(@"User has cancelled.");
+                
+                [blockSelf dismissModalViewControllerAnimated:YES];
+            } else {
+                
+                // We need to wait for the view controller to appear first.
+                double delayInSeconds = 0.5;
+                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                    [blockSelf dismissModalViewControllerAnimated:YES];
+                });
+            }
+            
+            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+            
+        };
+        ipc.didFinishBlock = ^(NSArray *info) {
+            [blockSelf.selectedPhotos setArray:info];
+            
+            NSLog(@"Info: %@", info);
+            [blockSelf dismissModalViewControllerAnimated:YES];
+            
+            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+        };
     }
     
     return self;
@@ -81,110 +91,77 @@
     // e.g. self.myOutlet = nil;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	[super viewDidDisappear:animated];
-}
-
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    
-    [self centerButtonForInterfaceOrientation:toInterfaceOrientation];
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return YES;
 }
 
-#pragma mark - Private
-
-- (void)centerButtonForInterfaceOrientation:(UIInterfaceOrientation)orientation
+- (NSUInteger)supportedInterfaceOrientations
 {
-    CGRect bounds = [[UIScreen mainScreen] bounds];
-    CGFloat width = bounds.size.width;
-    CGFloat height = bounds.size.height;
-    
-    if (UIInterfaceOrientationIsLandscape(orientation)) {
-        width = bounds.size.height;
-        height = bounds.size.width;
-    }
-    
-    CGRect frame = CGRectMake((width - 72.f) / 2, (height - 37.f) / 2, 72.f, 37.f);
-    self.openButton.frame = frame;
+    return UIInterfaceOrientationMaskAll;
 }
 
+#pragma mark - Public methods
+
 - (void)openAction:(id)sender
-{
-    AGImagePickerController *imagePickerController = [[AGImagePickerController alloc] initWithFailureBlock:^(NSError *error) {
-        NSLog(@"Fail. Error: %@", error);
-        
-        if (error == nil) {
-            [self.selectedPhotos removeAllObjects];
-            NSLog(@"User has cancelled.");
-            [self dismissModalViewControllerAnimated:YES];
-        } else {
-            
-            // We need to wait for the view controller to appear first.
-            double delayInSeconds = 0.5;
-            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                [self dismissModalViewControllerAnimated:YES];
-            });
-        }
-        
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
-        
-    } andSuccessBlock:^(NSArray *info) {
-        [self.selectedPhotos setArray:info];
-        
-        NSLog(@"Info: %@", info);
-        [self dismissModalViewControllerAnimated:YES];
-        
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
-    }];
-    
+{    
     // Show saved photos on top
-    imagePickerController.shouldShowSavedPhotosOnTop = YES;
-    imagePickerController.selection = self.selectedPhotos;
+    ipc.shouldShowSavedPhotosOnTop = NO;
+    ipc.shouldChangeStatusBarStyle = YES;
+    ipc.selection = self.selectedPhotos;
+//    ipc.maximumNumberOfPhotosToBeSelected = 1;
     
     // Custom toolbar items
-    AGIPCToolbarItem *selectAll = [[AGIPCToolbarItem alloc] initWithBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:@"+ Select All" style:UIBarButtonItemStyleBordered target:nil action:nil] autorelease] andSelectionBlock:^BOOL(NSUInteger index, ALAsset *asset) {
+    AGIPCToolbarItem *selectAll = [[AGIPCToolbarItem alloc] initWithBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"+ Select All" style:UIBarButtonItemStyleBordered target:nil action:nil] andSelectionBlock:^BOOL(NSUInteger index, ALAsset *asset) {
         return YES;
     }];
-    AGIPCToolbarItem *flexible = [[AGIPCToolbarItem alloc] initWithBarButtonItem:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease] andSelectionBlock:nil]; 
-    AGIPCToolbarItem *selectOdd = [[AGIPCToolbarItem alloc] initWithBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:@"+ Select Odd" style:UIBarButtonItemStyleBordered target:nil action:nil] autorelease] andSelectionBlock:^BOOL(NSUInteger index, ALAsset *asset) {
+    AGIPCToolbarItem *flexible = [[AGIPCToolbarItem alloc] initWithBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] andSelectionBlock:nil]; 
+    AGIPCToolbarItem *selectOdd = [[AGIPCToolbarItem alloc] initWithBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"+ Select Odd" style:UIBarButtonItemStyleBordered target:nil action:nil] andSelectionBlock:^BOOL(NSUInteger index, ALAsset *asset) {
         return !(index % 2);
     }];
-    AGIPCToolbarItem *deselectAll = [[AGIPCToolbarItem alloc] initWithBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:@"- Deselect All" style:UIBarButtonItemStyleBordered target:nil action:nil] autorelease] andSelectionBlock:^BOOL(NSUInteger index, ALAsset *asset) {
+    AGIPCToolbarItem *deselectAll = [[AGIPCToolbarItem alloc] initWithBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"- Deselect All" style:UIBarButtonItemStyleBordered target:nil action:nil] andSelectionBlock:^BOOL(NSUInteger index, ALAsset *asset) {
         return NO;
     }];  
-    imagePickerController.toolbarItemsForSelection = [NSArray arrayWithObjects:selectAll, flexible, selectOdd, flexible, deselectAll, nil];
-//    imagePickerController.toolbarItemsForSelection = [NSArray array];
-    [selectOdd release];
-    [flexible release];
-    [selectAll release];
-    [deselectAll release];
+    ipc.toolbarItemsForManagingTheSelection = @[selectAll, flexible, selectOdd, flexible, deselectAll];
+//    imagePickerController.toolbarItemsForManagingTheSelection = [NSArray array];
     
 //    imagePickerController.maximumNumberOfPhotos = 3;
-    [self presentModalViewController:imagePickerController animated:YES];
-    [imagePickerController release];
+    [self presentModalViewController:ipc animated:YES];
+}
+
+#pragma mark - AGImagePickerControllerDelegate methods
+
+- (NSUInteger)agImagePickerController:(AGImagePickerController *)picker
+   numberOfItemsPerRowForDevice:(AGDeviceType)deviceType
+        andInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    if (deviceType == AGDeviceTypeiPad)
+    {
+        if (UIInterfaceOrientationIsLandscape(interfaceOrientation))
+            return 7;
+        else
+            return 6;
+    } else {
+        if (UIInterfaceOrientationIsLandscape(interfaceOrientation))
+            return 5;
+        else
+            return 4;
+    }
+}
+
+- (BOOL)agImagePickerController:(AGImagePickerController *)picker shouldDisplaySelectionInformationInSelectionMode:(AGImagePickerControllerSelectionMode)selectionMode
+{
+    return (selectionMode == AGImagePickerControllerSelectionModeSingle ? NO : YES);
+}
+
+- (BOOL)agImagePickerController:(AGImagePickerController *)picker shouldShowToolbarForManagingTheSelectionInSelectionMode:(AGImagePickerControllerSelectionMode)selectionMode
+{
+    return (selectionMode == AGImagePickerControllerSelectionModeSingle ? NO : YES);    
+}
+
+- (AGImagePickerControllerSelectionBehaviorType)selectionBehaviorInSingleSelectionModeForAGImagePickerController:(AGImagePickerController *)picker
+{
+    return AGImagePickerControllerSelectionBehaviorTypeRadio;
 }
 
 @end
