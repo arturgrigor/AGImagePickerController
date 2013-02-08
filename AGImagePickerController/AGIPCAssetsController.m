@@ -132,6 +132,9 @@
         
         // Setup toolbar items
         [self setupToolbarItems];
+        
+        // Start loading the assets
+        [self loadAssets];
     }
     
     return self;
@@ -141,8 +144,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (! self.imagePickerController) return 0;
+    
     double numberOfAssets = (double)self.assetsGroup.numberOfAssets;
-    return ceil(numberOfAssets / self.imagePickerController.numberOfItemsPerRow);
+    NSInteger nr = ceil(numberOfAssets / self.imagePickerController.numberOfItemsPerRow);
+    
+    return nr;
 }
 
 - (NSArray *)itemsForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -222,9 +229,6 @@
     // Setup Notifications
     [self registerForNotifications];
     
-    // Start loading the assets
-    [self loadAssets];
-    
     // Navigation Bar Items
     UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction:)];
     doneButtonItem.enabled = NO;
@@ -279,27 +283,29 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         
+        __strong AGIPCAssetsController *strongSelf = weakSelf;
+        
         @autoreleasepool {
-            [weakSelf.assetsGroup enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
+            [strongSelf.assetsGroup enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
                 
                 if (result == nil) 
                 {
                     return;
                 }
                 
-                AGIPCGridItem *gridItem = [[AGIPCGridItem alloc] initWithImagePickerController:weakSelf.imagePickerController asset:result andDelegate:weakSelf];
-                if ( weakSelf.imagePickerController.selection != nil && 
-                    [weakSelf.imagePickerController.selection containsObject:result])
+                AGIPCGridItem *gridItem = [[AGIPCGridItem alloc] initWithImagePickerController:strongSelf.imagePickerController asset:result andDelegate:strongSelf];
+                if ( strongSelf.imagePickerController.selection != nil && 
+                    [strongSelf.imagePickerController.selection containsObject:result])
                 {
                     gridItem.selected = YES;
                 }
-                [weakSelf.assets addObject:gridItem];
+                [strongSelf.assets addObject:gridItem];
             }];
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            [weakSelf reloadData];
+            [strongSelf reloadData];
             
         });
         
