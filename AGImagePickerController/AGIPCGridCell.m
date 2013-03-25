@@ -12,7 +12,6 @@
 #import "AGIPCGridCell.h"
 #import "AGIPCGridItem.h"
 
-#import "AGImagePickerController.h"
 #import "AGImagePickerController+Helper.h"
 
 @interface AGIPCGridCell ()
