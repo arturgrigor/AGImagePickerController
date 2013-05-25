@@ -292,7 +292,12 @@
                 {
                     return;
                 }
-                
+                if (strongSelf.imagePickerController.shouldShowPhotosWithLocationOnly) {
+                    CLLocation *assetLocation = [result valueForProperty:ALAssetPropertyLocation];
+                    if (!assetLocation || !CLLocationCoordinate2DIsValid([assetLocation coordinate])) {
+                        return;
+                    }
+                }
                 AGIPCGridItem *gridItem = [[AGIPCGridItem alloc] initWithImagePickerController:strongSelf.imagePickerController asset:result andDelegate:strongSelf];
                 if ( strongSelf.imagePickerController.selection != nil && 
                     [strongSelf.imagePickerController.selection containsObject:result])
