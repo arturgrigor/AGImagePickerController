@@ -68,6 +68,7 @@ shouldShowToolbarForManagingTheSelectionInSelectionMode:(AGImagePickerController
 
 @property (nonatomic) BOOL shouldChangeStatusBarStyle;
 @property (nonatomic) BOOL shouldShowSavedPhotosOnTop;
+@property (nonatomic) BOOL shouldShowPhotosWithLocationOnly;
 @property (nonatomic) NSUInteger maximumNumberOfPhotosToBeSelected;
 
 @property (nonatomic, ag_weak) id delegate;
