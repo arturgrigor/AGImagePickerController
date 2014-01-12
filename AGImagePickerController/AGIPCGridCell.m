@@ -35,12 +35,17 @@
     {
         if (_items != items)
         {
-            for (UIView *view in [self subviews]) 
-            {		
+            _items = items;
+            
+            for (UIView *view in [self.contentView subviews])
+            {
                 [view removeFromSuperview];
             }
             
-            _items = items;
+            for (AGIPCGridItem *gridItem in _items)
+            {
+                [self addSubview:gridItem];
+            }
         }
     }
 }
@@ -82,14 +87,15 @@
     CGFloat leftMargin = frame.origin.x;
     
 	for (AGIPCGridItem *gridItem in self.items)
-    {	
-		[gridItem setFrame:frame];
+    {
+        // Load image with asset when layout grid items. springox(20131218)
+        [gridItem loadImageFromAsset];
+        
+        [gridItem setFrame:frame];
         UITapGestureRecognizer *selectionGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:gridItem action:@selector(tap)];
         selectionGestureRecognizer.numberOfTapsRequired = 1;
 		[gridItem addGestureRecognizer:selectionGestureRecognizer];
-        
-		[self addSubview:gridItem];
-		
+
 		frame.origin.x = frame.origin.x + frame.size.width + leftMargin;
 	}
 }

@@ -125,10 +125,16 @@
         self.assetsGroup = assetsGroup;
         self.imagePickerController = imagePickerController;
         self.title = NSLocalizedStringWithDefaultValue(@"AGIPC.Loading", nil, [NSBundle mainBundle], @"Loading...", nil);
+        self.title = [self.assetsGroup valueForProperty:ALAssetsGroupPropertyName];
         
         self.tableView.allowsMultipleSelection = NO;
         self.tableView.allowsSelection = NO;
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        
+        // Navigation Bar Items
+        UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction:)];
+        doneButtonItem.enabled = NO;
+        self.navigationItem.rightBarButtonItem = doneButtonItem;
         
         // Setup toolbar items
         [self setupToolbarItems];
@@ -138,6 +144,11 @@
     }
     
     return self;
+}
+
+- (void)dealloc
+{
+    [self unregisterFromNotifications];
 }
 
 #pragma mark - UITableViewDataSource Methods
@@ -228,11 +239,6 @@
     
     // Setup Notifications
     [self registerForNotifications];
-    
-    // Navigation Bar Items
-    UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction:)];
-    doneButtonItem.enabled = NO;
-	self.navigationItem.rightBarButtonItem = doneButtonItem;
 }
 
 - (void)viewDidUnload
@@ -271,7 +277,6 @@
         
         NSArray *toolbarItemsForManagingTheSelection = @[selectAll, flexibleSpace, deselectAll];
         self.toolbarItems = toolbarItemsForManagingTheSelection;
-        
     }
 }
 
@@ -281,7 +286,7 @@
     
     __ag_weak AGIPCAssetsController *weakSelf = self;
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
         __strong AGIPCAssetsController *strongSelf = weakSelf;
         
@@ -292,14 +297,28 @@
                 {
                     return;
                 }
+                if (strongSelf.imagePickerController.shouldShowPhotosWithLocationOnly) {
+                    CLLocation *assetLocation = [result valueForProperty:ALAssetPropertyLocation];
+                    if (!assetLocation || !CLLocationCoordinate2DIsValid([assetLocation coordinate])) {
+                        return;
+                    }
+                }
                 
-                AGIPCGridItem *gridItem = [[AGIPCGridItem alloc] initWithImagePickerController:strongSelf.imagePickerController asset:result andDelegate:strongSelf];
-                if ( strongSelf.imagePickerController.selection != nil && 
+                AGIPCGridItem *gridItem = [[AGIPCGridItem alloc] initWithImagePickerController:self.imagePickerController asset:result andDelegate:self];
+                
+                // Drawing must be exectued in main thread. springox(20131220)
+                /*
+                if (strongSelf.imagePickerController.selection != nil &&
                     [strongSelf.imagePickerController.selection containsObject:result])
                 {
                     gridItem.selected = YES;
                 }
-                [strongSelf.assets addObject:gridItem];
+                 */
+                
+                //[strongSelf.assets addObject:gridItem];
+                // Descending photos, springox(20131225)
+                [strongSelf.assets insertObject:gridItem atIndex:0];
+
             }];
         }
         
@@ -308,7 +327,7 @@
             [strongSelf reloadData];
             
         });
-        
+    
     });
 }
 
@@ -318,16 +337,17 @@
     [self.navigationController setToolbarHidden:[self toolbarHidden] animated:YES];
     
     [self.tableView reloadData];
-    [self setTitle:[self.assetsGroup valueForProperty:ALAssetsGroupPropertyName]];
+    
+    //[self setTitle:[self.assetsGroup valueForProperty:ALAssetsGroupPropertyName]];
     [self changeSelectionInformation];
     
+    /*
     NSInteger totalRows = [self.tableView numberOfRowsInSection:0];
-    
-    //Prevents crash if totalRows = 0 (when the album is empty). 
+    //Prevents crash if totalRows = 0 (when the album is empty).
     if (totalRows > 0) {
-
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:totalRows-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
     }
+     */
 }
 
 - (void)doneAction:(id)sender
@@ -372,8 +392,19 @@
 
 - (void)changeSelectionInformation
 {
-    if (self.imagePickerController.shouldDisplaySelectionInformation) {
-        self.navigationController.navigationBar.topItem.prompt = [NSString stringWithFormat:@"(%d/%d)", [AGIPCGridItem numberOfSelections], self.assets.count];
+    if (self.imagePickerController.shouldDisplaySelectionInformation ) {
+        if (0 == [AGIPCGridItem numberOfSelections] ) {
+            self.navigationController.navigationBar.topItem.prompt = nil;
+        } else {
+            //self.navigationController.navigationBar.topItem.prompt = [NSString stringWithFormat:@"(%d/%d)", [AGIPCGridItem numberOfSelections], self.assets.count];
+            // Display supports up to select several photos at the same time, springox(20131220)
+            NSInteger maxNumber = _imagePickerController.maximumNumberOfPhotosToBeSelected;
+            if (0 < maxNumber) {
+                self.navigationController.navigationBar.topItem.prompt = [NSString stringWithFormat:@"(%d/%d)", [AGIPCGridItem numberOfSelections], maxNumber];
+            } else {
+                self.navigationController.navigationBar.topItem.prompt = [NSString stringWithFormat:@"(%d/%d)", [AGIPCGridItem numberOfSelections], self.assets.count];
+            }
+        }
     }
 }
 
@@ -387,15 +418,13 @@
 
 - (BOOL)agGridItemCanSelect:(AGIPCGridItem *)gridItem
 {
-    if (self.imagePickerController.selectionMode == AGImagePickerControllerSelectionModeSingle && self.imagePickerController.selectionBehaviorInSingleSelectionMode == AGImagePickerControllerSelectionBehaviorTypeRadio)
-    {
+    if (self.imagePickerController.selectionMode == AGImagePickerControllerSelectionModeSingle && self.imagePickerController.selectionBehaviorInSingleSelectionMode == AGImagePickerControllerSelectionBehaviorTypeRadio) {
         for (AGIPCGridItem *item in self.assets)
             if (item.selected)
                 item.selected = NO;
         
         return YES;
-    } else
-    {
+    } else {
         if (self.imagePickerController.maximumNumberOfPhotosToBeSelected > 0)
             return ([AGIPCGridItem numberOfSelections] < self.imagePickerController.maximumNumberOfPhotosToBeSelected);
         else

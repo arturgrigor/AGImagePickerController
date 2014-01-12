@@ -124,9 +124,16 @@ andShouldShowSavedPhotosOnTop:(BOOL)shouldShowSavedPhotosOnTop
         self.shouldChangeStatusBarStyle = shouldChangeStatusBarStyle;
         self.shouldShowSavedPhotosOnTop = shouldShowSavedPhotosOnTop;
         
+        /*
         self.navigationBar.barStyle = UIBarStyleBlack;
         self.navigationBar.translucent = YES;
         self.toolbar.barStyle = UIBarStyleBlack;
+        self.toolbar.translucent = YES;
+         */
+        // change the bar style for ios7, springox(20131225)
+        self.navigationBar.barStyle = UIBarStyleDefault;
+        self.navigationBar.translucent = YES;
+        self.toolbar.barStyle = UIBarStyleDefault;
         self.toolbar.translucent = YES;
         
         self.toolbarItemsForManagingTheSelection = toolbarItemsForManagingTheSelection;

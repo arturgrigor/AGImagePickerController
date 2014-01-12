@@ -11,6 +11,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
+#import <CoreLocation/CoreLocation.h>
 
 #import "AGImagePickerController.h"
 #import "AGIPCGridItem.h"

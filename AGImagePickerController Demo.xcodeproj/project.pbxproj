@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		54A1E5551882A31E00D556FD /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54A1E5541882A31E00D556FD /* CoreLocation.framework */; };
 		FE1E332914ED167800F6A6A2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE1E332814ED167800F6A6A2 /* UIKit.framework */; };
 		FE1E332B14ED167800F6A6A2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE1E332A14ED167800F6A6A2 /* Foundation.framework */; };
 		FE1E333314ED167800F6A6A2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE1E333114ED167800F6A6A2 /* InfoPlist.strings */; };
@@ -33,6 +34,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		54A1E5541882A31E00D556FD /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		FE1E332414ED167800F6A6A2 /* AGImagePickerController Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AGImagePickerController Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE1E332814ED167800F6A6A2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FE1E332A14ED167800F6A6A2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -78,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54A1E5551882A31E00D556FD /* CoreLocation.framework in Frameworks */,
 				FEDAA95516C2F3D600234FF0 /* AssetsLibrary.framework in Frameworks */,
 				FE1E332914ED167800F6A6A2 /* UIKit.framework in Frameworks */,
 				FE1E332B14ED167800F6A6A2 /* Foundation.framework in Frameworks */,
@@ -109,6 +112,7 @@
 		FE1E332714ED167800F6A6A2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				54A1E5541882A31E00D556FD /* CoreLocation.framework */,
 				FEA599E114ED30140057FF9C /* AssetsLibrary.framework */,
 				FE1E332814ED167800F6A6A2 /* UIKit.framework */,
 				FE1E332A14ED167800F6A6A2 /* Foundation.framework */,

@@ -40,6 +40,8 @@
 - (id)initWithImagePickerController:(AGImagePickerController *)imagePickerController andAsset:(ALAsset *)asset;
 - (id)initWithImagePickerController:(AGImagePickerController *)imagePickerController asset:(ALAsset *)asset andDelegate:(id<AGIPCGridItemDelegate>)delegate;
 
+- (void)loadImageFromAsset;
+
 - (void)tap;
 
 + (NSUInteger)numberOfSelections;
