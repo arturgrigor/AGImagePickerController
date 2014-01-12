@@ -105,7 +105,8 @@ static NSUInteger numberOfSelectedGridItems = 0;
         if (_asset != asset)
         {
             _asset = asset;
-            self.thumbnailImageView.image = [UIImage imageWithCGImage:_asset.thumbnail];
+            // Drawing must be exectued in main thread. springox(20131218)
+            //self.thumbnailImageView.image = [UIImage imageWithCGImage:_asset.thumbnail];
         }
     }
 }
@@ -140,28 +141,57 @@ static NSUInteger numberOfSelectedGridItems = 0;
         CGRect checkmarkFrame = [self.imagePickerController checkmarkFrameUsingItemFrame:frame];
         
         self.thumbnailImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-		self.thumbnailImageView.contentMode = UIViewContentModeScaleToFill;
+        // Drawing must be exectued in main thread. springox(20131220)
+		//self.thumbnailImageView.contentMode = UIViewContentModeScaleToFill;
 		[self addSubview:self.thumbnailImageView];
         
         self.selectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        self.selectionView.backgroundColor = [UIColor whiteColor];
-        self.selectionView.alpha = .5f;
-        self.selectionView.hidden = !self.selected;
+        // Drawing must be exectued in main thread. springox(20131220)
+        //self.selectionView.backgroundColor = [UIColor whiteColor];
+        //self.selectionView.alpha = .5f;
+        //self.selectionView.hidden = !self.selected;
         [self addSubview:self.selectionView];
         
         // Position the checkmark image in the bottom right corner
         self.checkmarkImageView = [[UIImageView alloc] initWithFrame:checkmarkFrame];
-        if (IS_IPAD())
-            self.checkmarkImageView.image = [UIImage imageNamed:@"AGImagePickerController.bundle/AGIPC-Checkmark-iPad"];
-        else
-            self.checkmarkImageView.image = [UIImage imageNamed:@"AGImagePickerController.bundle/AGIPC-Checkmark-iPhone"];
-        self.checkmarkImageView.hidden = !self.selected;
+        // Drawing must be exectued in main thread. springox(20131220)
+        //if (IS_IPAD())
+        //    self.checkmarkImageView.image = [UIImage imageNamed:@"AGImagePickerController.bundle/AGIPC-Checkmark-iPad"];
+        //else
+        //    self.checkmarkImageView.image = [UIImage imageNamed:@"AGImagePickerController.bundle/AGIPC-Checkmark-iPhone"];
+        //self.checkmarkImageView.hidden = !self.selected;
 		[self addSubview:self.checkmarkImageView];
         
         self.asset = asset;
     }
     
     return self;
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    self.thumbnailImageView.contentMode = UIViewContentModeScaleToFill;
+
+    self.selectionView.backgroundColor = [UIColor whiteColor];
+    self.selectionView.alpha = .5f;
+    self.selectionView.hidden = !self.selected;
+
+    if (IS_IPAD())
+    self.checkmarkImageView.image = [UIImage imageNamed:@"AGImagePickerController.bundle/AGIPC-Checkmark-iPad"];
+    else
+    self.checkmarkImageView.image = [UIImage imageNamed:@"AGImagePickerController.bundle/AGIPC-Checkmark-iPhone"];
+    self.checkmarkImageView.hidden = !self.selected;
+}
+
+// Drawing must be exectued in main thread. springox(20131218)
+- (void)loadImageFromAsset
+{
+    self.thumbnailImageView.image = [UIImage imageWithCGImage:_asset.thumbnail];
+    if ([self.imagePickerController.selection containsObject:self]) {
+        self.selected = YES;
+    }
 }
 
 #pragma mark - Others

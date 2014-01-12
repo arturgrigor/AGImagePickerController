@@ -109,7 +109,7 @@
     ipc.shouldShowSavedPhotosOnTop = NO;
     ipc.shouldChangeStatusBarStyle = YES;
     ipc.selection = self.selectedPhotos;
-//    ipc.maximumNumberOfPhotosToBeSelected = 1;
+//    ipc.maximumNumberOfPhotosToBeSelected = 10;
     
     // Custom toolbar items
     AGIPCToolbarItem *selectAll = [[AGIPCToolbarItem alloc] initWithBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"+ Select All" style:UIBarButtonItemStyleBordered target:nil action:nil] andSelectionBlock:^BOOL(NSUInteger index, ALAsset *asset) {

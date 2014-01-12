@@ -124,9 +124,23 @@ andShouldShowSavedPhotosOnTop:(BOOL)shouldShowSavedPhotosOnTop
         self.shouldChangeStatusBarStyle = shouldChangeStatusBarStyle;
         self.shouldShowSavedPhotosOnTop = shouldShowSavedPhotosOnTop;
         
-        self.navigationBar.barStyle = UIBarStyleBlack;
+        UIBarStyle barStyle;
+        
+        if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1)
+        {
+            // iOS 6.1 or earlier
+            
+            barStyle = UIBarStyleBlack;
+        }
+        else
+        {
+            // iOS 7 or later
+            
+            barStyle = UIBarStyleDefault;
+        }
+        self.navigationBar.barStyle = barStyle;
         self.navigationBar.translucent = YES;
-        self.toolbar.barStyle = UIBarStyleBlack;
+        self.toolbar.barStyle = barStyle;
         self.toolbar.translucent = YES;
         
         self.toolbarItemsForManagingTheSelection = toolbarItemsForManagingTheSelection;
