@@ -217,7 +217,9 @@
 - (void)reloadData
 {
     [self.tableView reloadData];
-    self.title = NSLocalizedStringWithDefaultValue(@"AGIPC.Albums", nil, [NSBundle mainBundle], @"Albums", nil);
+    // Modified by springox(20140306)
+    //self.title = NSLocalizedStringWithDefaultValue(@"AGIPC.Albums", nil, [NSBundle mainBundle], @"Albums", nil);
+    self.title = NSLocalizedString(@"Albums", @"text");
 }
 
 - (void)cancelAction:(id)sender
