@@ -197,7 +197,7 @@
                  }
                  */
                 
-                // optimize the sort algorithm by springox(20140328)
+                // optimize the sort algorithm by springox(20140327)
                 int groupType = [[group valueForProperty:ALAssetsGroupPropertyType] intValue];
                 if (weakSelf.imagePickerController.shouldShowSavedPhotosOnTop && groupType == ALAssetsGroupSavedPhotos) {
                     [self.assetsGroups insertObject:group atIndex:0];
@@ -213,6 +213,9 @@
                             break;
                         }
                         index++;
+                    }
+                    if (![self.assetsGroups containsObject:group]) {
+                        [self.assetsGroups addObject:group];
                     }
                 }
                 
