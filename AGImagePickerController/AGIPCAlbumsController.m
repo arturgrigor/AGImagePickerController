@@ -183,16 +183,37 @@
                     return;
                 }
                 
-                if (weakSelf.imagePickerController.shouldShowSavedPhotosOnTop) {
-                    if ([[group valueForProperty:ALAssetsGroupPropertyType] intValue] == ALAssetsGroupSavedPhotos) {
-                        [self.assetsGroups insertObject:group atIndex:0];
-                    } else if ([[group valueForProperty:ALAssetsGroupPropertyType] intValue] > ALAssetsGroupSavedPhotos) {
-                        [self.assetsGroups insertObject:group atIndex:1];
-                    } else {
-                        [self.assetsGroups addObject:group];
-                    }
+                /*
+                 if (weakSelf.imagePickerController.shouldShowSavedPhotosOnTop) {
+                     if ([[group valueForProperty:ALAssetsGroupPropertyType] intValue] == ALAssetsGroupSavedPhotos) {
+                         [self.assetsGroups insertObject:group atIndex:0];
+                     } else if ([[group valueForProperty:ALAssetsGroupPropertyType] intValue] > ALAssetsGroupSavedPhotos) {
+                         [self.assetsGroups insertObject:group atIndex:1];
+                     } else {
+                         [self.assetsGroups addObject:group];
+                     }
+                 } else {
+                     [self.assetsGroups addObject:group];
+                 }
+                 */
+                
+                // optimize the sort algorithm by springox(20140328)
+                int groupType = [[group valueForProperty:ALAssetsGroupPropertyType] intValue];
+                if (weakSelf.imagePickerController.shouldShowSavedPhotosOnTop && groupType == ALAssetsGroupSavedPhotos) {
+                    [self.assetsGroups insertObject:group atIndex:0];
                 } else {
-                    [self.assetsGroups addObject:group];
+                    NSUInteger index = 0;
+                    for (ALAssetsGroup *g in [NSArray arrayWithArray:self.assetsGroups]) {
+                        if (weakSelf.imagePickerController.shouldShowSavedPhotosOnTop && [[g valueForProperty:ALAssetsGroupPropertyType] intValue] == ALAssetsGroupSavedPhotos) {
+                            index++;
+                            continue;
+                        }
+                        if (groupType > [[g valueForProperty:ALAssetsGroupPropertyType] intValue]) {
+                            [self.assetsGroups insertObject:group atIndex:index];
+                            break;
+                        }
+                        index++;
+                    }
                 }
                 
                 dispatch_async(dispatch_get_main_queue(), ^{

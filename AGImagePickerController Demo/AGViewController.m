@@ -109,7 +109,7 @@
     ipc.shouldShowSavedPhotosOnTop = NO;
     ipc.shouldChangeStatusBarStyle = YES;
     ipc.selection = self.selectedPhotos;
-//    ipc.maximumNumberOfPhotosToBeSelected = 10;
+    //ipc.maximumNumberOfPhotosToBeSelected = 10;
     
     // Custom toolbar items
     AGIPCToolbarItem *selectAll = [[AGIPCToolbarItem alloc] initWithBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"+ Select All" style:UIBarButtonItemStyleBordered target:nil action:nil] andSelectionBlock:^BOOL(NSUInteger index, ALAsset *asset) {
@@ -123,9 +123,7 @@
         return NO;
     }];  
     ipc.toolbarItemsForManagingTheSelection = @[selectAll, flexible, selectOdd, flexible, deselectAll];
-//    imagePickerController.toolbarItemsForManagingTheSelection = [NSArray array];
-    
-//    imagePickerController.maximumNumberOfPhotos = 3;
+
     [self presentModalViewController:ipc animated:YES];
 }
 

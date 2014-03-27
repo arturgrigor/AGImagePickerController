@@ -315,8 +315,8 @@
                 }
                  */
                 
-                //[strongSelf.assets addObject:gridItem];
                 // Descending photos, springox(20131225)
+                //[strongSelf.assets addObject:gridItem];
                 [strongSelf.assets insertObject:gridItem atIndex:0];
 
             }];
