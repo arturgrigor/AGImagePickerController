@@ -17,7 +17,7 @@
 @interface AGIPCAlbumsController ()
 {
     NSMutableArray *_assetsGroups;
-    AGImagePickerController *_imagePickerController;
+    __weak AGImagePickerController *_imagePickerController;
 }
 
 @property (ag_weak, nonatomic, readonly) NSMutableArray *assetsGroups;

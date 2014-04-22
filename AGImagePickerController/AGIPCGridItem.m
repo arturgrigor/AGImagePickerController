@@ -16,7 +16,7 @@
 
 @interface AGIPCGridItem ()
 {
-    AGImagePickerController *_imagePickerController;
+    __weak AGImagePickerController *_imagePickerController;
     ALAsset *_asset;
     id<AGIPCGridItemDelegate> __ag_weak _delegate;
     

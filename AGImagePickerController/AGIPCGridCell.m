@@ -18,7 +18,7 @@
 @interface AGIPCGridCell ()
 {
 	NSArray *_items;
-    AGImagePickerController *_imagePickerController;
+    __weak AGImagePickerController *_imagePickerController;
 }
 
 @end

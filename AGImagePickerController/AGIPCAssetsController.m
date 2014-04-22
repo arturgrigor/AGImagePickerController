@@ -20,7 +20,7 @@
 {
     ALAssetsGroup *_assetsGroup;
     NSMutableArray *_assets;
-    AGImagePickerController *_imagePickerController;
+    __weak AGImagePickerController *_imagePickerController;
 }
 
 @property (nonatomic, strong) NSMutableArray *assets;

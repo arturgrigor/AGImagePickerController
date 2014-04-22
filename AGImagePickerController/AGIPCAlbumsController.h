@@ -16,7 +16,8 @@
 
 @interface AGIPCAlbumsController : UITableViewController<UITableViewDataSource, UITableViewDelegate>
 
-@property (strong) AGImagePickerController *imagePickerController;
+// change strong to weak, springox(20140422)
+@property (weak) AGImagePickerController *imagePickerController;
 
 - (id)initWithImagePickerController:(AGImagePickerController *)imagePickerController;
 

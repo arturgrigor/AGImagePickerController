@@ -20,7 +20,8 @@
 
 @property (strong) ALAssetsGroup *assetsGroup;
 @property (ag_weak, readonly) NSArray *selectedAssets;
-@property (strong) AGImagePickerController *imagePickerController;
+// change strong to weak, springox(20140422)
+@property (weak) AGImagePickerController *imagePickerController;
 
 - (id)initWithImagePickerController:(AGImagePickerController *)imagePickerController andAssetsGroup:(ALAssetsGroup *)assetsGroup;
 
