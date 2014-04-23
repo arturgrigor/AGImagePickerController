@@ -31,7 +31,6 @@
 
 - (void)didChangeLibrary:(NSNotification *)notification;
 
-- (void)loadAssetsGroups;
 - (void)reloadData;
 
 - (void)cancelAction:(id)sender;
@@ -49,7 +48,6 @@
     if (_assetsGroups == nil)
     {
         _assetsGroups = [[NSMutableArray alloc] init];
-        [self loadAssetsGroups];
     }
     
     return _assetsGroups;
@@ -63,6 +61,10 @@
     if (self)
     {
         self.imagePickerController = imagePickerController;
+        
+        [self assetsGroups];
+        
+        [self loadAssetsGroups];
     }
     
     return self;

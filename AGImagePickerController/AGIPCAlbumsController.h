@@ -21,4 +21,6 @@
 
 - (id)initWithImagePickerController:(AGImagePickerController *)imagePickerController;
 
+- (void)loadAssetsGroups;
+
 @end
