@@ -183,6 +183,17 @@
     return items;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return self.imagePickerController.itemRect.origin.y;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] init];
+    return view;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
@@ -316,8 +327,8 @@
                  */
                 
                 // Descending photos, springox(20131225)
-                //[strongSelf.assets addObject:gridItem];
-                [strongSelf.assets insertObject:gridItem atIndex:0];
+                [strongSelf.assets addObject:gridItem];
+                //[strongSelf.assets insertObject:gridItem atIndex:0];
 
             }];
         }
@@ -341,13 +352,12 @@
     //[self setTitle:[self.assetsGroup valueForProperty:ALAssetsGroupPropertyName]];
     [self changeSelectionInformation];
     
-    /*
+    
     NSInteger totalRows = [self.tableView numberOfRowsInSection:0];
     //Prevents crash if totalRows = 0 (when the album is empty).
     if (totalRows > 0) {
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:totalRows-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
     }
-     */
 }
 
 - (void)doneAction:(id)sender

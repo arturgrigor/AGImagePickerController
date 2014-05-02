@@ -96,6 +96,8 @@
         self.wantsFullScreenLayout = YES;
     }
     
+    self.title = NSLocalizedStringWithDefaultValue(@"AGIPC.Albums", nil, [NSBundle mainBundle], @"Albums", nil);
+    
     // Setup Notifications
     [self registerForNotifications];
     
@@ -147,7 +149,7 @@
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", numberOfAssets];
     [cell.imageView setImage:[UIImage imageWithCGImage:[(ALAssetsGroup *)self.assetsGroups[indexPath.row] posterImage]]];
 	[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-	
+    
     return cell;
 }
 
@@ -180,7 +182,8 @@
             
             void (^assetGroupEnumerator)(ALAssetsGroup *, BOOL *) = ^(ALAssetsGroup *group, BOOL *stop) 
             {
-                if (group == nil) 
+                // filter the value==0, springox(20140502)
+                if (group == nil || group.numberOfAssets == 0)
                 {
                     return;
                 }
@@ -243,9 +246,6 @@
 - (void)reloadData
 {
     [self.tableView reloadData];
-    // Modified by springox(20140306)
-    //self.title = NSLocalizedStringWithDefaultValue(@"AGIPC.Albums", nil, [NSBundle mainBundle], @"Albums", nil);
-    self.title = NSLocalizedString(@"Albums", @"text");
 }
 
 - (void)cancelAction:(id)sender

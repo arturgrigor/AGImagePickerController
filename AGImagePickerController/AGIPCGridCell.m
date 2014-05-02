@@ -35,16 +35,20 @@
     {
         if (_items != items)
         {
-            _items = items;
+            for (AGIPCGridItem *gridItem in items) {
+                [gridItem removeFromSuperview];
+            }
             
             for (UIView *view in [self.contentView subviews])
             {
                 [view removeFromSuperview];
             }
             
+            _items = items;
+
             for (AGIPCGridItem *gridItem in _items)
             {
-                [self addSubview:gridItem];
+                [self.contentView addSubview:gridItem];
             }
         }
     }
@@ -98,6 +102,10 @@
 
 		frame.origin.x = frame.origin.x + frame.size.width + leftMargin;
 	}
+    
+    CGRect rect = self.contentView.frame;
+    rect.size.height = frame.origin.x + frame.size.height;
+    self.contentView.frame = rect;
 }
 
 @end
