@@ -63,12 +63,7 @@ static AGImagePickerController *_sharedInstance = nil;
     // Show saved photos on top
     picker.shouldShowSavedPhotosOnTop = YES;
     picker.shouldChangeStatusBarStyle = YES;
-    NSString *maxStr = [ANConfig getConfigParams:kMaximumNumberOfPhotosToBeSelected];
-    if (0 < [maxStr length]) {
-        picker.maximumNumberOfPhotosToBeSelected = [maxStr integerValue];
-    } else {
-        picker.maximumNumberOfPhotosToBeSelected = 5;
-    }
+    picker.maximumNumberOfPhotosToBeSelected = 5;
     picker.toolbarItemsForManagingTheSelection = @[];
     picker.viewControllers = @[[[AGIPCAlbumsController alloc] initWithImagePickerController:picker]];
     
