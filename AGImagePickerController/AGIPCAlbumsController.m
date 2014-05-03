@@ -125,14 +125,17 @@
 - (void)pushFirstAssetsController
 {
     [self.navigationController popToRootViewControllerAnimated:NO];
-    if (0 < self.assetsGroups.count) {
-        AGIPCAssetsController *controller = [[AGIPCAssetsController alloc] initWithImagePickerController:self.imagePickerController andAssetsGroup:self.assetsGroups[0]];
-        [self.navigationController pushViewController:controller animated:NO];
-    } else {
-        static int tryCount;
-        if (tryCount < 3) {
-            [self performSelector:@selector(pushFirstAssetsController) withObject:nil afterDelay:0.8];
-            ++tryCount;
+    
+    @synchronized(self) {
+        if (0 < self.assetsGroups.count) {
+            AGIPCAssetsController *controller = [[AGIPCAssetsController alloc] initWithImagePickerController:self.imagePickerController andAssetsGroup:self.assetsGroups[0]];
+            [self.navigationController pushViewController:controller animated:NO];
+        } else {
+            static int tryCount;
+            if (tryCount < 3) {
+                [self performSelector:@selector(pushFirstAssetsController) withObject:nil afterDelay:0.8];
+                ++tryCount;
+            }
         }
     }
 }
@@ -215,25 +218,27 @@
                  }
                  */
                 
-                // optimize the sort algorithm by springox(20140327)
-                int groupType = [[group valueForProperty:ALAssetsGroupPropertyType] intValue];
-                if (weakSelf.imagePickerController.shouldShowSavedPhotosOnTop && groupType == ALAssetsGroupSavedPhotos) {
-                    [self.assetsGroups insertObject:group atIndex:0];
-                } else {
-                    NSUInteger index = 0;
-                    for (ALAssetsGroup *g in [NSArray arrayWithArray:self.assetsGroups]) {
-                        if (weakSelf.imagePickerController.shouldShowSavedPhotosOnTop && [[g valueForProperty:ALAssetsGroupPropertyType] intValue] == ALAssetsGroupSavedPhotos) {
+                @synchronized(weakSelf) {
+                    // optimize the sort algorithm by springox(20140327)
+                    int groupType = [[group valueForProperty:ALAssetsGroupPropertyType] intValue];
+                    if (weakSelf.imagePickerController.shouldShowSavedPhotosOnTop && groupType == ALAssetsGroupSavedPhotos) {
+                        [self.assetsGroups insertObject:group atIndex:0];
+                    } else {
+                        NSUInteger index = 0;
+                        for (ALAssetsGroup *g in [NSArray arrayWithArray:self.assetsGroups]) {
+                            if (weakSelf.imagePickerController.shouldShowSavedPhotosOnTop && [[g valueForProperty:ALAssetsGroupPropertyType] intValue] == ALAssetsGroupSavedPhotos) {
+                                index++;
+                                continue;
+                            }
+                            if (groupType > [[g valueForProperty:ALAssetsGroupPropertyType] intValue]) {
+                                [self.assetsGroups insertObject:group atIndex:index];
+                                break;
+                            }
                             index++;
-                            continue;
                         }
-                        if (groupType > [[g valueForProperty:ALAssetsGroupPropertyType] intValue]) {
-                            [self.assetsGroups insertObject:group atIndex:index];
-                            break;
+                        if (![self.assetsGroups containsObject:group]) {
+                            [self.assetsGroups addObject:group];
                         }
-                        index++;
-                    }
-                    if (![self.assetsGroups containsObject:group]) {
-                        [self.assetsGroups addObject:group];
                     }
                 }
                 
