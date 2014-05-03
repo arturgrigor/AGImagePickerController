@@ -128,6 +128,12 @@
     if (0 < self.assetsGroups.count) {
         AGIPCAssetsController *controller = [[AGIPCAssetsController alloc] initWithImagePickerController:self.imagePickerController andAssetsGroup:self.assetsGroups[0]];
         [self.navigationController pushViewController:controller animated:NO];
+    } else {
+        static int tryCount;
+        if (tryCount < 3) {
+            [self performSelector:@selector(pushFirstAssetsController) withObject:nil afterDelay:0.8];
+            ++tryCount;
+        }
     }
 }
 
