@@ -20,8 +20,6 @@
     __weak AGImagePickerController *_imagePickerController;
 }
 
-@property (ag_weak, nonatomic, readonly) NSMutableArray *assetsGroups;
-
 @end
 
 @interface AGIPCAlbumsController ()
@@ -122,6 +120,15 @@
 - (NSUInteger)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskAll;
+}
+
+- (void)pushFirstAssetsController
+{
+    [self.navigationController popToRootViewControllerAnimated:NO];
+    if (0 < self.assetsGroups.count) {
+        AGIPCAssetsController *controller = [[AGIPCAssetsController alloc] initWithImagePickerController:self.imagePickerController andAssetsGroup:self.assetsGroups[0]];
+        [self.navigationController pushViewController:controller animated:NO];
+    }
 }
 
 #pragma mark - UITableViewDataSource Methods

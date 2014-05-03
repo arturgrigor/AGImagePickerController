@@ -17,7 +17,7 @@
 
 @property (strong) NSArray *items;
 // change strong to weak, springox(20140422)
-@property (weak) AGImagePickerController *imagePickerController;
+@property (ag_weak) AGImagePickerController *imagePickerController;
 
 - (id)initWithImagePickerController:(AGImagePickerController *)imagePickerController items:(NSArray *)items andReuseIdentifier:(NSString *)identifier;
 
