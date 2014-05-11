@@ -65,8 +65,7 @@ static AGImagePickerController *_sharedInstance = nil;
     picker.shouldChangeStatusBarStyle = YES;
     picker.maximumNumberOfPhotosToBeSelected = 5;
     picker.toolbarItemsForManagingTheSelection = @[];
-    picker.viewControllers = @[[[AGIPCAlbumsController alloc] initWithImagePickerController:picker]];
-    
+
     return picker;
 }
 
