@@ -37,14 +37,11 @@
         {
             _items = items;
             
-            for (UIView *view in [self.contentView subviews])
-            {
-                [view removeFromSuperview];
-            }
+            [[self.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
             
             for (AGIPCGridItem *gridItem in _items)
             {
-                [self addSubview:gridItem];
+                [self.contentView addSubview:gridItem];
             }
         }
     }
