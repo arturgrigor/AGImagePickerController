@@ -20,7 +20,7 @@
 {
     ALAssetsGroup *_assetsGroup;
     NSMutableArray *_assets;
-    AGImagePickerController *_imagePickerController;
+    __ag_weak AGImagePickerController *_imagePickerController;
 }
 
 @property (nonatomic, strong) NSMutableArray *assets;
@@ -169,10 +169,11 @@
     
     NSUInteger startIndex = indexPath.row * self.imagePickerController.numberOfItemsPerRow, 
                  endIndex = startIndex + self.imagePickerController.numberOfItemsPerRow - 1;
-    if (startIndex < self.assets.count)
+    NSInteger assetsCount = [self.assets count];
+    if (startIndex < assetsCount)
     {
-        if (endIndex > self.assets.count - 1)
-            endIndex = self.assets.count - 1;
+        if (endIndex > assetsCount - 1)
+            endIndex = assetsCount - 1;
         
         for (NSUInteger i = startIndex; i <= endIndex; i++)
         {

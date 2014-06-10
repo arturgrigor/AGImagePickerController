@@ -16,7 +16,7 @@
 @interface AGIPCGridCell : UITableViewCell
 
 @property (strong) NSArray *items;
-@property (strong) AGImagePickerController *imagePickerController;
+@property (ag_weak) AGImagePickerController *imagePickerController;
 
 - (id)initWithImagePickerController:(AGImagePickerController *)imagePickerController items:(NSArray *)items andReuseIdentifier:(NSString *)identifier;
 

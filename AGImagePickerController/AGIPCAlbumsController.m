@@ -17,7 +17,7 @@
 @interface AGIPCAlbumsController ()
 {
     NSMutableArray *_assetsGroups;
-    AGImagePickerController *_imagePickerController;
+    __ag_weak AGImagePickerController *_imagePickerController;
 }
 
 @property (ag_weak, nonatomic, readonly) NSMutableArray *assetsGroups;
@@ -106,6 +106,11 @@
 {
     [super viewDidUnload];
     
+    // Destroy Notifications
+    [self unregisterFromNotifications];
+}
+
+- (void)dealloc {
     // Destroy Notifications
     [self unregisterFromNotifications];
 }
