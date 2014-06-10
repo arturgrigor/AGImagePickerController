@@ -35,7 +35,10 @@
         
         __block AGViewController *blockSelf = self;
         
-        ipc = [[AGImagePickerController alloc] initWithDelegate:self];
+        //ipc = [[AGImagePickerController alloc] initWithDelegate:self];
+        // modified by springox(20140503)
+        ipc = [AGImagePickerController sharedInstance:self];
+        
         ipc.didFailBlock = ^(NSError *error) {
             NSLog(@"Fail. Error: %@", error);
             
@@ -66,7 +69,6 @@
             [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
         };
     }
-    
     return self;
 }
 
@@ -127,6 +129,9 @@
     
 //    imagePickerController.maximumNumberOfPhotos = 3;
     [self presentModalViewController:ipc animated:YES];
+    
+    // modified by springox(20140503)
+    [ipc showFirstAssetsController];
 }
 
 #pragma mark - AGImagePickerControllerDelegate methods

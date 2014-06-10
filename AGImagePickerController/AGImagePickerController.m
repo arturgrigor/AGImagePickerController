@@ -14,6 +14,8 @@
 #import "AGIPCAlbumsController.h"
 #import "AGIPCGridItem.h"
 
+static AGImagePickerController *_sharedInstance = nil;
+
 @interface AGImagePickerController ()
 {
     
@@ -26,6 +28,46 @@
 @end
 
 @implementation AGImagePickerController
+
++ (ALAssetsLibrary *)defaultAssetsLibrary
+{
+    static ALAssetsLibrary *assetsLibrary = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        assetsLibrary = [[ALAssetsLibrary alloc] init];
+        
+        // Workaround for triggering ALAssetsLibraryChangedNotification
+        [assetsLibrary writeImageToSavedPhotosAlbum:nil metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) { }];
+    });
+    
+    return assetsLibrary;
+}
+
++ (AGImagePickerController *)sharedInstance:(id)delegate
+{
+    if (nil == _sharedInstance){
+        @synchronized(self) {
+            if (nil == _sharedInstance){
+                _sharedInstance  = [AGImagePickerController imagePickerWithDelegate:nil];
+            }
+        }
+    }
+    _sharedInstance.delegate = delegate;
+    return _sharedInstance;
+}
+
++ (AGImagePickerController *)imagePickerWithDelegate:(id<AGImagePickerControllerDelegate, NSObject>)delegate
+{
+    AGImagePickerController *picker = [[AGImagePickerController alloc] initWithDelegate:delegate];
+    
+    // Show saved photos on top
+    picker.shouldShowSavedPhotosOnTop = YES;
+    picker.shouldChangeStatusBarStyle = YES;
+    picker.maximumNumberOfPhotosToBeSelected = 5;
+    picker.toolbarItemsForManagingTheSelection = @[];
+
+    return picker;
+}
 
 #pragma mark - Properties
 
@@ -74,20 +116,6 @@
         else
             [[UIApplication sharedApplication] setStatusBarStyle:_oldStatusBarStyle animated:YES];
     }
-}
-
-+ (ALAssetsLibrary *)defaultAssetsLibrary
-{
-    static ALAssetsLibrary *assetsLibrary = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        assetsLibrary = [[ALAssetsLibrary alloc] init];
-        
-        // Workaround for triggering ALAssetsLibraryChangedNotification
-        [assetsLibrary writeImageToSavedPhotosAlbum:nil metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) { }];
-    });
-    
-    return assetsLibrary;
 }
 
 #pragma mark - Object Lifecycle
@@ -139,8 +167,16 @@ andShouldShowSavedPhotosOnTop:(BOOL)shouldShowSavedPhotosOnTop
             barStyle = UIBarStyleDefault;
         }
         self.navigationBar.barStyle = barStyle;
+        /*
+        self.navigationBar.barStyle = UIBarStyleBlack;
         self.navigationBar.translucent = YES;
         self.toolbar.barStyle = barStyle;
+        self.toolbar.translucent = YES;
+         */
+        // change the bar style for ios7, springox(20131225)
+        self.navigationBar.barStyle = UIBarStyleDefault;
+        self.navigationBar.translucent = YES;
+        self.toolbar.barStyle = UIBarStyleDefault;
         self.toolbar.translucent = YES;
         
         self.toolbarItemsForManagingTheSelection = toolbarItemsForManagingTheSelection;
@@ -156,6 +192,14 @@ andShouldShowSavedPhotosOnTop:(BOOL)shouldShowSavedPhotosOnTop
     return self;
 }
 
+- (void)showFirstAssetsController
+{
+    AGIPCAlbumsController *albumsCtl = (AGIPCAlbumsController *)[self.viewControllers firstObject];
+    if ([albumsCtl respondsToSelector:@selector(pushFirstAssetsController)]) {
+        [albumsCtl pushFirstAssetsController];
+    }
+}
+
 #pragma mark - View lifecycle
 
 - (NSUInteger)supportedInterfaceOrientations
@@ -167,7 +211,9 @@ andShouldShowSavedPhotosOnTop:(BOOL)shouldShowSavedPhotosOnTop
 
 - (void)didFinishPickingAssets:(NSArray *)selectedAssets
 {
-    [self popToRootViewControllerAnimated:NO];
+    //[self popToRootViewControllerAnimated:NO];
+    
+    self.userIsDenied = NO;
     
     // Reset the number of selections
     [AGIPCGridItem performSelector:@selector(resetNumberOfSelections)];
@@ -183,7 +229,7 @@ andShouldShowSavedPhotosOnTop:(BOOL)shouldShowSavedPhotosOnTop
 
 - (void)didCancelPickingAssets
 {
-    [self popToRootViewControllerAnimated:NO];
+    //[self popToRootViewControllerAnimated:NO];
     
     // Reset the number of selections
     [AGIPCGridItem performSelector:@selector(resetNumberOfSelections)];
@@ -199,6 +245,10 @@ andShouldShowSavedPhotosOnTop:(BOOL)shouldShowSavedPhotosOnTop
 
 - (void)didFail:(NSError *)error
 {
+    if (nil != error) {
+        self.userIsDenied = YES;
+    }
+    
     [self popToRootViewControllerAnimated:NO];
     
     // Reset the number of selections

@@ -82,7 +82,8 @@
             _assetsGroup = theAssetsGroup;
             [_assetsGroup setAssetsFilter:[ALAssetsFilter allPhotos]];
 
-            [self reloadData];
+            // modified by springox(20140510)
+            //[self reloadData];
         }
     }
 }
@@ -184,6 +185,24 @@
     return items;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return self.imagePickerController.itemRect.origin.y;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] init];
+    view.backgroundColor = [UIColor whiteColor];
+    return view;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGRect itemRect = self.imagePickerController.itemRect;
+    return itemRect.size.height + itemRect.origin.y;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
@@ -199,12 +218,6 @@
 	}
     
     return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CGRect itemRect = self.imagePickerController.itemRect;
-    return itemRect.size.height + itemRect.origin.y;
 }
 
 #pragma mark - View Lifecycle
@@ -237,6 +250,9 @@
     if (self.imagePickerController.shouldChangeStatusBarStyle) {
         self.wantsFullScreenLayout = YES;
     }
+    
+    // modified by springox(20140510)
+    [self reloadData];
     
     // Setup Notifications
     [self registerForNotifications];
@@ -316,10 +332,9 @@
                 }
                  */
                 
-                //[strongSelf.assets addObject:gridItem];
                 // Descending photos, springox(20131225)
-                [strongSelf.assets insertObject:gridItem atIndex:0];
-
+                [strongSelf.assets addObject:gridItem];
+                //[strongSelf.assets insertObject:gridItem atIndex:0];
             }];
         }
         

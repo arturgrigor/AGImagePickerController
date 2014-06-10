@@ -38,7 +38,7 @@
             _items = items;
             
             [[self.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
-            
+
             for (AGIPCGridItem *gridItem in _items)
             {
                 [self.contentView addSubview:gridItem];
@@ -95,6 +95,10 @@
 
 		frame.origin.x = frame.origin.x + frame.size.width + leftMargin;
 	}
+    
+    CGRect rect = self.contentView.frame;
+    rect.size.height = frame.origin.x + frame.size.height;
+    self.contentView.frame = rect;
 }
 
 @end

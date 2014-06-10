@@ -32,7 +32,6 @@
 
 @property (assign) BOOL selected;
 @property (strong) ALAsset *asset;
-
 @property (nonatomic, ag_weak) id<AGIPCGridItemDelegate> delegate;
 
 @property (ag_weak) AGImagePickerController *imagePickerController;
