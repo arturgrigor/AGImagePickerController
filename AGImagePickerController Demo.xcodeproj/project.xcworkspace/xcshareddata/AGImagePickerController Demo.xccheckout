@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>78F5169C-438B-4683-911B-0A793A9CE480</string>
+	<key>IDESourceControlProjectName</key>
+	<string>AGImagePickerController Demo</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>4EB08CCB-4EE8-46E7-9CA7-663BC809B225</key>
+		<string>ssh://github.com/Xummer/AGImagePickerController.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>AGImagePickerController Demo.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>4EB08CCB-4EE8-46E7-9CA7-663BC809B225</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/Xummer/AGImagePickerController.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>4EB08CCB-4EE8-46E7-9CA7-663BC809B225</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>4EB08CCB-4EE8-46E7-9CA7-663BC809B225</string>
+			<key>IDESourceControlWCCName</key>
+			<string>AGImagePickerController</string>
+		</dict>
+	</array>
+</dict>
+</plist>
