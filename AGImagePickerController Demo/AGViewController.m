@@ -32,42 +32,7 @@
     if (self)
     {
         self.selectedPhotos = [NSMutableArray array];
-        
-        __block AGViewController *blockSelf = self;
-        
-        //ipc = [[AGImagePickerController alloc] initWithDelegate:self];
-        // modified by springox(20140503)
-        ipc = [AGImagePickerController sharedInstance:self];
-        
-        ipc.didFailBlock = ^(NSError *error) {
-            NSLog(@"Fail. Error: %@", error);
-            
-            if (error == nil) {
-                [blockSelf.selectedPhotos removeAllObjects];
-                NSLog(@"User has cancelled.");
-                
-                [blockSelf dismissModalViewControllerAnimated:YES];
-            } else {
-                
-                // We need to wait for the view controller to appear first.
-                double delayInSeconds = 0.5;
-                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-                dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                    [blockSelf dismissModalViewControllerAnimated:YES];
-                });
-            }
-            
-            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
-            
-        };
-        ipc.didFinishBlock = ^(NSArray *info) {
-            [blockSelf.selectedPhotos setArray:info];
-            
-            NSLog(@"Info: %@", info);
-            [blockSelf dismissModalViewControllerAnimated:YES];
-            
-            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
-        };
+
     }
     return self;
 }
@@ -106,28 +71,50 @@
 #pragma mark - Public methods
 
 - (void)openAction:(id)sender
-{    
+{
+    
+    __block AGViewController *blockSelf = self;
+    
+    ipc = [[AGImagePickerController alloc] initWithDelegate:self];
+    // modified by springox(20140503)
+    //        ipc = [AGImagePickerController sharedInstance:self];
+    
+    ipc.didFailBlock = ^(NSError *error) {
+        NSLog(@"Fail. Error: %@", error);
+        
+        if (error == nil) {
+            [blockSelf.selectedPhotos removeAllObjects];
+            NSLog(@"User has cancelled.");
+            
+            [blockSelf dismissModalViewControllerAnimated:YES];
+        } else {
+            
+            // We need to wait for the view controller to appear first.
+            double delayInSeconds = 0.5;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [blockSelf dismissModalViewControllerAnimated:YES];
+            });
+        }
+        
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+        
+    };
+    ipc.didFinishBlock = ^(NSArray *info) {
+        [blockSelf.selectedPhotos setArray:info];
+        
+        NSLog(@"Info: %@", info);
+        [blockSelf dismissModalViewControllerAnimated:YES];
+        
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+    };
+    
     // Show saved photos on top
     ipc.shouldShowSavedPhotosOnTop = YES;
     ipc.shouldChangeStatusBarStyle = NO;
     ipc.selection = self.selectedPhotos;
     ipc.maximumNumberOfPhotosToBeSelected = 3;
     
-    // Custom toolbar items
-//    AGIPCToolbarItem *selectAll = [[AGIPCToolbarItem alloc] initWithBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"+ Select All" style:UIBarButtonItemStyleBordered target:nil action:nil] andSelectionBlock:^BOOL(NSUInteger index, ALAsset *asset) {
-//        return YES;
-//    }];
-//    AGIPCToolbarItem *flexible = [[AGIPCToolbarItem alloc] initWithBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] andSelectionBlock:nil]; 
-//    AGIPCToolbarItem *selectOdd = [[AGIPCToolbarItem alloc] initWithBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"+ Select Odd" style:UIBarButtonItemStyleBordered target:nil action:nil] andSelectionBlock:^BOOL(NSUInteger index, ALAsset *asset) {
-//        return !(index % 2);
-//    }];
-//    AGIPCToolbarItem *deselectAll = [[AGIPCToolbarItem alloc] initWithBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"- Deselect All" style:UIBarButtonItemStyleBordered target:nil action:nil] andSelectionBlock:^BOOL(NSUInteger index, ALAsset *asset) {
-//        return NO;
-//    }];  
-//    ipc.toolbarItemsForManagingTheSelection = @[selectAll, flexible, selectOdd, flexible, deselectAll];
-//    imagePickerController.toolbarItemsForManagingTheSelection = [NSArray array];
-    
-//    imagePickerController.maximumNumberOfPhotos = 3;
     [self presentModalViewController:ipc animated:YES];
     
     // modified by springox(20140503)

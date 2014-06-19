@@ -141,7 +141,7 @@
         [self setupToolbarItems];
         
         // Start loading the assets
-        [self loadAssets];
+        [self performSelectorInBackground:@selector(loadAssets) withObject:nil];
     }
     
     return self;
@@ -339,9 +339,7 @@
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            
             [strongSelf reloadData];
-            
         });
     
     });
@@ -357,13 +355,15 @@
     //[self setTitle:[self.assetsGroup valueForProperty:ALAssetsGroupPropertyName]];
     [self changeSelectionInformation];
     
-    /*
-    NSInteger totalRows = [self.tableView numberOfRowsInSection:0];
-    //Prevents crash if totalRows = 0 (when the album is empty).
-    if (totalRows > 0) {
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:totalRows-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    NSInteger section = [self numberOfSectionsInTableView:self.tableView] - 1;
+    NSInteger row = [self tableView:self.tableView numberOfRowsInSection:section] - 1;
+    if (section >= 0 && row >= 0) {
+        NSIndexPath *ip = [NSIndexPath indexPathForRow:row
+                                             inSection:section];
+        [self.tableView scrollToRowAtIndexPath:ip
+                              atScrollPosition:UITableViewScrollPositionBottom
+                                      animated:NO];
     }
-     */
 }
 
 - (void)doneAction:(id)sender
