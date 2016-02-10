@@ -1,5 +1,5 @@
 [![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
-[![Cocoapods Compatible](https://img.shields.io/cocoapods/v/AGImagePickerController.svg)](https://img.shields.io/cocoapods/v/AGImagePickerController.svg)
+[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/AGImagePickerController.svg)](https://img.shields.io/cocoapods/v/AGImagePickerController.svg)
 [![Platform](https://img.shields.io/cocoapods/p/AGImagePickerController.svg?style=flat)](http://cocoadocs.org/docsets/AGImagePickerController)
 [![Twitter](https://img.shields.io/badge/twitter-@arturgrigor-blue.svg?style=flat)](http://twitter.com/arturgrigor)
 
