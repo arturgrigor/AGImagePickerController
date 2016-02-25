@@ -20,7 +20,7 @@
 {
     ALAssetsGroup *_assetsGroup;
     NSMutableArray *_assets;
-    AGImagePickerController *_imagePickerController;
+    __ag_weak AGImagePickerController *_imagePickerController;
 }
 
 @property (nonatomic, strong) NSMutableArray *assets;
@@ -82,7 +82,8 @@
             _assetsGroup = theAssetsGroup;
             [_assetsGroup setAssetsFilter:[ALAssetsFilter allPhotos]];
 
-            [self reloadData];
+            // modified by springox(20140510)
+            //[self reloadData];
         }
     }
 }
@@ -140,7 +141,7 @@
         [self setupToolbarItems];
         
         // Start loading the assets
-        [self loadAssets];
+        [self performSelectorInBackground:@selector(loadAssets) withObject:nil];
     }
     
     return self;
@@ -169,10 +170,11 @@
     
     NSUInteger startIndex = indexPath.row * self.imagePickerController.numberOfItemsPerRow, 
                  endIndex = startIndex + self.imagePickerController.numberOfItemsPerRow - 1;
-    if (startIndex < self.assets.count)
+    NSInteger assetsCount = [self.assets count];
+    if (startIndex < assetsCount)
     {
-        if (endIndex > self.assets.count - 1)
-            endIndex = self.assets.count - 1;
+        if (endIndex > assetsCount - 1)
+            endIndex = assetsCount - 1;
         
         for (NSUInteger i = startIndex; i <= endIndex; i++)
         {
@@ -181,6 +183,24 @@
     }
     
     return items;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return self.imagePickerController.itemRect.origin.y;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] init];
+    view.backgroundColor = [UIColor whiteColor];
+    return view;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGRect itemRect = self.imagePickerController.itemRect;
+    return itemRect.size.height + itemRect.origin.y;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -198,12 +218,6 @@
 	}
     
     return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CGRect itemRect = self.imagePickerController.itemRect;
-    return itemRect.size.height + itemRect.origin.y;
 }
 
 #pragma mark - View Lifecycle
@@ -236,6 +250,9 @@
     if (self.imagePickerController.shouldChangeStatusBarStyle) {
         self.wantsFullScreenLayout = YES;
     }
+    
+    // modified by springox(20140510)
+    [self reloadData];
     
     // Setup Notifications
     [self registerForNotifications];
@@ -315,17 +332,14 @@
                 }
                  */
                 
-                //[strongSelf.assets addObject:gridItem];
                 // Descending photos, springox(20131225)
-                [strongSelf.assets insertObject:gridItem atIndex:0];
-
+                [strongSelf.assets addObject:gridItem];
+                //[strongSelf.assets insertObject:gridItem atIndex:0];
             }];
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            
             [strongSelf reloadData];
-            
         });
     
     });
@@ -341,13 +355,15 @@
     //[self setTitle:[self.assetsGroup valueForProperty:ALAssetsGroupPropertyName]];
     [self changeSelectionInformation];
     
-    /*
-    NSInteger totalRows = [self.tableView numberOfRowsInSection:0];
-    //Prevents crash if totalRows = 0 (when the album is empty).
-    if (totalRows > 0) {
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:totalRows-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    NSInteger section = [self numberOfSectionsInTableView:self.tableView] - 1;
+    NSInteger row = [self tableView:self.tableView numberOfRowsInSection:section] - 1;
+    if (section >= 0 && row >= 0) {
+        NSIndexPath *ip = [NSIndexPath indexPathForRow:row
+                                             inSection:section];
+        [self.tableView scrollToRowAtIndexPath:ip
+                              atScrollPosition:UITableViewScrollPositionBottom
+                                      animated:NO];
     }
-     */
 }
 
 - (void)doneAction:(id)sender

@@ -18,7 +18,7 @@
 @interface AGIPCGridCell ()
 {
 	NSArray *_items;
-    AGImagePickerController *_imagePickerController;
+    __ag_weak AGImagePickerController *_imagePickerController;
 }
 
 @end
@@ -37,14 +37,11 @@
         {
             _items = items;
             
-            for (UIView *view in [self.contentView subviews])
-            {
-                [view removeFromSuperview];
-            }
-            
+            [[self.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
             for (AGIPCGridItem *gridItem in _items)
             {
-                [self addSubview:gridItem];
+                [self.contentView addSubview:gridItem];
             }
         }
     }
@@ -98,6 +95,10 @@
 
 		frame.origin.x = frame.origin.x + frame.size.width + leftMargin;
 	}
+    
+    CGRect rect = self.contentView.frame;
+    rect.size.height = frame.origin.x + frame.size.height;
+    self.contentView.frame = rect;
 }
 
 @end
